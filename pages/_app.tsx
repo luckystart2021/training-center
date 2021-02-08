@@ -19,6 +19,7 @@ function MyApp({ Component, pageProps }) {
         <link rel="stylesheet" href="/assets/css/responsive.css" />
         <title>Evolta - IT Startups Template</title>
         <link rel="icon" type="image/png" href="assets/img/favicon.png" />
+        <link rel="stylesheet" href="/assets/css/custom.css" />
 
         {/* Script */}
         <script src="/assets/js/jquery.min.js"></script>
