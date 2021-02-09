@@ -67,9 +67,6 @@ export default function UserNavbar() {
               <button className="btn btn-primary">
                 Gọi Ngay: <strong>0349295446</strong>
               </button>
-              <button className="btn btn-primary">
-                Gọi Ngay: <strong>0349295446</strong>
-              </button>
             </div>
           </nav>
         </div>

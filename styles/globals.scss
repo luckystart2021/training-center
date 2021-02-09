@@ -2,7 +2,6 @@
 //Helper
 @import './Helper/variables';
 @import './Helper/mixin';
-
 //Vendor
 @import './Vendor/vendor';
 @import '../node_modules/bootstrap/dist/css/bootstrap.css';
@@ -17,16 +16,12 @@
 @import "../public/assets/css/style.css";
 @import "../public/assets/css/responsive.css";
 @import "../public/assets/css/custom.css";
-
 //Base
 @import './Base/reset';
 @import './Base/customize';
-
 //Components
 @import './Components/button';
-
 //Layout
-
 //Page
-
 // Theme
+@import '../src/components/headerTitle/styles.scss';
