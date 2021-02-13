@@ -80,10 +80,7 @@ export default function AboutPage() {
     );
   };
   return (
-    <UserTemplate>
-      <Head>
-        <title>Liên Hệ</title>
-      </Head>
+    <UserTemplate title='Liên Hệ'>
       {headerTitle(headerData)}
       {renderAbout(information)}
     </UserTemplate>
