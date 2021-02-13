@@ -10,10 +10,12 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@zeit/next-css": "^1.0.1",
+    "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "jquery": "^3.5.1",
     "next": "10.0.6",
     "next-images": "^1.7.0",
+    "nextjs-redirect": "^5.0.0",
     "node-sass": "^5.0.0",
     "owl.carousel": "^2.3.4",
     "popper.js": "^1.16.1",
@@ -25,6 +27,7 @@
   "devDependencies": {
     "@types/node": "^14.14.22",
     "@types/react": "^17.0.1",
+    "sass": "^1.32.7",
     "typescript": "^4.1.3"
   }
 }
