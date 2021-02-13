@@ -23,6 +23,8 @@
 @import "./Components/button";
 //Layout
 //Page
-// Theme
 @import "../src/components/headerTitle/styles.scss";
+@import "./Page/Admin/admin.scss";
+
+// Theme
 @import "../pages/tin-tuc/style.scss";

@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import QuestionComponent from "../../src/components/question";
 import UserTemplate from "../../src/containers/UserTemplate";
 import { Answer, Question } from "../../src/models/Question";
+import userRequestService from "../../src/services/userService/user.service";
 
-const questionList: Question[] = [
+const _questionList: Question[] = [
   new Question({
     id: 1,
     index: 1,
@@ -17,8 +18,9 @@ const questionList: Question[] = [
   }),
 ];
 
-const OnThi = () => {
-  const [questions] = useState(questionList);
+const OnThi = ({ questionList, ...props }) => {
+  console.log(questionList);
+  const [questions] = useState(_questionList);
 
   const [currentQuestion, setcurrentQuestion] = useState(questions[0]);
 
@@ -117,6 +119,17 @@ const OnThi = () => {
       </section>
     </UserTemplate>
   );
+};
+
+OnThi.getInitialProps = async () => {
+  let questionList = null;
+  try {
+    questionList = await userRequestService.getQuestions(1);
+  } catch (error) {
+    console.log(error);
+  }
+
+  return { questionList };
 };
 
 export default OnThi;
