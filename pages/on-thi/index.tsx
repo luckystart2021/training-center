@@ -29,7 +29,7 @@ const OnThi = ({ questionList, ...props }) => {
   const prevQuestion = () => {};
 
   return (
-    <UserTemplate>
+    <UserTemplate title="ôn thi">
       <section className="contact-area ptb-110">
         <div className="container">
           <div className="custom-content-title text-center mb-3">
