@@ -1,5 +1,5 @@
 const localStorageConstaint = {
-    GETACCESSTOKEN: 'TOKEN'
+    ACCESS_TOKEN: 'TOKEN'
 }
 
 export default localStorageConstaint;

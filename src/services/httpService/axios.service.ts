@@ -1,13 +1,9 @@
-import Axios, {
-  AxiosStatic,
-  AxiosResponse,
-  AxiosRequestConfig,
-  AxiosInstance,
-} from "axios";
-import { useRouter } from "next/router";
+import Axios, { AxiosResponse, AxiosRequestConfig, AxiosInstance } from "axios";
 import redirect from "nextjs-redirect";
-import localStorageConstaint from "../../constaint/localStorage.constaint";
-import { TResData } from "../../interfaces/admin.interface/index.interfaces";
+
+import { TResData } from "../../interfaces/admin.interface/admin.http.interfaces";
+import { axiosContentType } from "../../interfaces/axios.service.interface/axios.service.interface";
+import localStorageConstaint from "../localStorage.service/constants/constants";
 import loggerService from "../logger/logger.service";
 
 class AxiosService {
@@ -30,7 +26,7 @@ class AxiosService {
   private getAccessToken = (): string => {
     if (typeof window !== "undefined") {
       this.accessToken = window.localStorage.getItem(
-        localStorageConstaint.GETACCESSTOKEN
+        localStorageConstaint.ACCESS_TOKEN
       );
     }
     return this.accessToken;
@@ -44,9 +40,17 @@ class AxiosService {
     this.axiosConfig = {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
+        ["Content-Type"]: "application/json",
       },
     };
   };
+
+  setContentType(contentType: axiosContentType = "application/json") {
+    this.axiosConfig.headers = {
+      ...this.axiosConfig.headers,
+      ["Content-Type"]: contentType,
+    };
+  }
 
   getMethod<T = any, R = AxiosResponse<T>>(uri: string): Promise<TResData<R>> {
     return this.handleFlow(this.axios.get<T, R>(uri, this.axiosConfig));
@@ -85,14 +89,15 @@ class AxiosService {
     return new Promise<TResData<R>>((resolve, reject) => {
       method
         .then((res: any) => {
-          console.log(res);
           resolve({
             data: res.data,
             status: res.status,
             isSuccess: true,
           });
         })
-        .catch((err) => {
+        .catch((err: any) => {
+          // loggerService.error(this.namespace, "", { ...err });
+
           this.handleError(err);
           reject({
             message: err.response.data.message,
@@ -105,12 +110,12 @@ class AxiosService {
 
   private handleError = (err: any) => {
     const status = err.response.status;
-    loggerService.error(this.namespace, "", { ...err });
+    loggerService.error(this.namespace, "", { ...err.response });
     switch (status) {
-      case 400:
+      // case 400:
       case 401:
       case 403:
-        redirect("/login");
+        redirect("/");
         break;
       default:
         break;
