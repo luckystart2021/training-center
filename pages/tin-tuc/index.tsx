@@ -317,7 +317,7 @@ export default function NewsPage({ listNews, error }) {
   console.log(listNews);
   const router = useRouter();
   const baseUrlMeta = (meta_url: string, id: string) =>
-    `tin-tuc/${meta_url}/${id}`;
+    `tin-tuc/${meta_url}?id=${id}`;
   const renderListNews = (listNews) => {
     const firstNews = listNews[0];
     const renderNews1st = (item) => {
@@ -625,7 +625,7 @@ export default function NewsPage({ listNews, error }) {
     return <div>An error occured: {error.message}</div>;
   }
   return (
-    <UserTemplate>
+    <UserTemplate title="Chi tiết bài viết">
       <Head>
         <title>{headerData.title}</title>
       </Head>

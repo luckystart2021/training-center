@@ -17,7 +17,7 @@ class AxiosService {
   private axiosConfig: AxiosRequestConfig;
   constructor() {
     this.axios = Axios.create({
-      baseURL: this.getBaseUrl(),
+      baseURL: this.getBaseUrlDemo(),
     });
     this.getAccessToken();
     this.getAxiosConfig();
@@ -25,6 +25,10 @@ class AxiosService {
 
   private getBaseUrl(): string {
     return "http://52.231.9.216/api/";
+  }
+
+  private getBaseUrlDemo(): string {
+    return "https://600fdd7a6c21e1001704f836.mockapi.io/";
   }
 
   private getAccessToken = (): string => {

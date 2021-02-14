@@ -1349,7 +1349,7 @@ export default function InformationPage() {
     );
   };
   return (
-    <UserTemplate>
+    <UserTemplate title="Chi tiết bài viết">
       <Head>
         <title>{headerData.title}</title>
       </Head>
