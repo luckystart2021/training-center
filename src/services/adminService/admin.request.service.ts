@@ -1,12 +1,12 @@
-import { TReqLogin } from "../../interfaces/admin.interface/index.interfaces";
+import { ILoginResponse, TReqLogin } from "../../interfaces/admin.interface/admin.http.interfaces";
 import axiosService from "../httpService/axios.service";
 
 class AdminRequestService {
   constructor() {}
 
   loginMethod(data: TReqLogin) {
-    const uri = "/api/login";
-    return axiosService.postMethod<any, any, TReqLogin>(uri, data);
+    const uri = "admin/system/login";
+    return axiosService.postMethod<TReqLogin, ILoginResponse, TReqLogin>(uri, data);
   }
 }
 

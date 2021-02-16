@@ -1,14 +1,17 @@
 // import "./styles.module.scss";
+import { Router } from "next/router";
 import React, { FormEvent, useState } from "react";
-import { TReqLogin } from "../../src/interfaces/admin.interface/index.interfaces";
+import { TReqLogin } from "../../src/interfaces/admin.interface/admin.http.interfaces";
 import adminReqService from "../../src/services/adminService/admin.request.service";
-import axiosService from "../../src/services/httpService/axios.service";
+import localStorageService from "../../src/services/localStorage.service/localStorage.service";
+import { useRouter } from "next/router";
 
 const LoginPage = ({ data, ...props }) => {
-  console.log(data)
+  const router = useRouter();
+
   const [dataLogin, setDataLogin] = useState<TReqLogin>({
     password: "",
-    userName: "",
+    username: "",
   });
 
   const handleOnchange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,10 +28,12 @@ const LoginPage = ({ data, ...props }) => {
     adminReqService
       .loginMethod(dataLogin)
       .then((res) => {
-        console.log(res);
+        router.push("/admin");
+        localStorageService.accessToken.set(res.data.token);
+        localStorageService.userInfor.set(res.data.infoUser);
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err);
       });
   };
 
@@ -45,7 +50,7 @@ const LoginPage = ({ data, ...props }) => {
                 </p>
                 <input
                   type="text"
-                  name="userName"
+                  name="username"
                   placeholder="Username"
                   onChange={handleOnchange}
                 />

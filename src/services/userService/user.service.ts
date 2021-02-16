@@ -1,5 +1,5 @@
-import { TReqLogin } from "../../interfaces/admin.interface/index.interfaces";
 import { News } from "../../models/News";
+import { TReqLogin } from "../../interfaces/admin.interface/admin.http.interfaces";
 import axiosService from "../httpService/axios.service";
 
 class UserRequestService {
