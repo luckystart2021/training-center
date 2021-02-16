@@ -1,4 +1,5 @@
 import { TReqLogin } from "../../interfaces/admin.interface/index.interfaces";
+import { News } from "../../models/News";
 import axiosService from "../httpService/axios.service";
 
 class UserRequestService {
@@ -8,9 +9,13 @@ class UserRequestService {
     const uri = `api/user/question/${id}`;
     return axiosService.getMethod<any, any>(uri);
   } 
-  getNewsById(id: number) {
+  getNewsById(id: string) {
     const uri = `https://600fdd7a6c21e1001704f836.mockapi.io/news/${id}`;
-    return axiosService.getMethod<any, any>(uri);
+    return axiosService.getMethod(uri);
+  }
+  getListNews() {
+    const uri = `https://600fdd7a6c21e1001704f836.mockapi.io/news/`;
+    return axiosService.getMethod<News>(uri);
   }
 }
 
