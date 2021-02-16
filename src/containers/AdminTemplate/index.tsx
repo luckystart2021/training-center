@@ -1,6 +1,7 @@
 import Head from "next/head";
 import React, { Fragment, useEffect } from "react";
 import Router, { useRouter } from "next/router";
+import localStorageService from "../../services/localStorage.service/localStorage.service";
 
 type T_AdminTemplateProps = {
   head?: HTMLHeadElement;
@@ -15,7 +16,10 @@ const AdminTemplate: React.FC<T_AdminTemplateProps> = ({
   const router = useRouter();
 
   useEffect(() => {
-    router.push("/login");
+    console.log(localStorageService.accessToken.get())
+    if (localStorageService.accessToken.get() == null) {
+      router.push("/login");
+    }
   });
   return (
     <Fragment>

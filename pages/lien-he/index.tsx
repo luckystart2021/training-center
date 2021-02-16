@@ -1,5 +1,5 @@
-import UserTemplate from "../src/containers/UserTemplate";
-import headerTitle from "../src/components/headerTitle";
+import UserTemplate from "../../src/containers/UserTemplate";
+import headerTitle from "../../src/components/headerTitle";
 import Link from "next/link";
 import Head from "next/head";
 
@@ -180,7 +180,7 @@ export default function ContactPage() {
     );
   };
   return (
-    <UserTemplate>
+    <UserTemplate title={headerData.title}>
       <Head>
         <title>Liên Hệ</title>
       </Head>

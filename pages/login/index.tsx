@@ -33,7 +33,7 @@ const LoginPage = ({ data, ...props }) => {
         localStorageService.userInfor.set(res.data.infoUser);
       })
       .catch((err) => {
-        // console.log(err);
+        // console.log('error', err);
       });
   };
 

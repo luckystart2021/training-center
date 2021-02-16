@@ -1,7 +1,6 @@
-import UserTemplate from "../src/containers/UserTemplate";
-import headerTitle from "../src/components/headerTitle";
+import UserTemplate from "../../src/containers/UserTemplate";
+import HeaderTitle from "../../src/components/headerTitle";
 import Link from "next/link";
-import Head from "next/head";
 import ReactHtmlParser from "react-html-parser";
 
 const headerData = {
@@ -80,8 +79,8 @@ export default function AboutPage() {
     );
   };
   return (
-    <UserTemplate title='Liên Hệ'>
-      {headerTitle(headerData)}
+    <UserTemplate title='Giới thiệu'>
+      {HeaderTitle(headerData)}
       {renderAbout(information)}
     </UserTemplate>
   );

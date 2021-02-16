@@ -2,7 +2,9 @@ import Link from "next/link";
 import UserTemplate from "../src/containers/UserTemplate";
 import { assetIcons, HomeUserAssets } from "../src/staticData/img";
 
-
+const headerData = {
+  title: "Trang Chủ"
+}
 const courseList = [
   {
       auth: 'Admin',
@@ -321,7 +323,7 @@ export default function HomeUserpage() {
   };
 
   return (
-    <UserTemplate>
+    <UserTemplate title={headerData.title}>
       {renderCarousel(HomeUserAssets.carousel)}
       {renderHomeAbout()}
       {renderCourse(courseList)}
