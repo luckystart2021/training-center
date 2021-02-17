@@ -3,6 +3,8 @@ import userRequestService from "../../../src/services/userService/user.service";
 import { DocumentContext } from "next/document";
 import LeftView from "../../../src/components/leftView";
 import HeaderTitle from "../../../src/components/headerTitle";
+import ListNews from "../../../src/components/ListNews";
+import { Fragment } from "react";
 
 //https://600fdd7a6c21e1001704f836.mockapi.io/news/1
 const headerData = {
@@ -22,17 +24,16 @@ const category = [
   },
 ];
 
-function DetailsNews({ detail, paramId }) {
-  headerData.title = detail.title;
-  const cate = paramId.categories == "tin-tuc" ? category[0] : category[1];
-  cate.meta_url = paramId.categories;
+function DetailsNews({ detail, paramId, listNews, listSubCategories, cate }) {
+  headerData.title = detail?.title;
+
   console.log(cate);
   cate.meta_url = paramId.categories;
 
   const baseUrlMeta = (meta_url: string, id: string) =>
     `${cate.meta_url}/${meta_url}-${id}`;
 
-  const renderDetailsNews = () => {
+  const renderDetailsNews = (listNews) => {
     const renderContent = (item) => {
       return (
         <div className="blog-details">
@@ -53,12 +54,10 @@ function DetailsNews({ detail, paramId }) {
                   <i className="fas fa-tags"></i>{" "}
                   {item.tags.map((item, index) => {
                     return (
-                      <>
+                      <Fragment key={index}>
                         {" "}
-                        <a href="#" key={index}>
-                          {item.title}
-                        </a>
-                      </>
+                        <a href="#">{item.title}</a>
+                      </Fragment>
                     );
                   })}
                 </li>
@@ -113,12 +112,18 @@ function DetailsNews({ detail, paramId }) {
         </div>
       );
     };
+    console.log("dongph4", listNews);
+
     return (
       <section className="blog-area ptb-110">
         <div className="container">
           <div className="row">
-            <div className="col-lg-8 col-md-12">{renderContent(detail)}</div>
-            <div className="col-lg-4 col-md-12">{LeftView({ cate })}</div>
+            <div className="col-lg-8 col-md-12">
+              {detail ? renderContent(detail) : ListNews({ cate, listNews })}
+            </div>
+            <div className="col-lg-4 col-md-12">
+              {LeftView({ cate, listSubCategories })}
+            </div>
           </div>
         </div>
         <div className="shape13">
@@ -133,7 +138,7 @@ function DetailsNews({ detail, paramId }) {
   return (
     <UserTemplate title="Chi tiết bài viết">
       {HeaderTitle(headerData)}
-      {renderDetailsNews()}
+      {renderDetailsNews(listNews)}
     </UserTemplate>
   );
 }
@@ -141,11 +146,19 @@ function DetailsNews({ detail, paramId }) {
 DetailsNews.getInitialProps = async (ctx: DocumentContext) => {
   const param = ctx.query.id;
   const paramId = ctx.query;
+  const cate = paramId.categories == "tin-tuc" ? category[0] : category[1];
+  cate.meta_url = `${paramId.categories}`;
+  let resListNews = null;
   let res = null;
+  let listSubCategories = null;
   if (typeof param === "string") {
     const id = param.split("-").pop();
-    res = await userRequestService.getNewsById(id);
+    if (parseInt(id)) res = await userRequestService.getNewsById(id);
+    else resListNews = await userRequestService.getListNews(cate.id);
+    listSubCategories = await userRequestService.getListSubCategoriesById(
+      cate.id
+    );
   }
-  return { detail: res.data, paramId };
+  return { detail: res?.data, paramId, listNews: resListNews?.data, listSubCategories, cate };
 };
 export default DetailsNews;

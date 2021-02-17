@@ -291,8 +291,7 @@ const listTags = [
   { title: "Tag 5", meta_url: "tag-5", total: 4 },
   { title: "Tag 6", meta_url: "tag-6", total: 9 },
 ];
-export default function LeftView({ cate }) {
-  console.log("dongn3", cate.meta_url);
+export default function LeftView({ cate, listSubCategories }) {
   const baseUrlMeta = (meta_url: string, id: string = null) => {
     if (id == null) return `/${cate.meta_url}/${meta_url}`;
     else return `/${cate.meta_url}/${meta_url}-${id}`;
@@ -303,7 +302,7 @@ export default function LeftView({ cate }) {
       return popularPosts.map((item, index) => {
         return (
           <article className="item" key={index}>
-            <Link href={baseUrlMeta(item.meta_url, item.id)}>
+            <Link href={baseUrlMeta(item.meta, item.id)}>
               <a className="thumb">
                 <span
                   style={{ backgroundImage: "url(" + item.image + ")" }}
@@ -316,7 +315,7 @@ export default function LeftView({ cate }) {
             <div className="info">
               <time dateTime="2019-06-30">{item.create_date}</time>
               <h4 className="title usmall">
-                <Link href={baseUrlMeta(item.meta_url, item.id)}>
+                <Link href={baseUrlMeta(item.meta, item.id)}>
                   <a>{item.title}</a>
                 </Link>
               </h4>
@@ -348,12 +347,22 @@ export default function LeftView({ cate }) {
       });
     };
 
-    return (
-      <section className="widget widget_recent_entries">
-        <h3 className="widget-title">{cate.title}</h3>
-        <ul>{renderItem(subCategories)}</ul>
-      </section>
-    );
+    if (listSubCategories) {
+      return (
+        <section className="widget widget_recent_entries">
+          <h3 className="widget-title">{cate.title}</h3>
+          <ul>{renderItem(subCategories)}</ul>
+        </section>
+      );
+    } else {
+      return (
+        <section className="widget widget_recent_entries">
+          <h3 className="widget-title">{cate.title}</h3>
+          <ul></ul>
+        </section>
+      )
+    }
+    
   };
 
   const renderCategoris = (listCategoris) => {
@@ -415,13 +424,9 @@ export default function LeftView({ cate }) {
       </section>
       {renderPopularPosts(popularPosts)}
       {/* {renderRecentComments()} */}
-      {renderSubCategories(
-        cate.meta_url == "tin-tuc"
-          ? listCategoris[0].subCategories
-          : listCategoris[1].subCategories
-      )}
+      {renderSubCategories(listSubCategories)}
       {renderCategoris(listCategoris)}
-      {renderListTags(listTags)}
+      {/* {renderListTags(listTags)} */}
     </aside>
   );
 }

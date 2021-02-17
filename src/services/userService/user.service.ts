@@ -13,9 +13,13 @@ class UserRequestService {
     const uri = `https://600fdd7a6c21e1001704f836.mockapi.io/news/${id}`;
     return axiosService.getMethod(uri);
   }
-  getListNews() {
-    const uri = `https://600fdd7a6c21e1001704f836.mockapi.io/news/`;
+  getListNews(idCate: number) {
+    const uri = `user/${idCate}/news`;
     return axiosService.getMethod<News>(uri);
+  }
+  getListSubCategoriesById(id: number) {
+    const uri = `user/list/category/${id}`;
+    return axiosService.getMethod(uri);
   }
 }
 

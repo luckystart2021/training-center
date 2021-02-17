@@ -79,7 +79,7 @@ export default function AboutPage() {
     );
   };
   return (
-    <UserTemplate title='Giới thiệu'>
+    <UserTemplate title={headerData.title}>
       {HeaderTitle(headerData)}
       {renderAbout(information)}
     </UserTemplate>
