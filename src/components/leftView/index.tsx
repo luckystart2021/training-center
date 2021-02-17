@@ -291,9 +291,12 @@ const listTags = [
   { title: "Tag 5", meta_url: "tag-5", total: 4 },
   { title: "Tag 6", meta_url: "tag-6", total: 9 },
 ];
-export default function LeftView() {
-  const baseUrlMeta = (meta_url: string, id: string) =>
-    `tin-tuc/${meta_url}-${id}`;
+export default function LeftView({ cate }) {
+  console.log("dongn3", cate.meta_url);
+  const baseUrlMeta = (meta_url: string, id: string = null) => {
+    if (id == null) return `/${cate.meta_url}/${meta_url}`;
+    else return `/${cate.meta_url}/${meta_url}-${id}`;
+  };
 
   const renderPopularPosts = (popularPosts) => {
     const renderItem = (popularPosts) => {
@@ -337,7 +340,7 @@ export default function LeftView() {
       return subCategories.map((item, index) => {
         return (
           <li key={index}>
-            <Link href={baseUrlMeta(item.meta_url, item.id)}>
+            <Link href={baseUrlMeta(item.meta_url)}>
               <a>{item.title}</a>
             </Link>
           </li>
@@ -347,7 +350,7 @@ export default function LeftView() {
 
     return (
       <section className="widget widget_recent_entries">
-        <h3 className="widget-title">TIN TỨC</h3>
+        <h3 className="widget-title">{cate.title}</h3>
         <ul>{renderItem(subCategories)}</ul>
       </section>
     );
@@ -358,7 +361,7 @@ export default function LeftView() {
       return listCategoris.map((item, index) => {
         return (
           <li key={index}>
-            <Link href={baseUrlMeta(item.meta_url, item.id)}>
+            <Link href={`/${item.meta_url}`}>
               <a>{item.title}</a>
             </Link>
           </li>
@@ -412,7 +415,11 @@ export default function LeftView() {
       </section>
       {renderPopularPosts(popularPosts)}
       {/* {renderRecentComments()} */}
-      {renderSubCategories(listCategoris[0].subCategories)}
+      {renderSubCategories(
+        cate.meta_url == "tin-tuc"
+          ? listCategoris[0].subCategories
+          : listCategoris[1].subCategories
+      )}
       {renderCategoris(listCategoris)}
       {renderListTags(listTags)}
     </aside>

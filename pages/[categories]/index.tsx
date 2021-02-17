@@ -7,28 +7,31 @@ import Link from "next/link";
 import userRequestService from "../../src/services/userService/user.service";
 import { News } from "../../src/models/News";
 import LeftView from "../../src/components/leftView";
-const headerData = {
-  title: "Tin Tức",
-};
+import { DocumentContext } from "next/document";
+
+const category = [
+  {
+    id: 0,
+    title: "Tin Tức",
+    meta_url: "",
+  },
+  {
+    id: 1,
+    title: "Thông Tin",
+    meta_url: "",
+  },
+];
 
 const subString = (string: string, length: number): string =>
   string.length < length ? string : string.substring(0, length) + "...";
 
-NewsPage.getInitialProps = async () => {
-  let listNews = null;
-  try {
-    listNews = await userRequestService.getListNews();
-  } catch (error) {
-    console.log(error);
-  }
-
-  return { listNews };
-};
-
-export default function NewsPage({ listNews, error }) {
+function NewsPage({ listNews, paramId, error }) {
   const router = useRouter();
+  const cate = paramId.categories == "tin-tuc" ? category[0] : category[1];
+  cate.meta_url = paramId.categories;
+  console.log(cate);
   const baseUrlMeta = (meta_url: string, id: string) =>
-    `tin-tuc/${meta_url}-${id}`;
+    `${cate.meta_url}/${meta_url}-${id}`;
   const renderListNews = (listNews) => {
     const firstNews = listNews[0];
     const renderNews1st = (item) => {
@@ -143,150 +146,6 @@ export default function NewsPage({ listNews, error }) {
         </div>
       );
     };
-
-    const renderPopularPosts = (popularPosts) => {
-      const renderItem = (popularPosts) => {
-        return popularPosts.map((item, index) => {
-          return (
-            <article className="item" key={index}>
-              <Link href={baseUrlMeta(item.meta_url, item.id)}>
-                <a className="thumb">
-                  <span
-                    style={{ backgroundImage: "url(" + item.image + ")" }}
-                    className="fullimage cover bg1"
-                    role="img"
-                  ></span>
-                </a>
-              </Link>
-
-              <div className="info">
-                <time dateTime="2019-06-30">{item.create_date}</time>
-                <h4 className="title usmall">
-                  <Link href={baseUrlMeta(item.meta_url, item.id)}>
-                    <a>{item.title}</a>
-                  </Link>
-                </h4>
-              </div>
-              <div className="clear"></div>
-            </article>
-          );
-        });
-      };
-
-      return (
-        <section className="widget widget_evolta_posts_thumb">
-          <h3 className="widget-title">TIN XEM NHIỀU</h3>
-          {renderItem(popularPosts)}
-        </section>
-      );
-    };
-
-    const renderRecentComments = () => {
-      return (
-        <section className="widget widget_recent_comments">
-          <h3 className="widget-title">Recent Comments</h3>
-          <ul>
-            <li>
-              <span className="comment-author-link">
-                <a href="#">A WordPress Commenter</a>
-              </span>
-              on
-              <a href="#">Hello world!</a>
-            </li>
-            <li>
-              <span className="comment-author-link">
-                <a href="#">Evolta</a>
-              </span>
-              on
-              <a href="#">Hello world!</a>
-            </li>
-            <li>
-              <span className="comment-author-link">
-                <a href="#">Wordpress</a>
-              </span>
-              on
-              <a href="#">Hello world!</a>
-            </li>
-            <li>
-              <span className="comment-author-link">
-                <a href="#">A WordPress Commenter</a>
-              </span>
-              on
-              <a href="#">Hello world!</a>
-            </li>
-            <li>
-              <span className="comment-author-link">
-                <a href="#">Evolta</a>
-              </span>
-              on
-              <a href="#">Hello world!</a>
-            </li>
-          </ul>
-        </section>
-      );
-    };
-
-    const renderSubCategories = (subCategories) => {
-      const renderItem = (subCategories) => {
-        return subCategories.map((item, index) => {
-          return (
-            <li key={index}>
-              <Link href={baseUrlMeta(item.meta_url, item.id)}>
-                <a>{item.title}</a>
-              </Link>
-            </li>
-          );
-        });
-      };
-
-      return (
-        <section className="widget widget_recent_entries">
-          <h3 className="widget-title">TIN TỨC</h3>
-          <ul>{renderItem(subCategories)}</ul>
-        </section>
-      );
-    };
-
-    const renderCategoris = (listCategoris) => {
-      const renderItem = (listCategoris) => {
-        return listCategoris.map((item, index) => {
-          return (
-            <li key={index}>
-              <Link href={baseUrlMeta(item.meta_url, item.id)}>
-                <a>{item.title}</a>
-              </Link>
-            </li>
-          );
-        });
-      };
-      return (
-        <section className="widget widget_categories">
-          <h3 className="widget-title">DANH MỤC</h3>
-          <ul>{renderItem(listCategoris)}</ul>
-        </section>
-      );
-    };
-
-    const renderListTags = (listTags) => {
-      const renderItem = (listTags) => {
-        return listTags.map((item, index) => {
-          return (
-            <Link href={baseUrlMeta(item.meta_url, item.id)}>
-              <a key={index}>
-                {item.title}{" "}
-                <span className="tag-link-count"> ({item.total})</span>
-              </a>
-            </Link>
-          );
-        });
-      };
-      return (
-        <section className="widget widget_tag_cloud">
-          <h3 className="widget-title">Tags</h3>
-          <div className="tagcloud">{renderItem(listTags)}</div>
-        </section>
-      );
-    };
     return (
       <section className="blog-area ptb-110">
         <div className="container">
@@ -298,7 +157,7 @@ export default function NewsPage({ listNews, error }) {
                 {renderPageNumber()}
               </div>
             </div>
-            <div className="col-lg-4 col-md-12">{LeftView()}</div>
+            <div className="col-lg-4 col-md-12">{LeftView({ cate })}</div>
           </div>
         </div>
         <div className="shape13">
@@ -317,10 +176,23 @@ export default function NewsPage({ listNews, error }) {
   return (
     <UserTemplate title="Chi tiết bài viết">
       <Head>
-        <title>{headerData.title}</title>
+        <title>{cate.title}</title>
       </Head>
-      {headerTitle(headerData)}
+      {headerTitle(cate)}
       {renderListNews(listNews.data)}
     </UserTemplate>
   );
 }
+
+NewsPage.getInitialProps = async (ctx: DocumentContext) => {
+  let listNews = null;
+  const paramId = ctx.query;
+  try {
+    listNews = await userRequestService.getListNews();
+  } catch (error) {
+    console.log(error);
+  }
+  return { listNews, paramId };
+};
+
+export default NewsPage;
