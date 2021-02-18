@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import UserFotter from "../../components/userFotter";
 import UserNavbar from "../../components/userNavbar";
 

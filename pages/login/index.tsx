@@ -1,10 +1,9 @@
-// import "./styles.module.scss";
-import { Router } from "next/router";
 import React, { FormEvent, useState } from "react";
 import { TReqLogin } from "../../src/interfaces/admin.interface/admin.http.interfaces";
 import adminReqService from "../../src/services/adminService/admin.request.service";
 import localStorageService from "../../src/services/localStorage.service/localStorage.service";
 import { useRouter } from "next/router";
+import { LoginDataModel } from "../../src/models/AdminDataResult";
 
 const LoginPage = ({ data, ...props }) => {
   const router = useRouter();
@@ -28,9 +27,9 @@ const LoginPage = ({ data, ...props }) => {
     adminReqService
       .loginMethod(dataLogin)
       .then((res) => {
-        router.push("/admin");
+        router.push("/admin/dashboard");
         localStorageService.accessToken.set(res.data.token);
-        localStorageService.userInfor.set(res.data.infoUser);
+        localStorageService.userInfor.set(new LoginDataModel(res.data.infoUser));
       })
       .catch((err) => {
         // console.log(err);

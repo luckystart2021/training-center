@@ -180,10 +180,7 @@ export default function ContactPage() {
     );
   };
   return (
-    <UserTemplate>
-      <Head>
-        <title>Liên Hệ</title>
-      </Head>
+    <UserTemplate title="Liên Hệ">
       {headerTitle(headerData)}
       {renderContact(information)}
       {renderMapsFrame(information.maps)}
