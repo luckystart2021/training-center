@@ -100,7 +100,7 @@ class AxiosService {
 
           this.handleError(err);
           reject({
-            message: err.response.data.message,
+            message: err.response.data.error,
             statusCode: err.response.data.status,
             status: err.response.status,
           });
