@@ -9,6 +9,7 @@ class UserRequestService {
     const uri = `api/user/question/${id}`;
     return axiosService.getMethod<any, any>(uri);
   } 
+  //API News Page
   getNewsById(id: string, meta:string) {
     const uri = `user/${meta}/${id}/news`;
     return axiosService.getMethod(uri);
@@ -25,7 +26,6 @@ class UserRequestService {
     const uri = `user/${cateId}/news/pagination`
     return axiosService.getMethod(uri)
   }
-  ///api/user/tin-tuc/hoat-dong/list/child-news/pagination
   getListChilPagination(meta: string) {
     const uri = `user/${meta}`
     return axiosService.getMethod(uri)
@@ -42,6 +42,29 @@ class UserRequestService {
     const uri = `user/news/search?key=${query}`;
     return axiosService.getMethod(uri);
   }
+  //End API News Page
+
+  //API Home Page
+  getCarousel() {
+    const uri = `user/slide`;
+    return axiosService.getMethod(uri);
+  }
+  //{{url}}/api/user/home/news
+  getHomeNews() {
+    const uri = `user/home/news`;
+    return axiosService.getMethod(uri);
+  }
+  //{{url}}/api/user/about
+  getHomeAbout() {
+    const uri = `user/about`;
+    return axiosService.getMethod(uri);
+  }
+  //{{url}}/api/user/home/notification/news
+  getHomeNotification() {
+    const uri = `user/home/notification/news`;
+    return axiosService.getMethod(uri);
+  }
+  //End API Home Page
 }
 
 const userRequestService = new UserRequestService();

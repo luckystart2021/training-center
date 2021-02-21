@@ -1,95 +1,80 @@
+import { DocumentContext } from "next/document";
 import Link from "next/link";
 import UserTemplate from "../src/containers/UserTemplate";
 import { assetIcons, HomeUserAssets } from "../src/staticData/img";
+import userRequestService from "../src/services/userService/user.service";
+import Utils from "../src/components/utils/constant";
 
 const headerData = {
-  title: "Trang Chủ"
-}
-const courseList = [
-  {
-      auth: 'Admin',
-      date: 'August 16, 2020',
-      content: '10 Building Mobile Apps With Ionic And React',
-      classIcon: 'sticky',
-  },
-  {
-      auth: 'Admin',
-      date: 'August 01, 2020',
-      content: 'The hardest leadership advice to follow',
-      classIcon: 'link',
-  },
-  {
-      auth: 'Admin',
-      date: 'August 08, 2020',
-      content: 'How to share your company vision as a leader',
-      classIcon: 'quote',
-  }
-];
-
-const news = [
-  {
-      id: 1,
-      auth: 'Dong',
-      date: 'August 15, 2020',
-      title: 'Making Peace With The Feast Or Famine Of Freelancing',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.',
-      thumbnail: HomeUserAssets.news.blog_1,
-  },
-  {
-      id: 2,
-      auth: 'Dong 2',
-      date: 'August 18, 2020',
-      title: 'I Used The Web For A Day On A 50 MB Budget',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.',
-      thumbnail: HomeUserAssets.news.blog_1,
-  },
-  {
-      id: 3,
-      auth: 'Dong 3',
-      date: 'August 16, 2020',
-      title: 'Here are the 5 most telling signs of micromanagement',
-      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod.',
-      thumbnail: HomeUserAssets.news.blog_1,
-  },
-];
+  title: "Trang Chủ",
+};
+const listIcon = ["sticky", "link", "quote"];
 const gallery = [
   {
-      id: 1,
-      thumbnail: HomeUserAssets.gallarys.gallary_1,
-      title: 'Industry Expertise',
-      content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
+    id: 1,
+    thumbnail: HomeUserAssets.gallarys.gallary_1,
+    title: "Industry Expertise",
+    content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
       tempor ut labore et dolore magna aliqua. Quis ipsum
       suspendisse ultrices gravida.`,
   },
   {
-      id: 2,
-      thumbnail: HomeUserAssets.gallarys.gallary_2,
-      title: 'Expertise & Leadership',
-      content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
+    id: 2,
+    thumbnail: HomeUserAssets.gallarys.gallary_2,
+    title: "Expertise & Leadership",
+    content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
       tempor ut labore et dolore magna aliqua. Quis ipsum
       suspendisse ultrices gravida.`,
   },
   {
-      id: 3,
-      thumbnail: HomeUserAssets.gallarys.gallary_3,
-      title: 'Dedicated IT Solution',
-      content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
+    id: 3,
+    thumbnail: HomeUserAssets.gallarys.gallary_3,
+    title: "Dedicated IT Solution",
+    content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
       tempor ut labore et dolore magna aliqua. Quis ipsum
       suspendisse ultrices gravida.`,
   },
-]
-export default function HomeUserpage() {
+];
+
+HomeUserpage.getInitialProps = async (context: DocumentContext) => {
+  let listCarousel = null;
+  let aboutData = null;
+  let news3Data = null;
+  let listNotification = null;
+  try {
+    listCarousel = await userRequestService.getCarousel();
+  } catch (error) {}
+  try {
+    aboutData = await userRequestService.getHomeAbout();
+  } catch (error) {}
+  try {
+    news3Data = await userRequestService.getHomeNews();
+  } catch (error) {}
+  try {
+    listNotification = await userRequestService.getHomeNotification();
+  } catch (error) {}
+  return {
+    props: {
+      listCarousel: listCarousel?.data,
+      aboutData: aboutData?.data,
+      news3Data: news3Data?.data,
+      listNotification: listNotification?.data,
+    },
+  };
+};
+
+export default function HomeUserpage({ props }) {
+  console.log(props.news3Data);
   const renderCarousel = (carouselAssets) => {
     const renderCarouselItem = (carouselAssets) => {
-      return carouselAssets.map((item, index) => {
+      return carouselAssets?.map((item, index) => {
         return (
           <div
-            style={{ height: "600px" }}
-            className={`carousel-item ${index === 0 ? "active" : ""}`}
+            className={`custom-slider carousel-item ${index === 0 ? "active" : ""}`}
             key={index}
           >
             <img
-              src={item}
+              src={Utils.baseURL + item.img}
               className="d-block w-100"
               alt={`carousel ${index}`}
             />
@@ -129,66 +114,62 @@ export default function HomeUserpage() {
     );
   };
 
-  const renderHomeAbout = () => (
-    <section className="services-area ptb-110">
-      <div className="container">
-        <div className="section-title">
-          <div className="content">
-            <span>Giới thiệu</span>
-            <h2>We Offer Professional IT Solutions For Business</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-              suspendisse ultrices gravida. Risus commodo viverra maecenas
-              accumsan lacus vel facilisis. Lorem ipsum dolor, sit amet
-              consectetur adipisicing elit. Laborum ipsam voluptatem consequatur
-              ipsum est nemo quidem magni unde iure ex quod excepturi doloremque
-              maxime minus facere, numquam vitae sit ullam.
-            </p>
-          </div>
-          <div className="image">
-            <img src={HomeUserAssets.about.homeAbout_1} alt="" />
-          </div>
-        </div>
-        <div className="section-title">
-          <div className="image">
-            <img src={HomeUserAssets.about.homeAbout_1} alt="" />
-          </div>
-          <div className="content">
-            <span>Thông Báo</span>
-            <h2>We Offer Professional IT Solutions For Business</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-              suspendisse ultrices gravida. Risus commodo viverra maecenas
-              accumsan lacus vel facilisis. Lorem ipsum dolor sit amet
-              consectetur, adipisicing elit. Earum quod quis voluptatibus
-              mollitia eaque est, velit, omnis impedit expedita adipisci aut
-              animi. Quasi atque magnam beatae repellat velit ipsa nesciunt.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+  const renderHomeAbout = (aboutData) => {
+    const renderItem = (items) => {
+      return items?.map((item, index) => {
+        if (index % 2 == 0) {
+          return (
+            <div className="section-title" key={index}>
+              <div className="content">
+                <span>{item.title}</span>
+                <h2>{item.sub_title}</h2>
+                <p>{item.description}</p>
+              </div>
+              <div className="image">
+                <img src={Utils.baseURL + item.img} alt="" />
+              </div>
+            </div>
+          );
+        } else {
+          return (
+            <div className="section-title" key={index}>
+              <div className="image">
+                <img src={Utils.baseURL + item.img} alt="" />
+              </div>
+              <div className="content">
+                <span>{item.title}</span>
+                <h2>{item.sub_title}</h2>
+                <p>{item.description}</p>
+              </div>
+            </div>
+          );
+        }
+      });
+    };
+    return (
+      <section className="services-area ptb-110">
+        <div className="container">{renderItem(aboutData)}</div>
+      </section>
+    );
+  };
 
-  const renderCourse = (courseList) => {
-    const renderCourseItem = (courseList) => {
-      return courseList?.map((item, index) => {
+  const renderCourse = (listNotification) => {
+    const renderCourseItem = (listNotification) => {
+      return listNotification?.map((item, index) => {
         return (
           <div className="col-lg-4 col-md-6" key={index}>
-            <div className={`single-blog-post ${item.classIcon}`}>
+            <div className={`single-blog-post ${listIcon[index % 3]}`}>
               <div className="entry-post-content">
                 <div className="entry-meta">
                   <ul>
                     <li>
-                      <Link href="/">{item.auth}</Link>
+                      <Link href="/">{item.created_by}</Link>
                     </li>
-                    <li>{item.date}</li>
+                    <li>&nbsp;{item.created_at}</li>
                   </ul>
                 </div>
                 <h3>
-                  <Link href="/">{item.content}</Link>
+                  <Link href="/">{item.title}</Link>
                 </h3>
               </div>
             </div>
@@ -205,7 +186,7 @@ export default function HomeUserpage() {
               <h2>THÔNG BÁO - CHIÊU SINH</h2>
             </div>
           </div>
-          <div className="row">{renderCourseItem(courseList)}</div>
+          <div className="row">{renderCourseItem(listNotification)}</div>
         </div>
         <div className="shape13">
           <img src={assetIcons.shape_13} alt={`img`} />
@@ -225,22 +206,22 @@ export default function HomeUserpage() {
             <div className="single-blog-post-item">
               <div className="image">
                 <Link href="/">
-                  <img src={item.thumbnail} alt={`img" new ${index}`} />
+                  <img src={Utils.baseURL + item.img} alt={`img" new ${item.title}`} />
                 </Link>
               </div>
               <div className="content">
                 <div className="entry-meta">
                   <ul>
                     <li>
-                      <Link href="/">{item.auth}</Link>
+                      <Link href="/">{item.created_at}</Link>
                     </li>
-                    <li>{item.date}</li>
+                    <li>{item.created_by}</li>
                   </ul>
                 </div>
                 <h3>
                   <Link href="/">{item.title}</Link>
                 </h3>
-                <p>{item.content}</p>
+                <p>{item.description}</p>
                 <Link href="/">
                   <a className="read-more-btn">
                     Read More <i className="flaticon-add-1" />
@@ -324,10 +305,10 @@ export default function HomeUserpage() {
 
   return (
     <UserTemplate title={headerData.title}>
-      {renderCarousel(HomeUserAssets.carousel)}
-      {renderHomeAbout()}
-      {renderCourse(courseList)}
-      {renderNew(news)}
+      {renderCarousel(props.listCarousel)}
+      {renderHomeAbout(props.aboutData)}
+      {renderCourse(props.listNotification)}
+      {renderNew(props.news3Data)}
       {renderGallary(gallery)}
     </UserTemplate>
   );
