@@ -104,13 +104,13 @@ export default function LeftView({ cate, listSubCategories, pupolarNews }) {
   };
   const [movies, setMovies] = useState([]); //Displays the table of search results
   const [search, setSearch] = useState(""); //Value in the research input
-  const [query, setQuery] = useState("spiderman"); //Value to look for when submit
+  const [query, setQuery] = useState(""); //Value to look for when submit
   useEffect(() => {
     searchMovie();
   }, [query]);
   const searchMovie = async () => {
-    console.log('query', query)
-    const request = await userRequestService.search(query.normalize('NFC'))
+    console.log("query", query);
+    const request = await userRequestService.search(query.normalize("NFC"));
     const response = request.data;
     console.log(response);
   };
@@ -127,7 +127,7 @@ export default function LeftView({ cate, listSubCategories, pupolarNews }) {
   return (
     <aside className="widget-area" id="secondary">
       <section className="widget widget_search">
-        <form className="search-form" onSubmit={submitSearchMovie}>
+        <form className="search-form" onSubmit={() => {submitSearchMovie}}>
           <label>
             <span className="screen-reader-text">Search for:</span>
             <input

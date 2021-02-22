@@ -46,7 +46,7 @@ function ListNews({ cate, listNews }) {
         );
       } else {
         return (
-          <div className="col-lg-12 col-md-12">
+          <div className="col-lg-12 col-md-12" key={index}>
             <div className="single-blog-post">
               <div className="entry-thumbnail">
                 <a href={baseUrlMeta(item.meta, item.id)}>
