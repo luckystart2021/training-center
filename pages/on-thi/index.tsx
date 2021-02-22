@@ -4,6 +4,7 @@ import QuestionComponent from "../../src/components/question";
 import UserTemplate from "../../src/containers/UserTemplate";
 import { Answer, Question } from "../../src/models/Question";
 import userRequestService from "../../src/services/userService/user.service";
+import style from "./style.module.scss";
 
 const _questionList: Question[] = [
   new Question({
@@ -29,92 +30,32 @@ const OnThi = ({ questionList, ...props }) => {
   const prevQuestion = () => {};
 
   return (
-    <UserTemplate title="ôn thi">
+    <UserTemplate title="ôn thi" className={style.on__thi}>
       <section className="contact-area ptb-110">
         <div className="container">
-          <div className="custom-content-title text-center mb-3">
-            <h2>Bộ Đề Thi Thử Lý Thuyết Lái Xe Ô tô B2 600 Câu</h2>
-          </div>
-          <div className="row">
-            <div className="col-lg-5 col-md-12">
-              <div className="col-lg-12 col-md-12">
-                <div className="cart-totals">
-                  <h3>Kết quả bài làm</h3>
-                  <div className="ket-qua-bai-thi">
-                    <div>
-                      <span>Đề số: </span>
-                      <label className="text-green-color" htmlFor="de-so">
-                        01
-                      </label>
-                    </div>
-                    <div>
-                      <span>Số câu đúng: </span>
-                      <label className="text-red-color" htmlFor="so-cau-sai">
-                        0
-                      </label>
-                    </div>
-                    <div>
-                      <span>Số câu sai: </span>
-                      <label className="text-red-color" htmlFor="so-cau-sai">
-                        35
-                      </label>
-                    </div>
-                    <div>
-                      <span>Kết quả: </span>
-                      <label htmlFor="ket-qua">
-                        <strong className="text-red-color">
-                          KHÔNG ĐẠT - Sai câu điểm liệt
-                        </strong>
-                      </label>
-                    </div>
-                    <div>
-                      <span>Đáp án sai: </span>
-                      <label htmlFor="dap-an-sai" className="text-red-color">
-                        Tô màu đỏ
-                      </label>
-                    </div>
-                    <div>
-                      <span>Đáp án đúng: </span>
-                      <label htmlFor="dap-an-dung" className="text-blue-color">
-                        Tô màu xanh
-                      </label>
-                    </div>
-                    <div>Kiểm tra lại đáp án đúng bên dưới!</div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-12 col-md-12">
-                <div className="cart-totals">
-                  <h3>Câu hỏi</h3>
-                  <div className="pagination-area">
-                    {/* {listNumberQuestion(listQuestions)} */}
-                  </div>
-                  {/* className={questions.id === list.id ? "page-numbers current" : "page-numbers"} */}
-                </div>
-              </div>
-              <div className="col-lg-12 col-md-12">
-                <div className="cart-totals">
-                  <div className="custom-title-card">
-                    <h3>Thời gian còn lại: 21:34</h3>
-                  </div>
-                </div>
-              </div>
-              <div className="col-lg-12 col-md-12">
-                <div className="cart-totals">
-                  <div className="custom-title-card">
-                    <button className="btn btn-primary"> NỘP BÀI THI</button>
-                  </div>
-                </div>
-              </div>
+          <nav className="navbar navbar-expand-sm navbar-light bg-light">
+            <button
+              className="navbar-toggler d-lg-none"
+              type="button"
+              data-toggle="collapse"
+              data-target="#collapsibleNavId"
+              aria-controls="collapsibleNavId"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon" />
+            </button>
+            <div className="collapse navbar-collapse" id="collapsibleNavId">
+              <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li className="nav-item">
+                  <a className="nav-link" href="#">
+                    Link
+                  </a>
+                </li>
+
+              </ul>
             </div>
-            <div className="col-lg-7 col-md-12">
-              <QuestionComponent
-                question={currentQuestion}
-                nextQuestion={nextQuestion}
-                prevQuestion={prevQuestion}
-              />
-            </div>
-          </div>
+          </nav>
         </div>
       </section>
     </UserTemplate>
@@ -133,3 +74,87 @@ OnThi.getInitialProps = async () => {
 };
 
 export default OnThi;
+
+// <div className="custom-content-title text-center mb-3">
+// <h2>Đề Thi Thử Lý Thuyết Lái Xe Ô tô B2 600 Câu</h2>
+// </div>
+// <div className="row">
+// <div className="col-lg-5 col-md-12">
+//   <div className="col-lg-12 col-md-12">
+//     <div className="cart-totals">
+//       <h3>Kết quả bài làm</h3>
+//       <div className="ket-qua-bai-thi">
+//         <div>
+//           <span>Đề số: </span>
+//           <label className="text-green-color" htmlFor="de-so">
+//             01
+//           </label>
+//         </div>
+//         <div>
+//           <span>Số câu đúng: </span>
+//           <label className="text-red-color" htmlFor="so-cau-sai">
+//             0
+//           </label>
+//         </div>
+//         <div>
+//           <span>Số câu sai: </span>
+//           <label className="text-red-color" htmlFor="so-cau-sai">
+//             35
+//           </label>
+//         </div>
+//         <div>
+//           <span>Kết quả: </span>
+//           <label htmlFor="ket-qua">
+//             <strong className="text-red-color">
+//               KHÔNG ĐẠT - Sai câu điểm liệt
+//             </strong>
+//           </label>
+//         </div>
+//         <div>
+//           <span>Đáp án sai: </span>
+//           <label htmlFor="dap-an-sai" className="text-red-color">
+//             Tô màu đỏ
+//           </label>
+//         </div>
+//         <div>
+//           <span>Đáp án đúng: </span>
+//           <label htmlFor="dap-an-dung" className="text-blue-color">
+//             Tô màu xanh
+//           </label>
+//         </div>
+//         <div>Kiểm tra lại đáp án đúng bên dưới!</div>
+//       </div>
+//     </div>
+//   </div>
+//   <div className="col-lg-12 col-md-12">
+//     <div className="cart-totals">
+//       <h3>Câu hỏi</h3>
+//       <div className="pagination-area">
+//         {/* {listNumberQuestion(listQuestions)} */}
+//       </div>
+//       {/* className={questions.id === list.id ? "page-numbers current" : "page-numbers"} */}
+//     </div>
+//   </div>
+//   <div className="col-lg-12 col-md-12">
+//     <div className="cart-totals">
+//       <div className="custom-title-card">
+//         <h3>Thời gian còn lại: 21:34</h3>
+//       </div>
+//     </div>
+//   </div>
+//   <div className="col-lg-12 col-md-12">
+//     <div className="cart-totals">
+//       <div className="custom-title-card">
+//         <button className="btn btn-primary"> NỘP BÀI THI</button>
+//       </div>
+//     </div>
+//   </div>
+// </div>
+// <div className="col-lg-7 col-md-12">
+//   <QuestionComponent
+//     question={currentQuestion}
+//     nextQuestion={nextQuestion}
+//     prevQuestion={prevQuestion}
+//   />
+// </div>
+// </div>
