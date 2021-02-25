@@ -10,6 +10,7 @@ export type TResData<T> = {
 };
 
 export interface IUserInfo {
+  isValidAdmin: boolean;
   address: string;
   available: boolean;
   created_at: string;
