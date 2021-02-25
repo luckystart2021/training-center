@@ -1,14 +1,15 @@
 import React from "react";
-import userRequestService from "../../../src/services/userService/user.service";
+import AdminTemplate from "../../../src/containers/AdminTemplate";
+import style from "./style.module.scss";
 
-const CauHoi = ({ questionList }) => {
-  return <div>day la cau hoi</div>;
+const QuextionManagement = () => {
+  return (
+    <AdminTemplate title="Quản Lý Câu Hỏi" className="">
+      <div className={style.question__management}>
+        <h5>quantion management</h5>
+      </div>
+    </AdminTemplate>
+  );
 };
 
-CauHoi.getInitialProps = () => {
-  const questionList = userRequestService.getQuestions(1);
-
-  return { questionList };
-};
-
-export default CauHoi;
+export default QuextionManagement;

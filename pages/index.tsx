@@ -321,7 +321,7 @@ export default function HomeUserpage() {
   };
 
   return (
-    <UserTemplate>
+    <UserTemplate title="Trang chủ">
       {renderCarousel(HomeUserAssets.carousel)}
       {renderHomeAbout()}
       {renderCourse(courseList)}
