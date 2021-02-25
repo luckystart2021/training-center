@@ -28,7 +28,7 @@
     };
     $.ajax({
       type: "POST",
-      url: "http://52.231.9.216/api/user/contact/create",
+      url: "http://34.87.152.77/api/user/contact/create",
       dataType: "json",
       contentType: "application/json",
       data: JSON.stringify(json),

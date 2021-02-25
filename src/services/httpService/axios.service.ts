@@ -20,7 +20,7 @@ class AxiosService {
   }
 
   private getBaseUrl(): string {
-    return "http://52.231.9.216/api/";
+    return "http://34.87.152.77/api/";
   }
 
   private getAccessToken = (): string => {

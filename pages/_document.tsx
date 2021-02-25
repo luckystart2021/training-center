@@ -20,7 +20,7 @@ export default class MyDocument extends Document {
         <link rel="stylesheet" href="../assets/css/style.css" />
         <Head></Head>
         <body>
-          {LoadingPage()}
+          {/* {LoadingPage()} */}
           <Main />
           {this.importJSStaticFile(JS_Static)}
           <NextScript />
