@@ -20,7 +20,7 @@ class AxiosService {
   }
 
   private getBaseUrl(): string {
-    return "http://52.231.9.216/api/";
+    return "https://api.dtc-project.tk/api/";
   }
 
   private getAxiosConfig = (): void => {

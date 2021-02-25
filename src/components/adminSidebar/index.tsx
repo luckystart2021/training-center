@@ -31,6 +31,14 @@ const AdminSidebar = () => {
             </a>
           </Link>
         </li>
+        <li className="nav-item">
+          <Link href="/admin/cau-hoi">
+            <a className="nav-link">
+              <i className="fas fa-fw fa-chart-area" />
+              <span>Câu Hỏi</span>
+            </a>
+          </Link>
+        </li>
       </ul>
     </Fragment>
   );

@@ -2,7 +2,7 @@ import localStorageService from "../localStorage.service/localStorage.service";
 
 class AuthService {
   private localStorageServ = localStorageService;
-  private token: string = '';
+  private token: string = "";
   constructor() {}
   checkAuthAdmin(): boolean {
     const token = this.localStorageServ.accessToken.get();
@@ -15,6 +15,20 @@ class AuthService {
       this.token = this.localStorageServ.accessToken.get();
     }
     return this.token;
+  }
+
+  removeToken(): void {
+      this.localStorageServ.accessToken.remove();
+      this.token = null;
+  }
+
+  removeUserInfor = (): void => {
+    this.localStorageServ.userInfor.remove();
+  };
+
+  handleAdminLogout = (): void => {
+    this.removeToken();
+    this.removeUserInfor();
   }
 }
 
