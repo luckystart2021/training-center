@@ -65,6 +65,14 @@ class UserRequestService {
     return axiosService.getMethod(uri);
   }
   //End API Home Page
+
+  //API Information
+  //api/user/information
+  getInformation() {
+    const uri = `user/information`;
+    return axiosService.getMethod(uri);
+  }
+  //End API Information
 }
 
 const userRequestService = new UserRequestService();

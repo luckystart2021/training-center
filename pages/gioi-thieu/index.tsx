@@ -2,6 +2,8 @@ import UserTemplate from "../../src/containers/UserTemplate";
 import HeaderTitle from "../../src/components/headerTitle";
 import Link from "next/link";
 import ReactHtmlParser from "react-html-parser";
+import { DocumentContext } from "next/document";
+import userRequestService from "../../src/services/userService/user.service";
 
 const headerData = {
   title: "Giới Thiệu",
@@ -18,8 +20,21 @@ const information = {
     "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis suspendisse ultrices gravida. Risus commodo viverra.</p><p>Business-to-business metrics analytics value proposition fundingangel investor entrepreneur alpha ramen equity gamification. Social proof partner network research.</p><p>Lorem ipsum dolor sit amet, con se ctetur adipiscing elit. Insagittis eg esta ante, sed viverra nunc tinci dunt nec elei fendet tiram.</p>",
   img: "/files/img/information/tt.jpg",
 };
+AboutPage.getInitialProps = async (ctx: DocumentContext) => {
+  let information = null;
+
+  try {
+    information = await userRequestService.getInformation();
+  } catch (error) {}
+  return {
+    props: {
+      information: information.data,
+    },
+  };
+};
 
 export default function AboutPage() {
+  console.log(information);
   const renderAbout = (information) => {
     return (
       <section className="about-area ptb-110">
@@ -43,7 +58,9 @@ export default function AboutPage() {
               <div className="col-lg-4 col-md-6">
                 <div className="about-text">
                   <h3>Địa Chỉ</h3>
-                  <p><strong>{information.address}</strong></p>
+                  <p>
+                    <strong>{information.address}</strong>
+                  </p>
                 </div>
               </div>
               <div className="col-lg-4 col-md-6">
@@ -54,7 +71,8 @@ export default function AboutPage() {
                       <a>
                         <span
                           className="__cf_email__"
-                          data-cfemail="ea8f9c85869e8baa8f878b8386c4898587" >
+                          data-cfemail="ea8f9c85869e8baa8f878b8386c4898587"
+                        >
                           <strong>{information.email}</strong>
                         </span>
                       </a>
@@ -67,7 +85,9 @@ export default function AboutPage() {
                   <h3>Phone</h3>
                   <p>
                     <Link href="#">
-                      <a><strong>{information.phone}</strong></a>
+                      <a>
+                        <strong>{information.phone}</strong>
+                      </a>
                     </Link>
                   </p>
                 </div>
