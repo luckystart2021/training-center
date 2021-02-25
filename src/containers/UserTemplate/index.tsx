@@ -5,11 +5,13 @@ import UserNavbar from "../../components/userNavbar";
 
 type UserTemplateProps = {
   head?: HTMLHeadElement;
+  className?: string;
   title: string;
 };
 
 const UserTemplate: React.FC<UserTemplateProps> = ({
   head,
+  className = "",
   title,
   ...props
 }) => {
@@ -20,7 +22,7 @@ const UserTemplate: React.FC<UserTemplateProps> = ({
         {head}
       </Head>
       <UserNavbar />
-      <main>{props.children}</main>
+      <main className="className">{props.children}</main>
       <UserFotter />
 
       <script
