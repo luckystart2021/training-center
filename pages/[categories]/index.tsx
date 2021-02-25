@@ -42,7 +42,7 @@ function NewsPage({
   const renderPageNumber = (listPage) => {
     const choosePageNumber = (page: number) => {
       currentPage = page;
-      listPage.map((item, index) => {
+      listPage?.map((item, index) => {
         if (currentPage == item.page_number) {
           if (currentPage == 1) {
             listPageNew = [
@@ -73,7 +73,7 @@ function NewsPage({
       setPage(listPageNew);
     };
 
-    listPage.map((item, index) => {
+    listPage?.map((item, index) => {
       if (currentPage == item.page_number) {
         if (currentPage == 1) {
           listPageNew = [

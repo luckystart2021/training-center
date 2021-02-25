@@ -2,23 +2,28 @@ import UserTemplate from "../../src/containers/UserTemplate";
 import headerTitle from "../../src/components/headerTitle";
 import Link from "next/link";
 import Head from "next/head";
+import { DocumentContext } from "next/document";
+import userRequestService from "../../src/services/userService/user.service";
+import ReactHtmlParser from "react-html-parser";
 
 const headerData = {
   title: "Liên Hệ",
 };
 
-const information = {
-  address: "38 Tây Hòa",
-  phone: "thanhphong9718@gmail.com",
-  email: "0832210125",
-  maps:
-    'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.807549595758!2d106.76057895063911!3d10.826034992250055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317527bd92bda2c1%3A0x16607d0fd6c0392f!2zMzggVMOieSBIw7JhLCBQaMaw4bubYyBMb25nIEEsIFF14bqtbiA5LCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZp4buHdCBOYW0!5e0!3m2!1svi!2s!4v1612799368639!5m2!1svi!2s" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"',
-  title: "Phong",
-  description: "Phong",
-  img: "/files/img/information/tt.jpg",
+ContactPage.getInitialProps = async (ctx: DocumentContext) => {
+  let information = null;
+
+  try {
+    information = await userRequestService.getInformation();
+  } catch (error) {}
+  return {
+    props: {
+      information: information.data,
+    },
+  };
 };
 
-export default function ContactPage() {
+export default function ContactPage({ props }) {
   const renderContact = (information) => {
     const renderContactForm = () => {
       return (
@@ -32,7 +37,7 @@ export default function ContactPage() {
                   id="name"
                   className="form-control"
                   required
-                  data-error="Please enter your name"
+                  data-error="Vui lòng nhập tên"
                   placeholder="Name"
                 />
                 <div className="help-block with-errors"></div>
@@ -46,7 +51,7 @@ export default function ContactPage() {
                   id="email"
                   className="form-control"
                   required
-                  data-error="Please enter your email"
+                  data-error="Vui lòng nhập Email"
                   placeholder="Email"
                 />
                 <div className="help-block with-errors"></div>
@@ -59,7 +64,7 @@ export default function ContactPage() {
                   name="phone_number"
                   id="phone_number"
                   required
-                  data-error="Please enter your number"
+                  data-error="Vui lòng nhập Số điện thoại"
                   className="form-control"
                   placeholder="Phone"
                 />
@@ -74,7 +79,7 @@ export default function ContactPage() {
                   id="msg_subject"
                   className="form-control"
                   required
-                  data-error="Please enter your subject"
+                  data-error="Vui lòng nhập tiêu đề"
                   placeholder="Subject"
                 />
                 <div className="help-block with-errors"></div>
@@ -89,7 +94,7 @@ export default function ContactPage() {
                   cols={30}
                   rows={5}
                   required
-                  data-error="Write your message"
+                  data-error="Vui lòng nhập nội dung"
                   placeholder="Your Message"
                 ></textarea>
                 <div className="help-block with-errors"></div>
@@ -175,7 +180,7 @@ export default function ContactPage() {
   const renderMapsFrame = (maps) => {
     return (
       <div className="map-area">
-        <iframe src={maps}></iframe>
+        {ReactHtmlParser(maps)}
       </div>
     );
   };
@@ -185,8 +190,8 @@ export default function ContactPage() {
         <title>Liên Hệ</title>
       </Head>
       {headerTitle(headerData)}
-      {renderContact(information)}
-      {renderMapsFrame(information.maps)}
+      {renderContact(props.information)}
+      {renderMapsFrame(props.information.maps)}
     </UserTemplate>
   );
 }

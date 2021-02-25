@@ -64,7 +64,7 @@ export default function LeftView({ cate, listSubCategories, pupolarNews }) {
 
   const renderSubCategories = (subCategories) => {
     const renderItem = (subCategories) => {
-      return subCategories.map((item, index) => {
+      return subCategories?.map((item, index) => {
         return (
           <li key={index}>
             <Link href={baseUrlMeta(item.meta)}>

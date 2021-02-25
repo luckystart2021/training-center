@@ -7,7 +7,7 @@
       if (event.isDefaultPrevented()) {
         formError();
 
-        submitMSG(false, "Did you fill in the form properly?");
+        submitMSG(false, "Bạn đã nhập đầy đủ thông tin chưa?");
       } else {
         event.preventDefault();
         submitForm();
@@ -28,7 +28,7 @@
     };
     $.ajax({
       type: "POST",
-      url: "http://34.87.152.77/api/user/contact/create",
+      url: "http://34.87.164.178/api/user/contact/create",
       dataType: "json",
       contentType: "application/json",
       data: JSON.stringify(json),
