@@ -1,3 +1,5 @@
+import { LoginDataModel } from "../../models/AdminDataResult";
+
 export type TReqLogin = {
   username: string;
   password: string;
@@ -26,7 +28,7 @@ export interface IUserInfo {
 }
 
 export interface ILoginResponse {
-  infoUser: IUserInfo;
+  infoUser: any;
   token: string;
   success: boolean;
 }

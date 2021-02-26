@@ -3,43 +3,30 @@ import redirect from "nextjs-redirect";
 
 import { TResData } from "../../interfaces/admin.interface/admin.http.interfaces";
 import { axiosContentType } from "../../interfaces/axios.service.interface/axios.service.interface";
-import localStorageConstaint from "../localStorage.service/constants/constants";
+import authService from "../authService/auth.service";
 import loggerService from "../logger/logger.service";
 
 class AxiosService {
   private namespace: string = "axios_Service";
   private axios: AxiosInstance;
-  private accessToken: string;
   private axiosConfig: AxiosRequestConfig;
+  private authService = authService;
+  private logger = loggerService;
   constructor() {
     this.axios = Axios.create({
       baseURL: this.getBaseUrl(),
     });
-    this.getAccessToken();
     this.getAxiosConfig();
   }
 
   private getBaseUrl(): string {
-    return "http://34.87.164.178/api/";
+    return "https://api.dtc-project.tk/api/";
   }
 
-  private getAccessToken = (): string => {
-    if (typeof window !== "undefined") {
-      this.accessToken = window.localStorage.getItem(
-        localStorageConstaint.ACCESS_TOKEN
-      );
-    }
-    return this.accessToken;
-  };
-
-  private getAxiosConfig = (): AxiosRequestConfig => {
-    this.getAccessToken();
-    if (!this.accessToken) {
-      return;
-    }
+  private getAxiosConfig = (): void => {
     this.axiosConfig = {
       headers: {
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: `Bearer ${this.authService.getToken()}`,
         ["Content-Type"]: "application/json",
       },
     };
@@ -109,8 +96,8 @@ class AxiosService {
   }
 
   private handleError = (err: any) => {
-    const status = err.response.status;
-    loggerService.error(this.namespace, "", { ...err.response });
+    const status = err.response?.status;
+    this.logger.error(this.namespace, "", { ...err.response });
     switch (status) {
       // case 400:
       case 401:

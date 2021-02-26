@@ -1,6 +1,6 @@
 // import localStorageConstaint from "./constants/constants";
 
-import { IUserInfo } from "../../interfaces/admin.interface/admin.http.interfaces";
+import { LoginDataModel } from "../../models/AdminDataResult";
 
 class LocalStorageKey {
   protected ACCESS_TOKEN = "ACCESS_TOKEN";
@@ -8,7 +8,7 @@ class LocalStorageKey {
 }
 
 class BaseStorage<T> {
-  key: string;
+  private key: string;
 
   constructor(_key: string) {
     this.key = _key;
@@ -48,7 +48,7 @@ class LocalStorageService extends LocalStorageKey {
    * user info
    */
 
-  userInfor: BaseStorage<IUserInfo> = new BaseStorage(this.USER_INFOR);
+  userInfor: BaseStorage<LoginDataModel> = new BaseStorage(this.USER_INFOR);
 }
 
 const localStorageService = new LocalStorageService();
