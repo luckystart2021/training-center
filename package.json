@@ -8,6 +8,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "file:public/ckeditor5-build-classic-custom",
+    "@ckeditor/ckeditor5-editor-classic": "^23.0.0",
+    "@ckeditor/ckeditor5-react": "^2.1.0",
+    "@ckeditor/ckeditor5-upload": "^23.0.0",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@zeit/next-css": "^1.0.1",
     "axios": "^0.21.1",
