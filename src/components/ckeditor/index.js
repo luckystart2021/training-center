@@ -15,21 +15,18 @@ class App extends Component {
           config={{
             // Pass the config for SimpleUploadAdapter
             // https://ckeditor.com/docs/ckeditor5/latest/features/image-upload/simple-upload-adapter.html
+
             simpleUpload: {
               // The URL that the images are uploaded to.
-              uploadUrl: "https://api.imgur.com/3/upload",
-
+              uploadUrl: "https://api.dtc-project.tk/api/user/upload/ck",
               // Enable the XMLHttpRequest.withCredentials property.
               withCredentials: true,
 
               // Headers sent along with the XMLHttpRequest to the upload server.
               headers: {
-                "X-CSRF-TOKEN": "CSRF-Token",
+                // "X-CSRF-TOKEN": "CSRF-Token",
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Origin": "https://api.imgur.com",
-                "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
-                "Access-Control-Allow-Headers": "accept, content-type",
-                "Access-Control-Max-Age": "1728000"
+                "Access-Control-Allow-Credentials": "true"
                 //Authorization: "Bearer <JSON Web Token>",
               },
             },

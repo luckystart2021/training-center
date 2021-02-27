@@ -30117,8 +30117,8 @@
               n = this.options.withCredentials || !1;
             for (const t of Object.keys(e)) this.xhr.setRequestHeader(t, e[t]);
             this.xhr.withCredentials = n;
-            this.xhr.withCredentials = true;
             const i = new FormData();
+            console.log("Dongne: ", this.xhr.request, n)
             i.append("upload", t), this.xhr.send(i);
           }
         }
