@@ -14,7 +14,7 @@ function CustomUploadAdapterPlugin(editor) {
 }
 
 // https://ck
-class App extends Component {
+class Editor extends Component {
   state = {
     data: "",
   };
@@ -33,7 +33,7 @@ class App extends Component {
           // https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/react.html#component-properties
           // https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/configuration.html
           config={config}
-          data="<p>Hello from CKEditor 5!</p>"
+          data=""
           onInit={(editor) => {
             // You can store the "editor" and use when it is needed.
             console.log("Editor is ready to use!", editor);
@@ -55,4 +55,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Editor;

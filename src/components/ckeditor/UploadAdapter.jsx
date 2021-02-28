@@ -15,8 +15,7 @@ export default class UploadAdapter {
     fd.append("upload", this.file);
 
     return new Promise((resolve, reject) => {
-      axios
-        .post(this.url, fd, {
+      axios.post(this.url, fd, {
           onUploadProgress: (e) => {
             console.log("onUploadProgress",
               // show upload process

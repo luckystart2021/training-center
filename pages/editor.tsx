@@ -6,17 +6,17 @@ const Editor = dynamic(() => import("../src/components/ckeditor"), {
 });
 
 export default function IndexPage() {
-  let data: "";
-
+  const registerUser = (event) => {
+    event.preventDefault();
+    console.log(Editor)
+  };
   return (
     <>
       <h2>nextjs + ckeditor5</h2>
-      <Editor
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          this.setState({ data });
-        }}
-      />
+      <form onSubmit={registerUser}>
+        <Editor />
+        <button type="submit">Register</button>
+      </form>
 
       {/* <form action={() -} method="post" encType="multipart/form-data">
         <input type="file" id="upload" name="upload" />
