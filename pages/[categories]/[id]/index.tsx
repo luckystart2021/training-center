@@ -33,7 +33,7 @@ async function reloadListNews(paramId) {
   }`;
 
   let data = await userRequestService.getListChildNews(metaChil);
-  return data.data;
+  return data?.data;
 }
 
 function DetailsNews({
@@ -45,7 +45,7 @@ function DetailsNews({
   error,
   listPage,
   currentPage,
-  pupolarNews
+  pupolarNews,
 }) {
   if (error) {
     return <div>errro</div>;
@@ -86,8 +86,7 @@ function DetailsNews({
         .then((result) => {
           setListNewsUse(result);
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
 
       setPage(listPageNew);
     };
@@ -123,7 +122,11 @@ function DetailsNews({
             }}
           >
             <a
-              className={currentPage == 1 ? "next page-numbers not-active" : "next page-numbers"}
+              className={
+                currentPage == 1
+                  ? "next page-numbers not-active"
+                  : "next page-numbers"
+              }
               onClick={() => choosePageNumber(parseInt(currentPage) - 1)}
             >
               <i className="fas fa-angle-double-left"></i>
@@ -158,7 +161,11 @@ function DetailsNews({
             }}
           >
             <a
-              className={currentPage == page.length ? "next page-numbers not-active" : "next page-numbers"}
+              className={
+                currentPage == page.length
+                  ? "next page-numbers not-active"
+                  : "next page-numbers"
+              }
               onClick={() => choosePageNumber(parseInt(currentPage) + 1)}
             >
               <i className="fas fa-angle-double-right"></i>
@@ -276,7 +283,7 @@ DetailsNews.getInitialProps = async (ctx: DocumentContext) => {
   let listSubCategories = null;
   let error = null;
   let listPage = null;
-  let pupolarNews = null
+  let pupolarNews = null;
   try {
     if (typeof param === "string") {
       const id = param.split("-").pop();
@@ -291,7 +298,7 @@ DetailsNews.getInitialProps = async (ctx: DocumentContext) => {
       listSubCategories = await userRequestService.getListSubCategoriesById(
         cate.id
       );
-      pupolarNews = await userRequestService.getListNewsPupolar()
+      pupolarNews = await userRequestService.getListNewsPupolar();
       if (parseInt(id))
         res = await userRequestService.getNewsById(id, meta.join("-"));
       else {
@@ -311,7 +318,7 @@ DetailsNews.getInitialProps = async (ctx: DocumentContext) => {
     error,
     listPage: listPage?.data,
     currentPage: paramId.page ?? "1",
-    pupolarNews: pupolarNews.data
+    pupolarNews: pupolarNews.data,
   };
 };
 export default DetailsNews;

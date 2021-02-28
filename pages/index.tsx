@@ -4,6 +4,7 @@ import UserTemplate from "../src/containers/UserTemplate";
 import { assetIcons, HomeUserAssets } from "../src/staticData/img";
 import userRequestService from "../src/services/userService/user.service";
 import Utils from "../src/components/utils/constant";
+import { useState } from "react";
 
 const headerData = {
   title: "Trang Chủ",
@@ -64,13 +65,14 @@ HomeUserpage.getInitialProps = async (context: DocumentContext) => {
 };
 
 export default function HomeUserpage({ props }) {
-  console.log(props.news3Data);
   const renderCarousel = (carouselAssets) => {
     const renderCarouselItem = (carouselAssets) => {
       return carouselAssets?.map((item, index) => {
         return (
           <div
-            className={`custom-slider carousel-item ${index === 0 ? "active" : ""}`}
+            className={`custom-slider carousel-item ${
+              index === 0 ? "active" : ""
+            }`}
             key={index}
           >
             <img
@@ -206,7 +208,10 @@ export default function HomeUserpage({ props }) {
             <div className="single-blog-post-item">
               <div className="image">
                 <Link href="/">
-                  <img src={Utils.baseURL + item.img} alt={`img" new ${item.title}`} />
+                  <img
+                    src={Utils.baseURL + item.img}
+                    alt={`img" new ${item.title}`}
+                  />
                 </Link>
               </div>
               <div className="content">

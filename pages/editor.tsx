@@ -6,25 +6,22 @@ const Editor = dynamic(() => import("../src/components/ckeditor"), {
 });
 
 export default function IndexPage() {
-  const xhr = new XMLHttpRequest();
-  const url = "https://api.dtc-project.tk/api/user/upload/ck/";
-
-  xhr.open("POST", url);
-  xhr.send();
+  let data: "";
 
   return (
     <>
       <h2>nextjs + ckeditor5</h2>
-      <Editor />
+      <Editor
+        onChange={(event, editor) => {
+          const data = editor.getData();
+          this.setState({ data });
+        }}
+      />
 
-      <form
-        action="https://api.dtc-project.tk/api/user/upload/ck"
-        method="post"
-        encType="multipart/form-data"
-      >
+      {/* <form action={() -} method="post" encType="multipart/form-data">
         <input type="file" id="upload" name="upload" />
         <input type="submit" />
-      </form>
+      </form> */}
     </>
   );
 }

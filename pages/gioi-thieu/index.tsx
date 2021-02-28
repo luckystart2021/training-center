@@ -18,13 +18,12 @@ AboutPage.getInitialProps = async (ctx: DocumentContext) => {
   } catch (error) {}
   return {
     props: {
-      information: information.data,
+      information: information?.data,
     },
   };
 };
 
 export default function AboutPage({ props }) {
-  console.log(props.information);
   const renderAbout = (information) => {
     return (
       <section className="about-area ptb-110">

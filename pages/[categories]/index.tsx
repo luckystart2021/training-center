@@ -26,7 +26,7 @@ const category = [
 
 async function reloadListNews(cate, page: number) {
   let data = await userRequestService.getListNews(cate.id, page);
-  return data.data;
+  return data?.data;
 }
 
 function NewsPage({
@@ -35,7 +35,7 @@ function NewsPage({
   listSubCategories,
   listPage,
   currentPage,
-  pupolarNews
+  pupolarNews,
 }) {
   let listPageNew = [];
   const [listNewsUse, setListNewsUse] = useState(listNews);
@@ -67,8 +67,7 @@ function NewsPage({
         .then((result) => {
           setListNewsUse(result);
         })
-        .catch((err) => {
-        });
+        .catch((err) => {});
 
       setPage(listPageNew);
     };
@@ -185,7 +184,7 @@ NewsPage.getInitialProps = async (ctx: DocumentContext) => {
     listSubCategories = await userRequestService.getListSubCategoriesById(
       cate.id
     );
-    pupolarNews = await userRequestService.getListNewsPupolar()
+    pupolarNews = await userRequestService.getListNewsPupolar();
   } catch (error) {}
   return {
     listNews: listNews?.data,
@@ -193,7 +192,7 @@ NewsPage.getInitialProps = async (ctx: DocumentContext) => {
     listSubCategories: listSubCategories?.data,
     listPage: listPage?.data,
     currentPage: paramId.page ?? "1",
-    pupolarNews: pupolarNews?.data
+    pupolarNews: pupolarNews?.data,
   };
 };
 

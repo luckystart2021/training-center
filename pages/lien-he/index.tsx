@@ -18,7 +18,7 @@ ContactPage.getInitialProps = async (ctx: DocumentContext) => {
   } catch (error) {}
   return {
     props: {
-      information: information.data,
+      information: information?.data,
     },
   };
 };
@@ -178,11 +178,7 @@ export default function ContactPage({ props }) {
     );
   };
   const renderMapsFrame = (maps) => {
-    return (
-      <div className="map-area">
-        {ReactHtmlParser(maps)}
-      </div>
-    );
+    return <div className="map-area">{ReactHtmlParser(maps)}</div>;
   };
   return (
     <UserTemplate title={headerData.title}>

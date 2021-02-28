@@ -3021,7 +3021,7 @@
           $n = /\\(\\)?/g,
           Yn = (function (t) {
             var e = Wn(t, function (t) {
-                return 500 === n.size && n.clear(), t;
+                return 5000 === n.size && n.clear(), t;
               }),
               n = e.cache;
             return e;
@@ -17733,12 +17733,10 @@
               n
                 .for("upcast")
                 .elementToElement({ model: "softBreak", view: "br" }),
-              n
-                .for("downcast")
-                .elementToElement({
-                  model: "softBreak",
-                  view: (t, { writer: e }) => e.createEmptyElement("br"),
-                }),
+              n.for("downcast").elementToElement({
+                model: "softBreak",
+                view: (t, { writer: e }) => e.createEmptyElement("br"),
+              }),
               i.addObserver(wd),
               t.commands.add("shiftEnter", new _d(t)),
               this.listenTo(
@@ -21098,12 +21096,10 @@
                 allowWhere: "$block",
                 allowAttributes: ["alt", "src", "srcset"],
               }),
-              i
-                .for("dataDowncast")
-                .elementToElement({
-                  model: "image",
-                  view: (t, { writer: e }) => uh(e),
-                }),
+              i.for("dataDowncast").elementToElement({
+                model: "image",
+                view: (t, { writer: e }) => uh(e),
+              }),
               i.for("editingDowncast").elementToElement({
                 model: "image",
                 view: (t, { writer: e }) =>
@@ -21615,21 +21611,17 @@
               t.conversion
                 .for("dataDowncast")
                 .attributeToElement({ model: "linkHref", view: Bh }),
-              t.conversion
-                .for("editingDowncast")
-                .attributeToElement({
-                  model: "linkHref",
-                  view: (t, e) => Bh(Fh(t), e),
-                }),
-              t.conversion
-                .for("upcast")
-                .elementToAttribute({
-                  view: { name: "a", attributes: { href: !0 } },
-                  model: {
-                    key: "linkHref",
-                    value: (t) => t.getAttribute("href"),
-                  },
-                }),
+              t.conversion.for("editingDowncast").attributeToElement({
+                model: "linkHref",
+                view: (t, e) => Bh(Fh(t), e),
+              }),
+              t.conversion.for("upcast").elementToAttribute({
+                view: { name: "a", attributes: { href: !0 } },
+                model: {
+                  key: "linkHref",
+                  value: (t) => t.getAttribute("href"),
+                },
+              }),
               t.commands.add("link", new Hh(t)),
               t.commands.add("unlink", new Wh(t));
             const e = (function (t, e) {
@@ -21731,12 +21723,10 @@
                     }
                   },
                 }),
-                e.conversion
-                  .for("upcast")
-                  .elementToAttribute({
-                    view: { name: "a", attributes: n.get(t.id).attributes },
-                    model: { key: t.id },
-                  });
+                e.conversion.for("upcast").elementToAttribute({
+                  view: { name: "a", attributes: n.get(t.id).attributes },
+                  model: { key: t.id },
+                });
             });
           }
           _enableInsertContentSelectionAttributesFixer() {
@@ -22070,7 +22060,10 @@
             const t = new XMLHttpRequest();
             t.open("POST", this._apiAddress),
               t.setRequestHeader("Authorization", this._token.value),
-              (t.responseType = "json"),
+              t.setRequestHeader("Content-Type", "multipart/form-data");
+            t.setRequestHeader("Access-Control-Allow-Origin", "*");
+            t.setRequestHeader("Access-Control-Allow-Credentials", true);
+            console.log("dongph3:", t)((t.responseType = "json")),
               (this.xhr = t);
           }
           _attachXHRListeners() {
@@ -23922,12 +23915,10 @@
               allowAttributes: ["uploadId", "uploadStatus"],
             }),
               t.commands.add("imageUpload", new qf(t)),
-              i
-                .for("upcast")
-                .attributeToAttribute({
-                  view: { name: "img", key: "uploadId" },
-                  model: "uploadId",
-                }),
+              i.for("upcast").attributeToAttribute({
+                view: { name: "img", key: "uploadId" },
+                model: "uploadId",
+              }),
               this.listenTo(
                 t.editing.view.document,
                 "clipboardInput",
@@ -24176,18 +24167,16 @@
               t.commands.add("insertParagraph", new Zf(t)),
               e.schema.register("paragraph", { inheritAllFrom: "$block" }),
               t.conversion.elementToElement({ model: "paragraph", view: "p" }),
-              t.conversion
-                .for("upcast")
-                .elementToElement({
-                  model: (t, { writer: e }) =>
-                    Xf.paragraphLikeElements.has(t.name)
-                      ? t.isEmpty
-                        ? null
-                        : e.createElement("paragraph")
-                      : null,
-                  view: /.+/,
-                  converterPriority: "low",
-                });
+              t.conversion.for("upcast").elementToElement({
+                model: (t, { writer: e }) =>
+                  Xf.paragraphLikeElements.has(t.name)
+                    ? t.isEmpty
+                      ? null
+                      : e.createElement("paragraph")
+                    : null,
+                view: /.+/,
+                converterPriority: "low",
+              });
           }
         }
         Xf.paragraphLikeElements = new Set([
@@ -24299,13 +24288,11 @@
               });
           }
           _addDefaultH1Conversion(t) {
-            t.conversion
-              .for("upcast")
-              .elementToElement({
-                model: "heading1",
-                view: "h1",
-                converterPriority: un.get("low") + 1,
-              });
+            t.conversion.for("upcast").elementToElement({
+              model: "heading1",
+              view: "h1",
+              converterPriority: un.get("low") + 1,
+            });
           }
         }
         class im {
@@ -25170,24 +25157,20 @@
               (this._balloon = t.plugins.get(Pf)),
               this._createToolbarLinkButton(),
               this._enableUserBalloonInteractions(),
-              t.conversion
-                .for("editingDowncast")
-                .markerToHighlight({
-                  model: "link-ui",
-                  view: { classes: ["ck-fake-link-selection"] },
-                }),
-              t.conversion
-                .for("editingDowncast")
-                .markerToElement({
-                  model: "link-ui",
-                  view: {
-                    name: "span",
-                    classes: [
-                      "ck-fake-link-selection",
-                      "ck-fake-link-selection_collapsed",
-                    ],
-                  },
-                });
+              t.conversion.for("editingDowncast").markerToHighlight({
+                model: "link-ui",
+                view: { classes: ["ck-fake-link-selection"] },
+              }),
+              t.conversion.for("editingDowncast").markerToElement({
+                model: "link-ui",
+                view: {
+                  name: "span",
+                  classes: [
+                    "ck-fake-link-selection",
+                    "ck-fake-link-selection_collapsed",
+                  ],
+                },
+              });
           }
           destroy() {
             super.destroy(), this.formView.destroy();
@@ -30118,7 +30101,6 @@
             for (const t of Object.keys(e)) this.xhr.setRequestHeader(t, e[t]);
             this.xhr.withCredentials = n;
             const i = new FormData();
-            console.log("Dongne: ", this.xhr.request, n)
             i.append("upload", t), this.xhr.send(i);
           }
         }
@@ -30270,13 +30252,11 @@
             afterInit() {
               const t = this.editor,
                 e = t.t;
-              t.plugins
-                .get(Am)
-                .register("image", {
-                  ariaLabel: e("Image toolbar"),
-                  items: t.config.get("image.toolbar") || [],
-                  getRelatedElement: ih,
-                });
+              t.plugins.get(Am).register("image", {
+                ariaLabel: e("Image toolbar"),
+                items: t.config.get("image.toolbar") || [],
+                getRelatedElement: ih,
+              });
             }
           },
           Kf,

@@ -8,9 +8,9 @@ class UserRequestService {
   getQuestions(id: number) {
     const uri = `api/user/question/${id}`;
     return axiosService.getMethod<any, any>(uri);
-  } 
+  }
   //API News Page
-  getNewsById(id: string, meta:string) {
+  getNewsById(id: string, meta: string) {
     const uri = `user/${meta}/${id}/news`;
     return axiosService.getMethod(uri);
   }
@@ -23,12 +23,12 @@ class UserRequestService {
     return axiosService.getMethod(uri);
   }
   getListPagination(cateId: number) {
-    const uri = `user/${cateId}/news/pagination`
-    return axiosService.getMethod(uri)
+    const uri = `user/${cateId}/news/pagination`;
+    return axiosService.getMethod(uri);
   }
   getListChilPagination(meta: string) {
-    const uri = `user/${meta}`
-    return axiosService.getMethod(uri)
+    const uri = `user/${meta}`;
+    return axiosService.getMethod(uri);
   }
   getListChildNews(meta: string) {
     const uri = `user/${meta}`;
@@ -73,7 +73,18 @@ class UserRequestService {
     return axiosService.getMethod(uri);
   }
   //End API Information
+  // https://api.dtc-project.tk/api/user/upload/ck
+  uploadFile(data) {
+    console.log(data);
+    const uri = "https://api.dtc-project.tk/api/user/upload/ck";
+    axiosService.setContentType("multipart/form-data");
+    return axiosService.postMethod(uri, data);
+  }
 }
 
 const userRequestService = new UserRequestService();
 export default userRequestService;
+
+//upload file gi
+//image để mình demo
+//di từ ckeditor/index.js -> api/upload -
