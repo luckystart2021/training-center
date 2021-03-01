@@ -6,22 +6,14 @@ const Editor = dynamic(() => import("../src/components/ckeditor"), {
 });
 
 export default function IndexPage() {
-  const registerUser = (event) => {
-    event.preventDefault();
-    console.log(Editor)
+  let data: "";
+  const handleData = (dataTemplate: string) => {
+    console.log("dong3", dataTemplate);
   };
   return (
     <>
       <h2>nextjs + ckeditor5</h2>
-      <form onSubmit={registerUser}>
-        <Editor />
-        <button type="submit">Register</button>
-      </form>
-
-      {/* <form action={() -} method="post" encType="multipart/form-data">
-        <input type="file" id="upload" name="upload" />
-        <input type="submit" />
-      </form> */}
+      <Editor onchangeData={handleData} />
     </>
   );
 }

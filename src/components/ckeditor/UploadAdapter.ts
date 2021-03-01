@@ -1,12 +1,15 @@
 import axios from "axios";
 
 export default class UploadAdapter {
+  url: any;
+  loader: any;
+  file: any;
   constructor(loader, url) {
     this.url = url;
     this.loader = loader;
     this.loader.file.then((pic) => (this.file = pic));
 
-    this.upload();
+    // this.upload();
   }
 
   // Starts the upload process.
@@ -17,14 +20,15 @@ export default class UploadAdapter {
     return new Promise((resolve, reject) => {
       axios.post(this.url, fd, {
           onUploadProgress: (e) => {
-            console.log("onUploadProgress",
+            console.log(
+              "onUploadProgress",
               // show upload process
               Math.round((e.loaded / e.total) * 100) + " %"
             );
           },
         })
         .then((response) => {
-          console.log("thanh cong")
+          console.log("thanh cong");
           resolve(response);
         })
         .catch((error) => {
