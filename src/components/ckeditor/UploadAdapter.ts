@@ -28,8 +28,10 @@ export default class UploadAdapter {
           },
         })
         .then((response) => {
-          console.log("thanh cong");
-          resolve(response);
+          let json = {
+            default: response.data.url
+          }
+          resolve(json);
         })
         .catch((error) => {
           reject("Server Error");
