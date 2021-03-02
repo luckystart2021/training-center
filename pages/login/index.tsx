@@ -27,9 +27,11 @@ const LoginPage = ({ data, ...props }) => {
     adminReqService
       .loginMethod(dataLogin)
       .then((res) => {
-        router.push("/admin/dashboard");
         localStorageService.accessToken.set(res.data.token);
-        localStorageService.userInfor.set(new LoginDataModel(res.data.infoUser));
+        localStorageService.userInfor.set(
+          new LoginDataModel(res.data.infoUser)
+        );
+        router.push("/admin/dashboard");
       })
       .catch((err) => {
         // console.log('error', err);

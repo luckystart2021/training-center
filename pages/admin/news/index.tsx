@@ -1,192 +1,78 @@
 import AdminTemplate from "../../../src/containers/AdminTemplate";
-import dynamic from "next/dynamic";
-import adminReqService from "../../../src/services/adminService/admin.request.service";
-import localStorageService from "../../../src/services/localStorage.service/localStorage.service";
-import { useEffect, useState } from "react";
+import React from "react";
+import ReactDOM from "react-dom";
+import MUIDataTable from "mui-datatables";
 
-// Common editors usually work on client-side, so we use Next.js's dynamic import with mode ssr=false to load them on client-side
-const Editor = dynamic(() => import("../../../src/components/ckeditor"), {
-  ssr: false,
-});
+export default function Index() {
+  const columns = ["Name", "Title", "Location", "Age", "Salary"];
 
-function postData(data) {}
+  const data = [
+    ["Gabby George", "Business Analyst", "Minneapolis", 30, "$100,000"],
+    ["Aiden Lloyd", "Business Consultant", "Dallas", 55, "$200,000"],
+    ["Jaden Collins", "Attorney", "Santa Ana", 27, "$500,000"],
+    ["Franky Rees", "Business Analyst", "St. Petersburg", 22, "$50,000"],
+    ["Aaren Rose", "Business Consultant", "Toledo", 28, "$75,000"],
+    ["Blake Duncan", "Business Management Analyst", "San Diego", 65, "$94,000"],
+    ["Frankie Parry", "Agency Legal Counsel", "Jacksonville", 71, "$210,000"],
+    ["Lane Wilson", "Commercial Specialist", "Omaha", 19, "$65,000"],
+    ["Robin Duncan", "Business Analyst", "Los Angeles", 20, "$77,000"],
+    ["Mel Brooks", "Business Consultant", "Oklahoma City", 37, "$135,000"],
+    ["Harper White", "Attorney", "Pittsburgh", 52, "$420,000"],
+    ["Kris Humphrey", "Agency Legal Counsel", "Laredo", 30, "$150,000"],
+    ["Frankie Long", "Industrial Analyst", "Austin", 31, "$170,000"],
+    ["Brynn Robbins", "Business Analyst", "Norfolk", 22, "$90,000"],
+    ["Justice Mann", "Business Consultant", "Chicago", 24, "$133,000"],
+    [
+      "Addison Navarro",
+      "Business Management Analyst",
+      "New York",
+      50,
+      "$295,000",
+    ],
+    ["Jesse Welch", "Agency Legal Counsel", "Seattle", 28, "$200,000"],
+    ["Eli Mejia", "Commercial Specialist", "Long Beach", 65, "$400,000"],
+    ["Gene Leblanc", "Industrial Analyst", "Hartford", 34, "$110,000"],
+    ["Danny Leon", "Computer Scientist", "Newark", 60, "$220,000"],
+    ["Lane Lee", "Corporate Counselor", "Cincinnati", 52, "$180,000"],
+    ["Jesse Hall", "Business Analyst", "Baltimore", 44, "$99,000"],
+    ["Danni Hudson", "Agency Legal Counsel", "Tampa", 37, "$90,000"],
+    ["Terry Macdonald", "Commercial Specialist", "Miami", 39, "$140,000"],
+    ["Justice Mccarthy", "Attorney", "Tucson", 26, "$330,000"],
+    ["Silver Carey", "Computer Scientist", "Memphis", 47, "$250,000"],
+    ["Franky Miles", "Industrial Analyst", "Buffalo", 49, "$190,000"],
+    ["Glen Nixon", "Corporate Counselor", "Arlington", 44, "$80,000"],
+    [
+      "Gabby Strickland",
+      "Business Process Consultant",
+      "Scottsdale",
+      26,
+      "$45,000",
+    ],
+    ["Mason Ray", "Computer Scientist", "San Francisco", 39, "$142,000"],
+  ];
 
-async function reloadChil(id) {
-  let listCate = null;
-  listCate = await adminReqService.getListCategories(id);
-  return listCate.data;
-}
-
-Index.getInitialProps = async (context) => {
-  let listCate = null;
-
-  listCate = await adminReqService.getListCategories(1);
-  return {
-    props: {
-      listCate: listCate?.data,
-    },
+  const options = {
+    filterType: "dropdown",
+    responsive: "scroll",
   };
-};
-
-export default function Index({ props }) {
-  let dataCkeditor = "";
-  const handleData = (dataTemplate) => {
-    dataCkeditor = dataTemplate;
-  };
-
-  const postFormData = (event) => {
-    event.preventDefault();
-    console.log(dataCkeditor);
-    var data = new FormData();
-    data.append("id_child_category", event.target.id_child_category.value);
-    data.append("title", event.target.title.value);
-    data.append("description", event.target.description.value);
-    data.append("details", dataCkeditor);
-    data.append("meta", event.target.meta.value);
-    data.append("key_word_seo",event.target.key_word_seo.value);
-    data.append("img", event.target.img.files[0], event.target.img.files[0]?.name);
-
-    adminReqService
-      .createNewsMethod(data)
-      .then((res) => {
-        console.log("dong ne", res.data);
-      })
-      .catch((err) => {
-        console.log('error', err);
-      });
-  };
-
-  const [chil, setChil] = useState(props.listCate);
-  const onChangeChil = (event) => {
-    let data = reloadChil(event.target.value)
-      .then((result) => {
-        setChil(result);
-      })
-      .catch((err) => {});
-  };
-
   return (
-    <AdminTemplate title="Tin tức">
+    <AdminTemplate title="Tin tức & thông báo">
       <div className="container-fluid">
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
-          <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
+          <h1 className="h3 mb-0 text-gray-800">Danh sách tin tức</h1>
           <a
             href="#"
             className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-          >
-            <i className="fas fa-download fa-sm text-white-50"></i> Generate
-            Report
-          </a>
+          ></a>
         </div>
         <div className="row">
-          <div className="col-lg-8">
-            <form onSubmit={postFormData}>
-              <div className="form-row">
-                <div className="form-group col-md-4">
-                  <label htmlFor="idcate">Danh mục</label>
-                  <select
-                    id="idcate"
-                    name="idcate"
-                    onChange={onChangeChil}
-                    className="form-control"
-                  >
-                    <option selected value="1">
-                      Thông báo
-                    </option>
-                    <option value="2">Tin tức</option>
-                  </select>
-                </div>
-                <div className="form-group col-md-4">
-                  <label htmlFor="id_child_category">Danh mục con</label>
-                  <select
-                    id="id_child_category"
-                    name="id_child_category"
-                    className="form-control"
-                  >
-                    {chil.map((item, index) => {
-                      return (
-                        <option
-                          selected={index == 0 ? true : false}
-                          value={item.id}
-                          key={index}
-                        >
-                          {item.title}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-              </div>
-              <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="title">
-                  Tiêu đề
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  className="form-control"
-                />
-              </div>
-              <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="description">
-                  Mô tả
-                </label>
-                <textarea
-                  name="description"
-                  id="description"
-                  cols={30}
-                  rows={10}
-                  className="form-control"
-                ></textarea>
-              </div>
-              <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="meta">
-                  Meta url
-                </label>
-                <input
-                  type="text"
-                  id="meta"
-                  name="meta"
-                  className="form-control"
-                />
-              </div>
-
-              <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="key_word_seo">
-                  Key work SEO
-                </label>
-                <input
-                  type="text"
-                  id="key_word_seo"
-                  name="key_word_seo"
-                  className="form-control"
-                />
-              </div>
-              <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="img">
-                  Chọn hình ảnh từ máy tính
-                </label>
-                <div className="input-group">
-                  <input
-                    type="file"
-                    className="img"
-                    id="img"
-                    accept="image/*"
-                  />
-                </div>
-              </div>
-
-              <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="form6Example7">
-                  Additional information
-                </label>
-                <Editor onchangeData={handleData} />
-              </div>
-              <button type="submit" className="btn btn-primary btn-block mb-4">
-                Đăng bài
-              </button>
-            </form>
+          <div className="col-lg-12">
+            <MUIDataTable
+              title={"ACME Employee list"}
+              data={data}
+              columns={columns}
+              options={options}
+            />
           </div>
         </div>
       </div>

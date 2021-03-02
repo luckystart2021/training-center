@@ -12,8 +12,11 @@ class AuthService {
 
   getToken(): string {
     if (!this.token && typeof window !== "undefined") {
+      console.log("tk 1", this.localStorageServ.accessToken.get())
       this.token = this.localStorageServ.accessToken.get();
     }
+    console.log("tk 2")
+
     return this.token;
   }
 

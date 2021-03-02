@@ -60,6 +60,9 @@ const AdminSidebar = () => {
             <div className="bg-white py-2 collapse-inner rounded">
               {/* <h6 className="collapse-header">Tin tức:</h6> */}
               <Link href="/admin/news">
+                <a className="collapse-item">Danh sách bài viết</a>
+              </Link>
+              <Link href="/admin/news/create">
                 <a className="collapse-item">Đăng bài</a>
               </Link>
             </div>

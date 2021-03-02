@@ -19,10 +19,13 @@ class AdminRequestService {
   getListCategories(id) {
     //https://api.dtc-project.tk/api/admin/child_category/1/views
     const uri = `admin/child_category/${id}/views`;
+console.log("axiosService.getAxiosConfig()")
+
     return axiosService.getMethod<any>(uri);
   }
   createNewsMethod(data) {
     const uri = "admin/article/create";
+    console.log(axiosService.getAxiosConfig())
     return axiosService.postMethod(uri, data);
   }
 }

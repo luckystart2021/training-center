@@ -28,7 +28,7 @@
     };
     $.ajax({
       type: "POST",
-      url: "https://api.dtc-project.tk/api/user/contact/create",
+      url: "http://34.87.164.178/api/user/contact/create",
       dataType: "json",
       contentType: "application/json",
       data: JSON.stringify(json),

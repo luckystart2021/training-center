@@ -1,4 +1,4 @@
 const Utils = {
-  baseURL: "https://api.dtc-project.tk",
+  baseURL: "http://34.87.164.178",
 };
 export default Utils;
