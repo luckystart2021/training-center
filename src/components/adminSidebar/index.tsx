@@ -39,6 +39,32 @@ const AdminSidebar = () => {
             </a>
           </Link>
         </li>
+        <li className="nav-item">
+          <a
+            className="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#collapsePages"
+            aria-expanded="true"
+            aria-controls="collapsePages"
+          >
+            <i className="fas fa-fw fa-folder"></i>
+            <span>Tin tức & Thông tin</span>
+          </a>
+          <div
+            id="collapsePages"
+            className="collapse"
+            aria-labelledby="headingPages"
+            data-parent="#accordionSidebar"
+          >
+            <div className="bg-white py-2 collapse-inner rounded">
+              {/* <h6 className="collapse-header">Tin tức:</h6> */}
+              <Link href="/admin/news">
+                <a className="collapse-item">Đăng bài</a>
+              </Link>
+            </div>
+          </div>
+        </li>
       </ul>
     </Fragment>
   );

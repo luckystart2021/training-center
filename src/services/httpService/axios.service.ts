@@ -3,14 +3,14 @@ import redirect from "nextjs-redirect";
 
 import { TResData } from "../../interfaces/admin.interface/admin.http.interfaces";
 import { axiosContentType } from "../../interfaces/axios.service.interface/axios.service.interface";
-import authService from "../authService/auth.service";
+import _authService from "../authService/auth.service";
 import loggerService from "../logger/logger.service";
 
 class AxiosService {
   private namespace: string = "axios_Service";
   private axios: AxiosInstance;
   private axiosConfig: AxiosRequestConfig;
-  private authService = authService;
+  private authService = _authService;
   private logger = loggerService;
   constructor() {
     this.axios = Axios.create({
@@ -23,7 +23,7 @@ class AxiosService {
     return "https://api.dtc-project.tk/api/";
   }
 
-  private getAxiosConfig = (): void => {
+  getAxiosConfig = (): void => {
     this.axiosConfig = {
       headers: {
         Authorization: `Bearer ${this.authService.getToken()}`,

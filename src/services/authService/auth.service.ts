@@ -11,15 +11,15 @@ class AuthService {
   }
 
   getToken(): string {
-    if (this.token && typeof window !== "undefined") {
+    if (!this.token && typeof window !== "undefined") {
       this.token = this.localStorageServ.accessToken.get();
     }
     return this.token;
   }
 
   removeToken(): void {
-      this.localStorageServ.accessToken.remove();
-      this.token = null;
+    this.localStorageServ.accessToken.remove();
+    this.token = null;
   }
 
   removeUserInfor = (): void => {
@@ -29,7 +29,7 @@ class AuthService {
   handleAdminLogout = (): void => {
     this.removeToken();
     this.removeUserInfor();
-  }
+  };
 }
 
 const authService = new AuthService();
