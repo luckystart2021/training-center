@@ -1,60 +1,182 @@
 import AdminTemplate from "../../../src/containers/AdminTemplate";
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import MUIDataTable from "mui-datatables";
+import { DocumentContext } from "next/document";
+import adminReqService from "../../../src/services/adminService/admin.request.service";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import BootstrapTable from "react-bootstrap-table-next";
+import cellEditFactory from "react-bootstrap-table2-editor";
+import Utils from "../../../src/components/utils/constant";
 
-export default function Index() {
-  const columns = ["Name", "Title", "Location", "Age", "Salary"];
+Index.getInitialProps = async (ctx: DocumentContext) => {
+  let listNewsUnApprove = null;
+  let err = null;
+  adminReqService
+    .getListNewsUnApprove()
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  console.log("dongne", listNewsUnApprove);
+  try {
+  } catch (error) {}
 
-  const data = [
-    ["Gabby George", "Business Analyst", "Minneapolis", 30, "$100,000"],
-    ["Aiden Lloyd", "Business Consultant", "Dallas", 55, "$200,000"],
-    ["Jaden Collins", "Attorney", "Santa Ana", 27, "$500,000"],
-    ["Franky Rees", "Business Analyst", "St. Petersburg", 22, "$50,000"],
-    ["Aaren Rose", "Business Consultant", "Toledo", 28, "$75,000"],
-    ["Blake Duncan", "Business Management Analyst", "San Diego", 65, "$94,000"],
-    ["Frankie Parry", "Agency Legal Counsel", "Jacksonville", 71, "$210,000"],
-    ["Lane Wilson", "Commercial Specialist", "Omaha", 19, "$65,000"],
-    ["Robin Duncan", "Business Analyst", "Los Angeles", 20, "$77,000"],
-    ["Mel Brooks", "Business Consultant", "Oklahoma City", 37, "$135,000"],
-    ["Harper White", "Attorney", "Pittsburgh", 52, "$420,000"],
-    ["Kris Humphrey", "Agency Legal Counsel", "Laredo", 30, "$150,000"],
-    ["Frankie Long", "Industrial Analyst", "Austin", 31, "$170,000"],
-    ["Brynn Robbins", "Business Analyst", "Norfolk", 22, "$90,000"],
-    ["Justice Mann", "Business Consultant", "Chicago", 24, "$133,000"],
-    [
-      "Addison Navarro",
-      "Business Management Analyst",
-      "New York",
-      50,
-      "$295,000",
-    ],
-    ["Jesse Welch", "Agency Legal Counsel", "Seattle", 28, "$200,000"],
-    ["Eli Mejia", "Commercial Specialist", "Long Beach", 65, "$400,000"],
-    ["Gene Leblanc", "Industrial Analyst", "Hartford", 34, "$110,000"],
-    ["Danny Leon", "Computer Scientist", "Newark", 60, "$220,000"],
-    ["Lane Lee", "Corporate Counselor", "Cincinnati", 52, "$180,000"],
-    ["Jesse Hall", "Business Analyst", "Baltimore", 44, "$99,000"],
-    ["Danni Hudson", "Agency Legal Counsel", "Tampa", 37, "$90,000"],
-    ["Terry Macdonald", "Commercial Specialist", "Miami", 39, "$140,000"],
-    ["Justice Mccarthy", "Attorney", "Tucson", 26, "$330,000"],
-    ["Silver Carey", "Computer Scientist", "Memphis", 47, "$250,000"],
-    ["Franky Miles", "Industrial Analyst", "Buffalo", 49, "$190,000"],
-    ["Glen Nixon", "Corporate Counselor", "Arlington", 44, "$80,000"],
-    [
-      "Gabby Strickland",
-      "Business Process Consultant",
-      "Scottsdale",
-      26,
-      "$45,000",
-    ],
-    ["Mason Ray", "Computer Scientist", "San Francisco", 39, "$142,000"],
+  return {
+    props: {
+      listNewsUnApprove: listNewsUnApprove?.data,
+      error: err,
+    },
+  };
+};
+
+export default function Index({ props }) {
+  function imageFormatter(cell, row) {
+    return <img src={Utils.baseURL + `${cell}`} alt={row.title} />;
+  }
+
+  const [listNews, setlistNews] = useState(props.listNewsUnApprove);
+  const products = listNews;
+
+  function actionApprove(row) {
+    console.log("actionApprove", row.id);
+    adminReqService
+      .postApproveNews(row.id)
+      .then((res) => {
+        let arrTemp = [...listNews];
+        const filteredItems = arrTemp.filter((item) => item !== row);
+
+        console.log(filteredItems);
+        setlistNews(filteredItems);
+      })
+      .catch((error) => console.log(error.message));
+  }
+
+  function actionDelete() {
+    console.log("actionDelete");
+  }
+
+  function actionReview() {
+    console.log("actionReview")
+  }
+
+  function renderButtonAction(cell, row) {
+    if (row.id !== "") {
+      return (
+        <>
+          <button
+            onClick={() => actionDelete()}
+            className="btn btn-danger btn-icon-split"
+          >
+            <span className="icon text-white-50">
+              <i className="fas fa-trash"></i>
+            </span>
+            <span className="text">Preview</span>
+          </button>
+          <div className="my-2"></div>
+          <button
+            onClick={() => actionApprove(row)}
+            className="btn btn-success btn-icon-split"
+          >
+            <span className="icon text-white-50">
+              <i className="fas fa-check"></i>
+            </span>
+            <span className="text">Duyệt</span>
+          </button>
+          <div className="my-2"></div>
+
+          <button
+            onClick={() => actionDelete()}
+            className="btn btn-danger btn-icon-split"
+          >
+            <span className="icon text-white-50">
+              <i className="fas fa-trash"></i>
+            </span>
+            <span className="text">Xóa</span>
+          </button>
+        </>
+      );
+    }
+  }
+
+  const columns = [
+    {
+      dataField: "id",
+      text: "ID",
+      sort: true,
+      headerStyle: (colum, colIndex) => {
+        return { width: "80px", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "title",
+      text: "Tiêu đề",
+      headerStyle: (colum, colIndex) => {
+        return { "white-space": "nowrap" };
+      },
+    },
+    {
+      dataField: "description",
+      text: "Mô tả",
+    },
+    {
+      dataField: "view",
+      text: "Lượt xem",
+      sort: true,
+      headerStyle: (colum, colIndex) => {
+        return { width: "80px", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "img",
+      text: "Thumnal",
+      sort: true,
+      formatter: imageFormatter,
+    },
+    {
+      dataField: "status",
+      text: "Trạng thái",
+      sort: true,
+      headerStyle: (colum, colIndex) => {
+        return { width: "80px", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "created_at",
+      text: "Ngày tạo",
+      sort: true,
+      headerStyle: (colum, colIndex) => {
+        return { width: "150px", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "created_by",
+      text: "Người tạo",
+      sort: true,
+      headerStyle: (colum, colIndex) => {
+        return { width: "150px", textAlign: "center" };
+      },
+    },
+    {
+      dataField: "",
+      text: "Hành động",
+      formatter: renderButtonAction,
+    },
   ];
 
-  const options = {
-    filterType: "dropdown",
-    responsive: "scroll",
-  };
+  const dataCover = [
+    {
+      id: "",
+      title: "",
+      description: "",
+      view: "",
+      img: "",
+      status: "",
+      created_at: "",
+      created_by: "",
+    },
+  ];
   return (
     <AdminTemplate title="Tin tức & thông báo">
       <div className="container-fluid">
@@ -67,11 +189,12 @@ export default function Index() {
         </div>
         <div className="row">
           <div className="col-lg-12">
-            <MUIDataTable
-              title={"ACME Employee list"}
-              data={data}
+            <BootstrapTable
+              keyField="id"
+              data={products ?? dataCover}
+              noDataIndication={() => <div>No Registers available</div>}
               columns={columns}
-              options={options}
+              wrapperClasses="table-responsive"
             />
           </div>
         </div>

@@ -162,7 +162,7 @@ function DetailsNews({
           >
             <a
               className={
-                currentPage == page.length
+                currentPage == page?.length
                   ? "next page-numbers not-active"
                   : "next page-numbers"
               }

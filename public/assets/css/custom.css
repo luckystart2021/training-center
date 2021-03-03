@@ -29,3 +29,6 @@ a.nav-link {
 }
 @media only screen and (max-width: 767px) {
 }
+.react-bootstrap-table table {
+  table-layout: auto;
+}
