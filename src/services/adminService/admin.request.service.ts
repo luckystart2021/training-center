@@ -41,6 +41,12 @@ class AdminRequestService {
     console.log(axiosService.getAxiosConfig());
     return axiosService.postMethod(uri, data);
   }
+
+  //information api admin
+  showInformation() {
+    const uri = "admin/information/view";
+    return axiosService.getMethod(uri);
+  }
 }
 
 const adminReqService = new AdminRequestService();

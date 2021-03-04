@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import AdminSidebar from "../../components/adminSidebar";
 import AdminTopBar from "../../components/adminTopBar";
 import authService from "../../services/authService/auth.service";
+import AdminFooter from "../../components/adminFooter";
 
 type T_AdminTemplateProps = {
   head?: HTMLHeadElement;
@@ -40,12 +41,12 @@ const AdminTemplate: React.FC<T_AdminTemplateProps> = ({
         <div id="content-wrapper" className="d-flex flex-column">
           <div id="content w-100">
             <AdminTopBar />
-            <div className={className}>
-            {props.children}
-            </div>
+            <div className={className}>{props.children}</div>
           </div>
+          {AdminFooter()}
         </div>
       </main>
+     
     </Fragment>
   );
 };
