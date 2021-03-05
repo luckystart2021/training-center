@@ -20,7 +20,6 @@ Index.getInitialProps = async (ctx: DocumentContext) => {
     .catch((error) => {
       console.log(error);
     });
-  console.log("dongne", listNewsUnApprove);
   try {
   } catch (error) {}
 

@@ -35,10 +35,9 @@ class AdminRequestService {
     const uri = `admin/article/${id}/approval`;
     return axiosService.putMethod(uri, null);
   }
-  
+
   createNewsMethod(data) {
     const uri = "admin/article/create";
-    console.log(axiosService.getAxiosConfig());
     return axiosService.postMethod(uri, data);
   }
 
@@ -46,6 +45,11 @@ class AdminRequestService {
   showInformation() {
     const uri = "admin/information/view";
     return axiosService.getMethod(uri);
+  }
+  //{{url}}/api/admin/information/1/update
+  updateInformation(id, data) {
+    const uri = `admin/information/${id}/update`;
+    return axiosService.putMethod(uri, data);
   }
 }
 

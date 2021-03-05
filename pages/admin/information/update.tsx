@@ -4,6 +4,7 @@ import adminReqService from "../../../src/services/adminService/admin.request.se
 import ReactHtmlParser from "react-html-parser";
 import Link from "next/link";
 import Utils from "../../../src/components/utils/constant";
+import { toast, ToastContainer } from "react-nextjs-toast";
 
 Index.getInitialProps = async (context) => {
   let information = null;
@@ -17,6 +18,47 @@ Index.getInitialProps = async (context) => {
 };
 
 export default function Index({ props }) {
+  const checkValid = (event) => {};
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    var data = new FormData();
+    data.append("address", event.target.address.value);
+    data.append("phone", event.target.phone.value);
+    data.append("email", event.target.email.value);
+    data.append("maps", event.target.maps.value);
+    data.append("title", event.target.title.value);
+    data.append("description", event.target.description.value);
+    if (event.target.img.files[0]) {
+      data.append(
+        "img",
+        event.target.img.files[0],
+        event.target.img.files[0]?.name
+      );
+    }
+
+    console.log(data);
+    adminReqService
+      .updateInformation(props.information.id, data)
+      .then((res) => {
+        console.log(res);
+        toast.notify(``, {
+          title: "Thành công",
+          duration: 5,
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.notify(`${error.message}`);
+        toast.notify(`${error.message}`, {
+          title: "Lỗi",
+          duration: 5,
+          type: "error",
+        });
+      });
+  };
+
   return (
     <AdminTemplate title="Thông tin giới thiệu">
       <div className="container-fluid ">
@@ -27,7 +69,7 @@ export default function Index({ props }) {
           <div className="card-body">
             <div className="col-xs-12 ">
               <div className="well well-sm">
-                <form>
+                <form onSubmit={onSubmit}>
                   <div className="row">
                     <div className="col-sm-6 col-md-4">
                       <img
@@ -51,7 +93,8 @@ export default function Index({ props }) {
                           type="text"
                           name="title"
                           id="title"
-                          value={props.information.title}
+                          defaultValue={props.information.title}
+                          required
                         />
                       </div>
                       <div className="form-group">
@@ -61,17 +104,18 @@ export default function Index({ props }) {
                           type="text"
                           name="description"
                           id="description"
-                          value={props.information.description}
+                          defaultValue={props.information.description}
                         />
                       </div>
                       <div className="form-group">
                         <h4>Email: </h4>
                         <input
                           className="form-control"
-                          type="text"
+                          type="email"
                           name="email"
                           id="email"
-                          value={props.information.email}
+                          defaultValue={props.information.email}
+                          required
                         />
                       </div>
                       <div className="form-group">
@@ -81,36 +125,52 @@ export default function Index({ props }) {
                           type="text"
                           name="phone"
                           id="phone"
-                          value={props.information.phone}
+                          defaultValue={props.information.phone}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <h4>Địa chỉ: </h4>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="address"
+                          id="address"
+                          defaultValue={props.information.address}
+                          required
                         />
                       </div>
                       <div className="form-group">
                         <h4>Cập nhật lần cuối: </h4>
-                        <input
-                          className="form-control"
-                          type="date"
-                          name="created_at"
-                          id="created_at"
-                          value={props.information.created_at}
-                        />
+                        <p>{props.information.created_at}</p>
                       </div>
                       <div className="form-group">
                         <h4>Maps: </h4>
                         <div className="z-depth-1-half map-container">
                           <textarea
                             className="form-control"
-                            value={props.information.maps}
+                            defaultValue={props.information.maps}
+                            required
                             name="maps"
                             id="maps"
                             cols={30}
                             rows={10}
                           ></textarea>
+                          <a href="4">
+                            Hướng dẫn cách lấy mã nhúng google maps
+                          </a>
                         </div>
+                      </div>
+                      <div className="form-group ">
+                        <button type="submit" className="btn btn-primary">
+                          Lưu thông tin
+                        </button>
                       </div>
                     </div>
                   </div>
                 </form>
               </div>
+              <ToastContainer align={"right"} />
             </div>
           </div>
         </div>

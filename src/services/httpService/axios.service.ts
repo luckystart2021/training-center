@@ -26,7 +26,7 @@ class AxiosService {
   getAxiosConfig = (): void => {
     this.axiosConfig = {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NfdXVpZCI6IjA0MmZlYTJlLTQxYzUtNGI2Yi05MWU3LTdhNmUxYjk0MWM4NyIsIkV4cGlyZXNBdCI6MTYxNDk1ODE0MSwiUm9sZSI6IkFETUlOIiwiVXNlcklEIjoicGhvbmcifQ.3iBp0jnOynm1S1C1NmbaP6gpy4BOrbzZsJasTfBWu90`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NfdXVpZCI6IjQyM2Q1OTA0LWQ0YjktNDk5Zi05Zjk2LTY4ZWQyMGZiYWNmNyIsIkV4cGlyZXNBdCI6MTYxNTA0NjkxNCwiUm9sZSI6IkFETUlOIiwiVXNlcklEIjoicGhvbmcifQ.7xNaW9wVbqitlNF7iU5HLPTuxkFzLqGLjqYLiWFIotY`,
         ["Content-Type"]: "application/json",
       },
     };
