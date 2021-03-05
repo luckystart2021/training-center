@@ -16,6 +16,7 @@ Index.getInitialProps = async (ctx: DocumentContext) => {
     .getListNewsUnApprove()
     .then((res) => {
       console.log(res);
+      listNewsUnApprove = res;
     })
     .catch((error) => {
       console.log(error);

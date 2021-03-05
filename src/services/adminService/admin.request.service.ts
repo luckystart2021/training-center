@@ -36,9 +36,33 @@ class AdminRequestService {
     return axiosService.putMethod(uri, null);
   }
 
+  //{{url}}/api/admin/article/2/delete
+  postRemoveNews(id) {
+    const uri = `admin/article/${id}/delete`;
+    return axiosService.putMethod(uri, null);
+  }
+
+  //{{url}}/api/admin/article/2/delete
+  postRestoreNews(id) {
+    const uri = `admin/article/${id}/un-delete`;
+    return axiosService.putMethod(uri, null);
+  }
+
   createNewsMethod(data) {
     const uri = "admin/article/create";
     return axiosService.postMethod(uri, data);
+  }
+
+  //{{url}}/api/admin/article/views-all
+  showAllNews() {
+    const uri = "admin/article/views-all";
+    return axiosService.getMethod(uri);
+  }
+
+  //{{url}}/api/admin/article/views-deleted
+  showAllDeleted() {
+    const uri = "admin/article/views-deleted";
+    return axiosService.getMethod(uri);
   }
 
   //information api admin

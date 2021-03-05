@@ -91,13 +91,13 @@ export default function Index({ props }) {
 
   const [chil, setChil] = useState(props.listCate);
   const onChangeChil = (event) => {
-    console.log("mã danh mục: ", event.target.value)
+    console.log("mã danh mục: ", event.target.value);
     let data = reloadChil(event.target.value)
       .then((result) => {
         setChil(result);
       })
       .catch((err) => {
-        console.log(err.message)
+        console.log(err.message);
       });
   };
 

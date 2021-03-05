@@ -50,7 +50,6 @@ export default function Index({ props }) {
       })
       .catch((error) => {
         console.log(error);
-        toast.notify(`${error.message}`);
         toast.notify(`${error.message}`, {
           title: "Lỗi",
           duration: 5,
