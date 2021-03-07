@@ -8,25 +8,24 @@ import BootstrapTable from "react-bootstrap-table-next";
 import cellEditFactory from "react-bootstrap-table2-editor";
 import Utils from "../../../src/components/utils/constant";
 import AdminHeader from "../../../src/components/adminHeader";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 Index.getInitialProps = async (ctx: DocumentContext) => {
-  let listNewsUnApprove = null;
+  let result = null;
   let err = null;
-  adminReqService
-    .getListNewsUnApprove()
-    .then((res) => {
-      console.log(res);
-      listNewsUnApprove = res;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+
   try {
-  } catch (error) {}
+    await adminReqService.getListNewsUnApprove().then((res) => {
+      result = res;
+    });
+  } catch (error) {
+    err = error;
+  }
 
   return {
     props: {
-      listNewsUnApprove: listNewsUnApprove?.data,
+      data: result?.data,
       error: err,
     },
   };
@@ -37,7 +36,8 @@ export default function Index({ props }) {
     return <img src={Utils.baseURL + `${cell}`} alt={row.title} />;
   }
 
-  const [listNews, setlistNews] = useState(props.listNewsUnApprove);
+  console.log(props.data);
+  const [listNews, setlistNews] = useState(props.data);
   const products = listNews;
 
   function actionApprove(row) {
@@ -54,6 +54,24 @@ export default function Index({ props }) {
       .catch((error) => console.log(error.message));
   }
 
+  function confirmApprove(row) {
+    console.log("dong ne");
+    confirmAlert({
+      title: "Xác nhận xoá bài viết",
+      message: `Bạn có chắc muốn xoá bài viết có ID: ${row.id}`,
+      buttons: [
+        {
+          label: "Đồng ý",
+          onClick: () => actionApprove(row),
+        },
+        {
+          label: "Không",
+          onClick: () => {},
+        },
+      ],
+    });
+  }
+
   function actionDelete() {
     console.log("actionDelete");
   }
@@ -66,36 +84,22 @@ export default function Index({ props }) {
     if (row.id !== "") {
       return (
         <>
-          <button
-            onClick={() => actionDelete()}
-            className="btn btn-danger btn-icon-split"
-          >
-            <span className="icon text-white-50">
-              <i className="fas fa-trash"></i>
-            </span>
-            <span className="text">Preview</span>
-          </button>
-          <div className="my-2"></div>
-          <button
-            onClick={() => actionApprove(row)}
-            className="btn btn-success btn-icon-split"
-          >
-            <span className="icon text-white-50">
-              <i className="fas fa-check"></i>
-            </span>
-            <span className="text">Duyệt</span>
-          </button>
-          <div className="my-2"></div>
+          <span className="badge badge-success" onClick={() => actionDelete()}>
+            <i className="fas fa-edit"></i> Chỉnh sửa
+          </span>
 
-          <button
-            onClick={() => actionDelete()}
-            className="btn btn-danger btn-icon-split"
+          <div className="my-2"></div>
+          <span
+            className="badge badge-success"
+            onClick={() => confirmApprove(row)}
           >
-            <span className="icon text-white-50">
-              <i className="fas fa-trash"></i>
-            </span>
-            <span className="text">Xóa</span>
-          </button>
+            <i className="fas fa-check"></i> Duyệt
+          </span>
+
+          <div className="my-2"></div>
+          <span className="badge badge-danger" onClick={() => actionDelete()}>
+            <i className="fas fa-trash"></i> Xóa
+          </span>
         </>
       );
     }

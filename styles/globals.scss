@@ -27,4 +27,6 @@
 @import "./Page/Admin/admin.scss";
 
 // Theme
-@import "../pages/[categories]/style.scss";
+.btn-no-border {
+    border-radius: 30px;
+}

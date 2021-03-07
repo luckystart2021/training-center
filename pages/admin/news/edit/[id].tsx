@@ -1,39 +1,17 @@
-import AdminTemplate from "../../../src/containers/AdminTemplate";
+import AdminTemplate from "../../../../src/containers/AdminTemplate";
 import dynamic from "next/dynamic";
-import adminReqService from "../../../src/services/adminService/admin.request.service";
-import localStorageService from "../../../src/services/localStorage.service/localStorage.service";
+import adminReqService from "../../../../src/services/adminService/admin.request.service";
+import localStorageService from "../../../../src/services/localStorage.service/localStorage.service";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import AdminHeader from "../../../src/components/adminHeader";
+import utils from "../../../../src/components/utils/constant";
+import AdminHeader from "../../../../src/components/adminHeader";
+import { DocumentContext } from "next/document";
 
 // Common editors usually work on client-side, so we use Next.js's dynamic import with mode ssr=false to load them on client-side
-const Editor = dynamic(() => import("../../../src/components/ckeditor"), {
+const Editor = dynamic(() => import("../../../../src/components/ckeditor"), {
   ssr: false,
 });
-
-function ChangeToSlug(slug) {
-  //Đổi chữ hoa thành chữ thường
-  slug = slug.toLowerCase(); //Đổi ký tự có dấu thành không dấu
-  slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, "a");
-  slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, "e");
-  slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, "i");
-  slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, "o");
-  slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, "u");
-  slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, "y");
-  slug = slug.replace(/đ/gi, "d"); //Xóa các ký tự đặt biệt
-  slug = slug.replace(
-    /\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi,
-    ""
-  ); //Đổi khoảng trắng thành ký tự gạch ngang
-  slug = slug.replace(/ /gi, "-"); //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
-  slug = slug.replace(/\-\-\-\-\-/gi, "-");
-  slug = slug.replace(/\-\-\-\-/gi, "-");
-  slug = slug.replace(/\-\-\-/gi, "-");
-  slug = slug.replace(/\-\-/gi, "-"); //Xóa các ký tự gạch ngang ở đầu và cuối
-  slug = "@" + slug + "@";
-  slug = slug.replace(/\@\-|\-\@|\@/gi, ""); //In slug ra textbox có id “slug”
-  return slug;
-}
 
 async function reloadChil(id) {
   let listCate = null;
@@ -41,11 +19,17 @@ async function reloadChil(id) {
   return listCate.data;
 }
 
-Index.getInitialProps = async (context) => {
+Index.getInitialProps = async (ctx: DocumentContext) => {
+  const paramId = ctx.query.id;
   let listCate = null;
-  listCate = await adminReqService.getListCategories(1);
+  let currentNews = null;
+  try {
+    listCate = await adminReqService.getListCategories(1);
+    currentNews = await adminReqService.showNewsByID(paramId); //await adminReqService.updateNewsById(paramId);
+  } catch (error) {}
   return {
     props: {
+      currentNews: currentNews?.data,
       listCate: listCate?.data,
     },
   };
@@ -53,7 +37,7 @@ Index.getInitialProps = async (context) => {
 
 export default function Index({ props }) {
   const router = useRouter();
-
+  const currentNews = props.currentNews;
   let dataCkeditor = "";
   const handleData = (dataTemplate) => {
     dataCkeditor = dataTemplate;
@@ -67,7 +51,7 @@ export default function Index({ props }) {
     data.append("title", event.target.title.value);
     data.append("description", event.target.description.value);
     data.append("details", dataCkeditor);
-    data.append("meta", ChangeToSlug(event.target.title.value));
+    data.append("meta", utils.ChangeToSlug(event.target.title.value));
     data.append("key_word_seo", event.target.key_word_seo.value);
     data.append(
       "img",
@@ -75,9 +59,8 @@ export default function Index({ props }) {
       event.target.img.files[0]?.name
     );
     adminReqService
-      .createNewsMethod(data)
+      .updateNewsById(currentNews.id, data)
       .then((res) => {
-        console.log("dong ne", res.data);
         if (res.data.status) {
           router.push("/admin/news");
         }
@@ -88,8 +71,9 @@ export default function Index({ props }) {
   };
 
   const [chil, setChil] = useState(props.listCate);
+  console.log(chil);
+
   const onChangeChil = (event) => {
-    console.log("mã danh mục: ", event.target.value);
     let data = reloadChil(event.target.value)
       .then((result) => {
         setChil(result);
@@ -128,7 +112,7 @@ export default function Index({ props }) {
                     id="id_child_category"
                     name="id_child_category"
                     className="form-control"
-                    value={0}
+                    defaultValue={0}
                   >
                     {chil.map((item, index) => {
                       return (

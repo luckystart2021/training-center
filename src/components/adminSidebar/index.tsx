@@ -40,6 +40,14 @@ const AdminSidebar = () => {
           </Link>
         </li>
         <li className="nav-item">
+          <Link href="/admin/contact">
+            <a className="nav-link">
+              <i className="fas fa-fw fa-chart-area" />
+              <span>KH - DS Liên Hệ</span>
+            </a>
+          </Link>
+        </li>
+        <li className="nav-item">
           <a
             className="nav-link collapsed"
             href="#"
@@ -78,33 +86,6 @@ const AdminSidebar = () => {
             className="nav-link collapsed"
             href="#"
             data-toggle="collapse"
-            data-target="#danhmuc"
-            aria-expanded="true"
-            aria-controls="danhmuc"
-          >
-            <i className="fas fa-fw fa-folder"></i>
-            <span>Danh mục bài viết</span>
-          </a>
-          <div
-            id="danhmuc"
-            className="collapse"
-            aria-labelledby="headingPages"
-            data-parent="#accordionSidebar"
-          >
-            <div className="bg-white py-2 collapse-inner rounded">
-              <Link href="/admin/categories">
-                <a className="collapse-item">Danh sách danh mục</a>
-              </Link>
-             
-            </div>
-          </div>
-        </li>
-
-        <li className="nav-item">
-          <a
-            className="nav-link collapsed"
-            href="#"
-            data-toggle="collapse"
             data-target="#information"
             aria-expanded="true"
             aria-controls="information"
@@ -127,6 +108,56 @@ const AdminSidebar = () => {
               </Link>
               <Link href="/admin/information/update">
                 <a className="collapse-item">Chỉnh sửa thông tin</a>
+              </Link>
+            </div>
+          </div>
+        </li>
+        <li className="nav-item">
+          <a
+            className="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#categories"
+            aria-expanded="true"
+            aria-controls="categories"
+          >
+            <i className="fas fa-fw fa-folder"></i>
+            <span>Danh mục bài viết</span>
+          </a>
+          <div
+            id="categories"
+            className="collapse"
+            aria-labelledby="headingPages"
+            data-parent="#accordionSidebar"
+          >
+            <div className="bg-white py-2 collapse-inner rounded">
+              <Link href="/admin/categories">
+                <a className="collapse-item">Danh sách danh mục</a>
+              </Link>
+            </div>
+          </div>
+        </li>
+        <li className="nav-item">
+          <a
+            className="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
+            data-target="#custom"
+            aria-expanded="true"
+            aria-controls="custom"
+          >
+            <i className="fas fa-fw fa-folder"></i>
+            <span>Tuỳ chỉnh</span>
+          </a>
+          <div
+            id="custom"
+            className="collapse"
+            aria-labelledby="headingPages"
+            data-parent="#accordionSidebar"
+          >
+            <div className="bg-white py-2 collapse-inner rounded">
+              <Link href="/admin/tuy-chinh/slider/slider-trang-chu">
+                <a className="collapse-item">Slider Trang chủ</a>
               </Link>
             </div>
           </div>

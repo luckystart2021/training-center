@@ -19,10 +19,15 @@ class AdminRequestService {
   getListCategories(id) {
     //https://api.dtc-project.tk/api/admin/child_category/1/views
     const uri = `admin/child_category/${id}/views`;
-    console.log("axiosService.getAxiosConfig()");
-
     return axiosService.getMethod<any>(uri);
   }
+
+  //{{url}}/api/admin/article/7/update
+  updateNewsById(id, data) {
+    const uri = `admin/article/${id}/update`;
+    return axiosService.putMethod(uri, data);
+  }
+
   //{{url}}/api/admin/article/views-un-approval
   getListNewsUnApprove() {
     const uri = `admin/article/views-un-approval`;
@@ -64,8 +69,13 @@ class AdminRequestService {
     const uri = "admin/article/views-deleted";
     return axiosService.getMethod(uri);
   }
+  //{{url}}/api/admin/article/1/detail
+  showNewsByID(id) {
+    const uri = `admin/article/${id}/detail`;
+    return axiosService.getMethod(uri);
+  }
 
-  //information api admin
+  //INFORMATION API admin
   showInformation() {
     const uri = "admin/information/view";
     return axiosService.getMethod(uri);
@@ -73,6 +83,68 @@ class AdminRequestService {
   //{{url}}/api/admin/information/1/update
   updateInformation(id, data) {
     const uri = `admin/information/${id}/update`;
+    return axiosService.putMethod(uri, data);
+  }
+
+  //Contact API
+  showAllContact() {
+    const uri = "admin/contact/view";
+    return axiosService.getMethod(uri);
+  }
+
+  //Slider API
+  //api/admin/slide/view
+  showAllSlider() {
+    const uri = "admin/slide/view";
+    return axiosService.getMethod(uri);
+  }
+  //Show Detail slider
+  //{{url}}/api/admin/slide/2/view-detail
+  showDetailSlider(id) {
+    const uri = `admin/slide/${id}/view-detail`;
+    return axiosService.getMethod(uri);
+  }
+  //Update slider
+  //{{url}}/api/admin/slide/3/update
+  updateSliderById(id, data) {
+    console.log(data);
+    const uri = `admin/slide/${id}/update`;
+    return axiosService.putMethod(uri, data);
+  }
+  //Hide slider
+  //{{url}}/api/admin/slide/1/hide
+  updateHideSlider(id, data) {
+    const uri = `admin/slide/${id}/hide`;
+    return axiosService.putMethod(uri, data);
+  }
+  //{{url}}/api/admin/slide/1/un-hide
+  updateUnHideSlider(id, data) {
+    const uri = `admin/slide/${id}/un-hide`;
+    return axiosService.putMethod(uri, data);
+  }
+  //Delete Slider
+  //{{url}}/api/admin/slide/3/delete
+  deleteSlider(id) {
+    const uri = `admin/slide/${id}/delete`;
+    return axiosService.deleteMothod(uri);
+  }
+  //Create Slider
+  //{{url}}/api/admin/slide/create
+  createSlider(data) {
+    const uri = `admin/slide/create`;
+    return axiosService.postMethod(uri, data);
+  }
+
+  //Categories API
+  //admin/child_category/1/views
+  showListCateById(id) {
+    const uri = `admin/child_category/${id}/views`;
+    return axiosService.getMethod(uri);
+  }
+  //{{url}}/api/admin/child_category/8/update
+  updateChildCategories(id, data) {
+    const uri = `admin/child_category/${id}/update`;
+    console.log(data);
     return axiosService.putMethod(uri, data);
   }
 }

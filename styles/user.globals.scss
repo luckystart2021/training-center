@@ -1,36 +1,30 @@
-    // 7-1 structor
-    //Helper
-    @import './Helper/variables';
-    @import './Helper/mixin';
-    //Vendor
-    @import './Vendor/vendor';
-    @import '../node_modules/bootstrap/dist/css/bootstrap.css';
-    @import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
-    @import "../public/assets/css/animate.min.css";
-    @import "../public/assets/css/flaticon.css";
-    @import "../node_modules/owl.carousel/dist/assets/owl.carousel.css";
-    @import "../public/assets/css/magnific-popup.min.css";
-    @import "../public/assets/css/nice-select.css";
-    @import "../public/assets/css/meanmenu.css";
-    @import "../public/assets/css/progresscircle.min.css";
-    @import "../public/assets/css/style.css";
-    @import "../public/assets/css/responsive.css";
-    @import "../public/assets/css/custom.css";
+// 7-1 structor
+//Helper
+@import "./Helper/variables";
+@import "./Helper/mixin";
+//Vendor
+@import "./Vendor/vendor";
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
+@import "../public/assets/css/animate.min.css";
+@import "../public/assets/css/flaticon.css";
+@import "../node_modules/owl.carousel/dist/assets/owl.carousel.css";
+@import "../public/assets/css/magnific-popup.min.css";
+@import "../public/assets/css/nice-select.css";
+@import "../public/assets/css/meanmenu.css";
+@import "../public/assets/css/progresscircle.min.css";
+@import "../public/assets/css/style.css";
+@import "../public/assets/css/responsive.css";
+@import "../public/assets/css/custom.css";
 
-    @import "../public/assets/adminAssets/css/sb-admin-2.min.css";
+@import "../public/assets/adminAssets/css/sb-admin-2.min.css";
 
-    //Base
-    @import './Base/reset';
-    @import './Base/customize';
-    //Components
-    @import './Components/button';
-    //Layout
-    //Page
-    @import '../src/components/headerTitle/styles.scss';
-    @import './Page/Admin/admin.scss';
-
-    // Theme
-
-    .btn{
-        border-radius: 30px;
-    }
+//Base
+@import "./Base/reset";
+@import "./Base/customize";
+//Components
+@import "./Components/button";
+//Layout
+//Page
+@import "../src/components/headerTitle/styles.scss";
+@import "./Page/Admin/admin.scss";

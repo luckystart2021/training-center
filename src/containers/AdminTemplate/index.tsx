@@ -5,6 +5,7 @@ import AdminSidebar from "../../components/adminSidebar";
 import AdminTopBar from "../../components/adminTopBar";
 import authService from "../../services/authService/auth.service";
 import AdminFooter from "../../components/adminFooter";
+// import "../public/assets/adminAssets/css/sb-admin-2.min.css";
 
 type T_AdminTemplateProps = {
   head?: HTMLHeadElement;
@@ -46,7 +47,6 @@ const AdminTemplate: React.FC<T_AdminTemplateProps> = ({
           {AdminFooter()}
         </div>
       </main>
-     
     </Fragment>
   );
 };

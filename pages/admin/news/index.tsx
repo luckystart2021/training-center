@@ -15,7 +15,6 @@ import { toast, ToastContainer } from "react-nextjs-toast";
 Index.getInitialProps = async (ctx: DocumentContext) => {
   let allNews = null;
   let err = null;
-  // allNews = await adminReqService.showAllNews();
   try {
     allNews = await adminReqService.showAllNews();
   } catch (error) {
@@ -210,7 +209,7 @@ export default function Index({ props }) {
   return (
     <AdminTemplate title="Tin tức & thông báo">
       <div className="container-fluid">
-        {AdminHeader("Danh sách bài viết cần duyệt")}
+        {AdminHeader("Danh sách bài viết đã duyệt")}
         <div className="row">
           <div className="col-lg-12">
             <BootstrapTable
