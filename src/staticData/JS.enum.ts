@@ -1,7 +1,6 @@
 const JS_Static = [
-
-    // "/assets/js/jquery.min.js",
-    // "/assets/js/popper.min.js",
+    "/assets/js/jquery.min.js",
+    "/assets/js/popper.min.js",
     "/assets/js/owl.carousel.min.js",
     "/assets/js/parallax.min.js",
     "/assets/js/jquery.magnific-popup.min.js",

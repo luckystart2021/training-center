@@ -6,17 +6,13 @@ class AuthService {
   constructor() {}
   checkAuthAdmin(): boolean {
     const token = this.localStorageServ.accessToken.get();
-    const userInfor = this.localStorageServ.userInfor.get();
-    return !!token && userInfor.isValidAdmin ? true : false;
+    return !!token ? true : false;
   }
 
   getToken(): string {
     if (!this.token && typeof window !== "undefined") {
-      console.log("tk 1", this.localStorageServ.accessToken.get())
       this.token = this.localStorageServ.accessToken.get();
     }
-    console.log("tk 2")
-
     return this.token;
   }
 

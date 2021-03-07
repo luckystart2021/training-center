@@ -4,6 +4,7 @@ import adminReqService from "../../src/services/adminService/admin.request.servi
 import localStorageService from "../../src/services/localStorage.service/localStorage.service";
 import { useRouter } from "next/router";
 import { LoginDataModel } from "../../src/models/AdminDataResult";
+import axiosService from "../../src/services/httpService/axios.service";
 
 const LoginPage = ({ data, ...props }) => {
   const router = useRouter();
@@ -28,9 +29,11 @@ const LoginPage = ({ data, ...props }) => {
       .loginMethod(dataLogin)
       .then((res) => {
         localStorageService.accessToken.set(res.data.token);
+        const userInfor: any = res.data.infoUser;
         localStorageService.userInfor.set(
-          new LoginDataModel(res.data.infoUser)
+          new LoginDataModel(userInfor)
         );
+        axiosService.getAxiosConfig();
         router.push("/admin/dashboard");
       })
       .catch((err) => {
