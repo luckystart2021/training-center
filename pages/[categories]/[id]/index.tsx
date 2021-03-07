@@ -5,7 +5,7 @@ import LeftView from "../../../src/components/leftView";
 import HeaderTitle from "../../../src/components/headerTitle";
 import ListNews from "../../../src/components/ListNews";
 import { Fragment, useState } from "react";
-import Utils from "../../../src/components/utils/constant";
+import Utils from "../../../src/utils/constant";
 import { InnerHTMLTemplate } from "../../../src/components/innerHTMLTemplate";
 import Link from "next/link";
 

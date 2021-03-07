@@ -1,153 +1,94 @@
-import Link from "next/link";
-import React, { useState } from "react";
-import QuestionComponent from "../../src/components/question";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import UserTemplate from "../../src/containers/UserTemplate";
-import { Answer, Question } from "../../src/models/Question";
+import {
+  LicenseType,
+  TestList,
+} from "../../src/models/Question";
 import userRequestService from "../../src/services/userService/user.service";
 import style from "./style.module.scss";
 
-const _questionList: Question[] = [
-  new Question({
-    id: 1,
-    index: 1,
-    question: "day là cau hoi 1",
-    AnswerList: [
-      new Answer(1, "cau tra loi 1-1"),
-      new Answer(2, "cau tra loi 1-2"),
-      new Answer(3, "cau tra loi 1-3"),
-    ],
-  }),
-];
+const OnThi = (props) => {
+  const namespace = "on thi";
+  const title = "Thi sát hạch lý thuyết lái xe online";
 
-const OnThi = ({ questionList, ...props }) => {
-  const [questions] = useState(_questionList);
+  const router = useRouter();
+
+  const [loaiBang, setLoaiBang] = useState<LicenseType[]>([]);
+
+  const [boDe, setBoDe] = useState<TestList>(new TestList());
+
+  const getListLicensesType = () => {
+    userRequestService.getLicenseType().then((license) => {
+      setLoaiBang(license.data.map((item) => new LicenseType(item)));
+    });
+  };
+
+  const getTestList = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    e.preventDefault();
+    userRequestService.layDanhSachBoDe(e.target.value).then((res) => {
+      setBoDe(new TestList(res.data));
+    });
+  };
+
+  const handleStart = () => {};
+
+  useEffect(() => {
+    getListLicensesType();
+  }, []);
 
   return (
-    <UserTemplate title="ôn thi" className={style.on__thi}>
+    <UserTemplate title={title} className={style.on__thi}>
       <section className="contact-area ptb-110">
-<div className="container">
-<div className="dropdown">
-          <button
-            className="btn btn-secondary dropdown-toggle"
-            type="button"
-            id="dropdownMenuButton"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Dropdown button
-          </button>
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a className="dropdown-item" href="#">
-              Action
-            </a>
-            <a className="dropdown-item" href="#">
-              Another action
-            </a>
-            <a className="dropdown-item" href="#">
-              Something else here
-            </a>
+        <div className="container text-center">
+          <h1>{title}</h1>
+        </div>
+        <div className="mx-auto">
+          <div className="d-flex justify-content-center align-items-center">
+            <div className={`input-group ${style.chon__bo__de}`}>
+              <select className="custom-select" onChange={getTestList}>
+                <option selected disabled>
+                  Chọn Loại Bằng
+                </option>
+                {loaiBang.map((item) => (
+                  <>
+                    <option key={item.id} value={item.id}>
+                      {item.licenseName}
+                    </option>
+                  </>
+                ))}
+              </select>
+            </div>
+
+            <div className={`input-group ${style.chon__bo__de}`}>
+              <select className="custom-select" id="SelectBoDe">
+                <option selected disabled>
+                  Chọn Bộ Đề
+                </option>
+                {boDe.suite?.map((item) => (
+                  <>
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  </>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleStart}
+            >
+              Bắt Đầu
+            </button>
           </div>
         </div>
-</div>
+
+        <div className="container">{props.children}</div>
       </section>
     </UserTemplate>
   );
 };
 
-OnThi.getInitialProps = async () => {
-  let questionList = null;
-  try {
-    questionList = await userRequestService.getQuestions(1);
-  } catch (error) {
-    console.log(error);
-  }
-
-  return { questionList };
-};
-
 export default OnThi;
-
-// <div className="custom-content-title text-center mb-3">
-// <h2>Đề Thi Thử Lý Thuyết Lái Xe Ô tô B2 600 Câu</h2>
-// </div>
-// <div className="row">
-// <div className="col-lg-5 col-md-12">
-//   <div className="col-lg-12 col-md-12">
-//     <div className="cart-totals">
-//       <h3>Kết quả bài làm</h3>
-//       <div className="ket-qua-bai-thi">
-//         <div>
-//           <span>Đề số: </span>
-//           <label className="text-green-color" htmlFor="de-so">
-//             01
-//           </label>
-//         </div>
-//         <div>
-//           <span>Số câu đúng: </span>
-//           <label className="text-red-color" htmlFor="so-cau-sai">
-//             0
-//           </label>
-//         </div>
-//         <div>
-//           <span>Số câu sai: </span>
-//           <label className="text-red-color" htmlFor="so-cau-sai">
-//             35
-//           </label>
-//         </div>
-//         <div>
-//           <span>Kết quả: </span>
-//           <label htmlFor="ket-qua">
-//             <strong className="text-red-color">
-//               KHÔNG ĐẠT - Sai câu điểm liệt
-//             </strong>
-//           </label>
-//         </div>
-//         <div>
-//           <span>Đáp án sai: </span>
-//           <label htmlFor="dap-an-sai" className="text-red-color">
-//             Tô màu đỏ
-//           </label>
-//         </div>
-//         <div>
-//           <span>Đáp án đúng: </span>
-//           <label htmlFor="dap-an-dung" className="text-blue-color">
-//             Tô màu xanh
-//           </label>
-//         </div>
-//         <div>Kiểm tra lại đáp án đúng bên dưới!</div>
-//       </div>
-//     </div>
-//   </div>
-//   <div className="col-lg-12 col-md-12">
-//     <div className="cart-totals">
-//       <h3>Câu hỏi</h3>
-//       <div className="pagination-area">
-//         {/* {listNumberQuestion(listQuestions)} */}
-//       </div>
-//       {/* className={questions.id === list.id ? "page-numbers current" : "page-numbers"} */}
-//     </div>
-//   </div>
-//   <div className="col-lg-12 col-md-12">
-//     <div className="cart-totals">
-//       <div className="custom-title-card">
-//         <h3>Thời gian còn lại: 21:34</h3>
-//       </div>
-//     </div>
-//   </div>
-//   <div className="col-lg-12 col-md-12">
-//     <div className="cart-totals">
-//       <div className="custom-title-card">
-//         <button className="btn btn-primary"> NỘP BÀI THI</button>
-//       </div>
-//     </div>
-//   </div>
-// </div>
-// <div className="col-lg-7 col-md-12">
-//   <QuestionComponent
-//     question={currentQuestion}
-//     nextQuestion={nextQuestion}
-//     prevQuestion={prevQuestion}
-//   />
-// </div>
-// </div>

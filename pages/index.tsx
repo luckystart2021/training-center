@@ -3,7 +3,7 @@ import Link from "next/link";
 import UserTemplate from "../src/containers/UserTemplate";
 import { assetIcons, HomeUserAssets } from "../src/staticData/img";
 import userRequestService from "../src/services/userService/user.service";
-import Utils from "../src/components/utils/constant";
+import Utils from "../src/utils/constant";
 import { useState } from "react";
 
 const headerData = {
