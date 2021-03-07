@@ -20,13 +20,13 @@ class AxiosService {
   }
 
   private getBaseUrl(): string {
-    return "http://34.87.164.178/api/";
+    return "https://api.dtc-project.tk/api/";
   }
 
   getAxiosConfig = (): void => {
     this.axiosConfig = {
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJBY2Nlc3NfdXVpZCI6ImUyMzcwZjhjLTA2YjQtNGE3NC1hYjRlLTA3NzZkYzZiODZkMyIsIkV4cGlyZXNBdCI6MTYxNDc4MzYwMSwiUm9sZSI6IkFETUlOIiwiVXNlcklEIjoicGhvbmcifQ.Z2uxDY-SLsrkSu5jEux3Kh_yEIOOU01NqX8udDCd67k`,
+        Authorization: `Bearer ${this.authService.getToken()}`,
         ["Content-Type"]: "application/json",
       },
     };

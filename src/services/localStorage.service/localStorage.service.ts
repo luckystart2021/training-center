@@ -48,7 +48,7 @@ class LocalStorageService extends LocalStorageKey {
    * user info
    */
 
-  userInfor: BaseStorage<LoginDataModel> = new BaseStorage(this.USER_INFOR);
+  userInfor: BaseStorage<LoginDataModel| LoginDataModel> = new BaseStorage(this.USER_INFOR);
 }
 
 const localStorageService = new LocalStorageService();

@@ -23,7 +23,8 @@ export default class MyDocument extends Document {
           <Main />
           {/* <!-- Bootstrap core JavaScript--> */}
           <script src="/assets/adminAssets/vendor/jquery/jquery.min.js"></script>
-          <script src="/assets/adminAssets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+          <script src="/assets/js/popper.min.js"></script>
+          <script src="/assets/adminAssets/vendor/bootstrap/js/bootstrap.min.js"></script>
 
           {/* <!-- Core plugin JavaScript--> */}
           <script src="/assets/adminAssets/vendor/jquery-easing/jquery.easing.min.js"></script>
