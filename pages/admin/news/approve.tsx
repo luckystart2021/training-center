@@ -10,6 +10,7 @@ import Utils from "../../../src/components/utils/constant";
 import AdminHeader from "../../../src/components/adminHeader";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { toast, ToastContainer } from "react-nextjs-toast";
 
 Index.getInitialProps = async (ctx: DocumentContext) => {
   let result = null;
@@ -50,8 +51,19 @@ export default function Index({ props }) {
 
         console.log(filteredItems);
         setlistNews(filteredItems);
+        toast.notify(`Cập nhật thành công`, {
+          title: `Thành công`,
+          duration: 3,
+          type: "success",
+        });
       })
-      .catch((error) => console.log(error.message));
+      .catch((err) => {
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
+      });
   }
 
   function confirmApprove(row) {
@@ -197,6 +209,7 @@ export default function Index({ props }) {
             />
           </div>
         </div>
+        <ToastContainer align={"right"} />
       </div>
     </AdminTemplate>
   );

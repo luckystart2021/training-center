@@ -47,8 +47,19 @@ export default function Index({ props }) {
 
         console.log(filteredItems);
         setlistNews(filteredItems);
+        toast.notify(`Đã Duyệt bài viết ID: ${row.id}`, {
+          title: "Thành công",
+          duration: 5,
+          type: "success",
+        });
       })
-      .catch((error) => console.log(error.message));
+      .catch((err) => {
+        toast.notify(`${err}`, {
+          title: "Thất bại",
+          duration: 5,
+          type: "success",
+        });
+      });
   }
 
   function removeNews(row) {
@@ -66,7 +77,13 @@ export default function Index({ props }) {
           type: "success",
         });
       })
-      .catch((error) => console.log(error.message));
+      .catch((err) => {
+        toast.notify(`${err}`, {
+          title: "Thất bại",
+          duration: 5,
+          type: "success",
+        });
+      });
   }
 
   function actionDelete() {

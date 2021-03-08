@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import utils from "../../../../src/components/utils/constant";
 import AdminHeader from "../../../../src/components/adminHeader";
 import { DocumentContext } from "next/document";
+import { toast, ToastContainer } from "react-nextjs-toast";
 
 // Common editors usually work on client-side, so we use Next.js's dynamic import with mode ssr=false to load them on client-side
 const Editor = dynamic(() => import("../../../../src/components/ckeditor"), {
@@ -62,10 +63,22 @@ export default function Index({ props }) {
       .updateNewsById(currentNews.id, data)
       .then((res) => {
         if (res.data.status) {
-          router.push("/admin/news");
+          toast.notify(``, {
+            title: `Thành công`,
+            duration: 3,
+            type: "success",
+          });
+          setTimeout(() => {
+            router.push("/admin/news");
+          }, 3000);
         }
       })
       .catch((err) => {
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
         console.log("error", err);
       });
   };
@@ -80,6 +93,11 @@ export default function Index({ props }) {
       })
       .catch((err) => {
         console.log(err.message);
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
       });
   };
 
@@ -200,6 +218,7 @@ export default function Index({ props }) {
             </form>
           </div>
         </div>
+        <ToastContainer align={"right"} />
       </div>
     </AdminTemplate>
   );

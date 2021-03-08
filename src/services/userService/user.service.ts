@@ -53,7 +53,7 @@ class UserRequestService {
   }
   //{{url}}/api/user/about
   getHomeAbout() {
-    const uri = `user/about`;
+    const uri = `user/3/news-homepage`;
     return axiosService.getMethod(uri);
   }
   //{{url}}/api/user/home/notification/news

@@ -83,7 +83,7 @@ export default function Index({ props }) {
     return (
       <div
         className="modal"
-        id="exampleModal"
+        id="createCate"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
         tabIndex={-1}
@@ -166,15 +166,13 @@ export default function Index({ props }) {
   return (
     <AdminTemplate title="Danh mục bài viết">
       <div className="container-fluid">
-        <ToastContainer align={"right"} />
-
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 className="h3 mb-0 text-gray-800">Danh mục bài viết</h1>
           <button
             type="button"
             className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
             data-bs-toggle="modal"
-            data-bs-target="#exampleModal"
+            data-bs-target="#createCate"
           >
             <i className="fas fa-download fa-sm text-white-50"></i> Thêm danh
             mục
@@ -196,6 +194,7 @@ export default function Index({ props }) {
         </div>
       </div>
       {renderModal()}
+      <ToastContainer align={"right"} />
     </AdminTemplate>
   );
 }

@@ -3,8 +3,8 @@ import Link from "next/link";
 import UserTemplate from "../src/containers/UserTemplate";
 import { assetIcons, HomeUserAssets } from "../src/staticData/img";
 import userRequestService from "../src/services/userService/user.service";
-import Utils from "../src/utils/constant";
 import { useState } from "react";
+import utils from "../src/components/utils/constant";
 
 const headerData = {
   title: "Trang Chủ",
@@ -76,7 +76,7 @@ export default function HomeUserpage({ props }) {
             key={index}
           >
             <img
-              src={Utils.baseURL + item.img}
+              src={utils.baseURL + item.img}
               className="d-block w-100"
               alt={`carousel ${index}`}
             />
@@ -123,12 +123,18 @@ export default function HomeUserpage({ props }) {
           return (
             <div className="section-title" key={index}>
               <div className="content">
-                <span>{item.title}</span>
-                <h2>{item.sub_title}</h2>
+                <span>Giới Thiệu</span>
+                <h2>{item.title}</h2>
                 <p>{item.description}</p>
+                <a
+                  href={`/gioi-thieu/${item.meta}-${item.id}`}
+                  className="read-more-btn"
+                >
+                  Xem thêm <i className="flaticon-add-1"></i>
+                </a>
               </div>
               <div className="image">
-                <img src={Utils.baseURL + item.img} alt="" />
+                <img src={utils.baseURL + item.img} alt="" />
               </div>
             </div>
           );
@@ -136,7 +142,7 @@ export default function HomeUserpage({ props }) {
           return (
             <div className="section-title" key={index}>
               <div className="image">
-                <img src={Utils.baseURL + item.img} alt="" />
+                <img src={utils.baseURL + item.img} alt="" />
               </div>
               <div className="content">
                 <span>{item.title}</span>
@@ -209,7 +215,7 @@ export default function HomeUserpage({ props }) {
               <div className="image">
                 <Link href="/">
                   <img
-                    src={Utils.baseURL + item.img}
+                    src={utils.baseURL + item.img}
                     alt={`img" new ${item.title}`}
                   />
                 </Link>
