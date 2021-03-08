@@ -7,11 +7,17 @@ import userRequestService from "../../../src/services/userService/user.service";
 import { Question } from "../../../src/models/Question";
 import QuestionItem from "../../../src/components/itemCauHoi";
 import question from "../../../src/components/question";
+import loggerService from "../../../src/services/logger/logger.service";
+import { route } from "next/dist/next-server/server/router";
+
+const namespace = "on thi-cau hoi";
 
 const DeThi = ({ questionList, ...props }) => {
-  const namespace = "on thi";
   const title = `bo de thi so `;
   const router = useRouter();
+  const { asPath } = useRouter();
+
+  // router.events.on()
 
   const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -28,6 +34,10 @@ const DeThi = ({ questionList, ...props }) => {
       setCurentQuestions(data[0]);
     }
   }, []);
+
+  useEffect(() => {
+    if (questions.length) router.reload();
+  }, [router.asPath]);
 
   const renderContent = () => {
     return (
@@ -102,16 +112,14 @@ const DeThi = ({ questionList, ...props }) => {
 DeThi.getInitialProps = async (ctx: DocumentContext) => {
   let questionList = null;
   const id = typeof ctx.query.id === "string" ? ctx.query.id : ctx.query.id[0];
-  const boDe =
-    typeof ctx.query.boDe === "string" ? ctx.query.boDe : ctx.query.boDe[0];
 
   try {
     questionList = await userRequestService.getQuestions(id);
   } catch (error) {
-    console.log(error);
+    loggerService.error(namespace, "getInitialProps", error);
   }
 
-  return { questionList, boDe, id };
+  return { questionList };
 };
 
 export default DeThi;

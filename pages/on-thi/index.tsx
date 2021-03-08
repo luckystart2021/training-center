@@ -1,15 +1,13 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import UserTemplate from "../../src/containers/UserTemplate";
-import {
-  LicenseType,
-  TestList,
-} from "../../src/models/Question";
+import { LicenseType, TestList } from "../../src/models/Question";
 import userRequestService from "../../src/services/userService/user.service";
 import style from "./style.module.scss";
 
+const namespace = "on thi";
+
 const OnThi = (props) => {
-  const namespace = "on thi";
   const title = "Thi sát hạch lý thuyết lái xe online";
 
   const router = useRouter();
@@ -18,6 +16,10 @@ const OnThi = (props) => {
 
   const [boDe, setBoDe] = useState<TestList>(new TestList());
 
+  const [boDeSelected, setBoDeSelected] = useState<number>(-1);
+
+  let loaiBoDeSelected = -1;
+
   const getListLicensesType = () => {
     userRequestService.getLicenseType().then((license) => {
       setLoaiBang(license.data.map((item) => new LicenseType(item)));
@@ -25,13 +27,16 @@ const OnThi = (props) => {
   };
 
   const getTestList = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
     userRequestService.layDanhSachBoDe(e.target.value).then((res) => {
       setBoDe(new TestList(res.data));
     });
+
+    loaiBoDeSelected = Number(e.target.value);
   };
 
-  const handleStart = () => {};
+  const handleStart = () => {
+    router.push(`/on-thi/${boDeSelected}`);
+  };
 
   useEffect(() => {
     getListLicensesType();
@@ -61,7 +66,11 @@ const OnThi = (props) => {
             </div>
 
             <div className={`input-group ${style.chon__bo__de}`}>
-              <select className="custom-select" id="SelectBoDe">
+              <select
+                className="custom-select"
+                id="SelectBoDe"
+                onChange={(e: any) => setBoDeSelected(Number(e.target.value))}
+              >
                 <option selected disabled>
                   Chọn Bộ Đề
                 </option>
@@ -79,6 +88,7 @@ const OnThi = (props) => {
               type="button"
               className="btn btn-primary"
               onClick={handleStart}
+              disabled={boDeSelected === -1}
             >
               Bắt Đầu
             </button>
