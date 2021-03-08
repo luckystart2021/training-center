@@ -5,9 +5,9 @@ import LeftView from "../../../src/components/leftView";
 import HeaderTitle from "../../../src/components/headerTitle";
 import ListNews from "../../../src/components/ListNews";
 import { Fragment, useState } from "react";
-import Utils from "../../../src/components/utils/constant";
 import { InnerHTMLTemplate } from "../../../src/components/innerHTMLTemplate";
 import Link from "next/link";
+import utils from "../../../src/components/utils/constant";
 
 //https://600fdd7a6c21e1001704f836.mockapi.io/news/1
 const headerData = {
@@ -180,7 +180,7 @@ function DetailsNews({
       return (
         <div className="blog-details">
           <div className="article-image">
-            <img src={Utils.baseURL + item.img} alt="image" />
+            <img src={utils.baseURL + item.img} alt="image" />
           </div>
           <div className="article-content">
             <div className="entry-meta">

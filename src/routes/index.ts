@@ -17,8 +17,6 @@ const DTC_USER_ROUTE = [
   new RouteModel("/lien-he", "Liên Hệ"),
 ];
 
-const DTC_ADMIN_ROUTE = [
-  new RouteModel("admin/dashboard", "DashBoard"),
-];
+const DTC_ADMIN_ROUTE = [new RouteModel("admin/dashboard", "DashBoard")];
 
 export { DTC_USER_ROUTE };

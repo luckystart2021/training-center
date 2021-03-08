@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import userRequestService from "../../services/userService/user.service";
-import Utils from "../utils/constant";
+import Utils from "../../utils/constant";
 
 const listCategoris = [
   {
@@ -127,7 +127,12 @@ export default function LeftView({ cate, listSubCategories, pupolarNews }) {
   return (
     <aside className="widget-area" id="secondary">
       <section className="widget widget_search">
-        <form className="search-form" onSubmit={() => {submitSearchMovie}}>
+        <form
+          className="search-form"
+          onSubmit={() => {
+            submitSearchMovie;
+          }}
+        >
           <label>
             <span className="screen-reader-text">Search for:</span>
             <input
