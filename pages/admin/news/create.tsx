@@ -141,7 +141,7 @@ export default function Index({ props }) {
                     id="id_child_category"
                     name="id_child_category"
                     className="form-control"
-                    value={0}
+                    defaultValue={0}
                   >
                     {chil.map((item, index) => {
                       return (
