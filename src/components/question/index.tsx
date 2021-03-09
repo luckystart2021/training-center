@@ -14,7 +14,7 @@ const QuestionComponent: React.FC<TQuestionComponent> = ({
   ...props
 }) => {
   const renderCauTraLoi = (answerList: Answer[]): JSX.Element[] => {
-    return answerList.map(({answer, id}, index: number) => {
+    return answerList.map((answer, index: number) => {
       return (
         <p key={index}>
           <input type="radio" id="answer-1" name="radio-group" />
@@ -34,7 +34,7 @@ const QuestionComponent: React.FC<TQuestionComponent> = ({
         <h3>Câu hỏi: {question.index}</h3>
         <strong className="fs__17">{question.question}</strong>
         <div className="order-details">
-          <div className="payment-box">{renderCauTraLoi(question.AnswerList)}</div>
+          <div className="payment-box">{renderCauTraLoi(question.answerList)}</div>
           <button onClick={() => prevQuestion()} className="btn btn-primary">
             Câu trước
           </button>
