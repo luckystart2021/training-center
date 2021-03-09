@@ -22,7 +22,7 @@ const UserTemplate: React.FC<UserTemplateProps> = ({
         {head}
       </Head>
       <UserNavbar />
-      <main className="className">{props.children}</main>
+      <main className={className}>{props.children}</main>
       <UserFotter />
     </Fragment>
   );

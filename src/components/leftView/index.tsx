@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import userRequestService from "../../services/userService/user.service";
-import Utils from "../utils/constant";
+import Utils from "../../utils/constant";
 
 const listCategoris = [
   {

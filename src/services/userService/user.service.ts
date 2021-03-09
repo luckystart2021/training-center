@@ -1,13 +1,11 @@
+import axios from "axios";
 import { News } from "../../models/News";
 import axiosService from "../httpService/axios.service";
+import { Question, TestList } from "../../models/Question";
+import { TLicenseType } from "../../interfaces/question";
 
 class UserRequestService {
   constructor() {}
-
-  getQuestions(id: number) {
-    const uri = `api/user/question/${id}`;
-    return axiosService.getMethod<any, any>(uri);
-  }
   //API News Page
   getNewsById(id: string, meta: string) {
     const uri = `user/${meta}/${id}/news`;
@@ -78,6 +76,22 @@ class UserRequestService {
     const uri = "https://api.dtc-project.tk/api/user/upload/ck";
     axiosService.setContentType("multipart/form-data");
     return axiosService.postMethod(uri, data);
+  }
+
+  // questions
+  getLicenseType() {
+    const uri = "user/question/rank";
+    return axiosService.getMethod<TLicenseType[]>(uri);
+  }
+
+  layDanhSachBoDe(id: number | string) {
+    const uri = `user/question/${id}/view-suite`;
+    return axiosService.getMethod<TestList>(uri);
+  }
+
+  getQuestions(id: number | string) {
+    const uri = `user/question/${id}/view-questions`;
+    return axiosService.getMethod<Question[]>(uri);
   }
 }
 

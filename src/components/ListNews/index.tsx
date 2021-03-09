@@ -2,7 +2,7 @@ import { Console } from "console";
 import Link from "next/link";
 import { Fragment } from "react";
 import LeftView from "../leftView";
-import Utils from "../utils/constant";
+import Utils from "../../utils/constant";
 
 function ListNews({ cate, listNews }) {
   const subString = (string: string, length: number): string =>

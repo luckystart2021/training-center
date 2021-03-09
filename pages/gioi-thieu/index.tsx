@@ -4,7 +4,7 @@ import Link from "next/link";
 import ReactHtmlParser from "react-html-parser";
 import { DocumentContext } from "next/document";
 import userRequestService from "../../src/services/userService/user.service";
-import Utils from "../../src/components/utils/constant";
+import Utils from "../../src/utils/constant";
 
 const headerData = {
   title: "Giới Thiệu",

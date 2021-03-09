@@ -39,8 +39,8 @@ class AxiosService {
     };
   }
 
-  getMethod<T = any, R = AxiosResponse<T>>(uri: string): Promise<TResData<R>> {
-    return this.handleFlow(this.axios.get<T, R>(uri, this.axiosConfig));
+  getMethod<R = AxiosResponse<any>>(uri: string): Promise<TResData<R>> {
+    return this.handleFlow(this.axios.get<any, R>(uri, this.axiosConfig));
   }
 
   postMethod<T = any, R = AxiosResponse<T>, D = any>(
