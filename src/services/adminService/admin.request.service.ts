@@ -144,8 +144,12 @@ class AdminRequestService {
   //{{url}}/api/admin/child_category/8/update
   updateChildCategories(id, data) {
     const uri = `admin/child_category/${id}/update`;
-    console.log(data);
     return axiosService.putMethod(uri, data);
+  }
+  //{{url}}/api/admin/child_category/create
+  createChildCategories(data) {
+    const uri = `admin/child_category/create`;
+    return axiosService.postMethod(uri, data);
   }
 }
 

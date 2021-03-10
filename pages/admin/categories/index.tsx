@@ -4,34 +4,75 @@ import utils from "../../../src/components/utils/constant";
 import AdminTemplate from "../../../src/containers/AdminTemplate";
 import adminReqService from "../../../src/services/adminService/admin.request.service";
 import { toast, ToastContainer } from "react-nextjs-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import Utils from "../../../src/utils/constant";
 
-Index.getInitialProps = async (ctx: DocumentContext) => {
-  let tintuc = null;
-  let thongtin = null;
-
-  console.log(tintuc);
-  let err = null;
-  try {
-    thongtin = await adminReqService.showListCateById(1);
-    tintuc = await adminReqService.showListCateById(2);
-  } catch (error) {
-    err = error;
-  }
-  return {
-    props: {
-      tintuc: tintuc?.data,
-      thongtin: thongtin?.data,
-      err: err,
-    },
-  };
-};
+async function reloadChil(id) {
+  let listCate = null;
+  listCate = await adminReqService.getListCategories(id);
+  return listCate.data;
+}
 
 export default function Index({ props }) {
-  let [tintuc, settintuc] = useState(props.tintuc);
-  let [thongtin, setthongtin] = useState(props.thongtin);
+  const [tintuc, settintuc] = useState(null);
+  const [thongtin, setthongtin] = useState(null);
+  const [gioithieu, setgioithieu] = useState(null);
+  const [daotao, setdaotao] = useState(null);
 
+  var [isLoading, setisLoading] = useState(false);
+
+  useEffect(() => {
+    adminReqService
+      .showListCateById(1)
+      .then((res) => {
+        setthongtin(res.data);
+      })
+      .catch((err) => {
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
+      });
+    adminReqService
+      .showListCateById(2)
+      .then((res) => {
+        settintuc(res.data);
+      })
+      .catch((err) => {
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
+      });
+    adminReqService
+      .showListCateById(3)
+      .then((res) => {
+        setgioithieu(res.data);
+      })
+      .catch((err) => {
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
+      });
+    adminReqService
+      .showListCateById(4)
+      .then((res) => {
+        setdaotao(res.data);
+        setisLoading(true);
+      })
+      .catch((err) => {
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
+      });
+  }, []);
   const currentItem = {
     nameItem: "",
     idItem: "",
@@ -128,7 +169,7 @@ export default function Index({ props }) {
   const renderItem = (items) => {
     return (
       <>
-        {items.map((item, index) => {
+        {items?.map((item, index) => {
           return (
             <li className="list-group-item" key={index}>
               <form onSubmit={onSubmitForm}>
@@ -163,6 +204,139 @@ export default function Index({ props }) {
       </>
     );
   };
+  const onSubmitCreate = (event) => {
+    event.preventDefault();
+
+    console.log(event.target.idcate.value);
+    console.log(event.target.name.value);
+    var data = JSON.stringify({
+      title: `${event.target.name.value}`,
+      meta: `${Utils.ChangeToSlug(event.target.name.value)}`,
+      id_category: event.target.idcate.value,
+    });
+    console.log("data", data);
+    adminReqService
+      .createChildCategories(data)
+      .then((res) => {
+        toast.notify(`Tạo danh mục "${event.target.name.value}" thành công`, {
+          title: `Thành công`,
+          duration: 3,
+          type: "success",
+        });
+
+        switch (event.target.idcate.value) {
+          case 1:
+            adminReqService
+              .showListCateById(1)
+              .then((res) => {
+                setthongtin(res.data);
+              })
+              .catch((err) => {
+                toast.notify(`${err.message}`, {
+                  title: `Thất bại`,
+                  duration: 3,
+                  type: "error",
+                });
+              });
+            break;
+          case 2:
+            adminReqService
+              .showListCateById(2)
+              .then((res) => {
+                settintuc(res.data);
+              })
+              .catch((err) => {
+                toast.notify(`${err.message}`, {
+                  title: `Thất bại`,
+                  duration: 3,
+                  type: "error",
+                });
+              });
+            break;
+          case 3:
+            adminReqService
+              .showListCateById(3)
+              .then((res) => {
+                setgioithieu(res.data);
+              })
+              .catch((err) => {
+                toast.notify(`${err.message}`, {
+                  title: `Thất bại`,
+                  duration: 3,
+                  type: "error",
+                });
+              });
+            break;
+          case 4:
+            adminReqService
+              .showListCateById(4)
+              .then((res) => {
+                setdaotao(res.data);
+                setisLoading(true);
+              })
+              .catch((err) => {
+                toast.notify(`${err.message}`, {
+                  title: `Thất bại`,
+                  duration: 3,
+                  type: "error",
+                });
+              });
+            break;
+          default:
+            break;
+        }
+      })
+      .catch((err) => {
+        console.log("errror ne me m: ", err)
+        toast.notify(`${err.status}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
+      });
+  };
+  const renderCreateForm = () => {
+    return (
+      <form onSubmit={onSubmitCreate}>
+        {isLoading ? (
+          <>
+            <div className="form-group col-md-4">
+              <label htmlFor="idcate">Danh mục</label>
+              <select id="idcate" name="idcate" className="form-control">
+                <option selected value="1">
+                  Thông báo
+                </option>
+                <option value="2">Tin tức</option>
+                <option value="3">Giới thiệu</option>
+                <option value="4">Đào tạo</option>
+              </select>
+            </div>
+            <div className="form-group col-md-4">
+              <label htmlFor="name">Danh Mục Con</label>
+              <input
+                type="text"
+                className="form-control"
+                id="name"
+                name="name"
+              ></input>
+            </div>
+            <div className="form-group col-md-4">
+              <label htmlFor="btnSubmit"></label>
+              <button
+                type="submit"
+                className="btn btn-success form-group"
+                id="btnSubmit"
+              >
+                Confirm identity
+              </button>
+            </div>
+          </>
+        ) : (
+          "Loading"
+        )}
+      </form>
+    );
+  };
   return (
     <AdminTemplate title="Danh mục bài viết">
       <div className="container-fluid">
@@ -178,6 +352,7 @@ export default function Index({ props }) {
             mục
           </button>
         </div>
+        {renderCreateForm()}
         <div className="row">
           <div className="col-md-6">
             <h3>Thông báo</h3>
@@ -192,9 +367,25 @@ export default function Index({ props }) {
             </ul>
           </div>
         </div>
+        <div className="row">
+          <div className="col-md-6">
+            <h3>Giới thiệu</h3>
+            <ul className="list-group">
+              {thongtin ? renderItem(gioithieu) : "Không có dữ liệu"}
+            </ul>
+          </div>
+          <div className="col-md-6">
+            <h3>Đào tạo</h3>
+            <ul className="list-group">
+              {thongtin ? renderItem(daotao) : "Không có dữ liệu"}
+            </ul>
+          </div>
+        </div>
       </div>
       {renderModal()}
-      <ToastContainer align={"right"} />
+      <div style={{ zIndex: 999999999999 }}>
+        <ToastContainer align={"right"} />
+      </div>
     </AdminTemplate>
   );
 }
