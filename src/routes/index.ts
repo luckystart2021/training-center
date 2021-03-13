@@ -8,7 +8,7 @@ export class RouteModel {
 }
 const DTC_USER_ROUTE = [
   new RouteModel("/", "Trang Chủ"),
-  new RouteModel("/gioi-thieu", "Giới Thiệu"),
+  new RouteModel("/gioi-thieu/trung-tam-lac-hong-26", "Giới Thiệu"),
   new RouteModel("/thong-tin", "Thông Tin"),
   new RouteModel("/dao-tao", "Dào Tạo"),
   new RouteModel("/tin-tuc", "Tin Tức"),

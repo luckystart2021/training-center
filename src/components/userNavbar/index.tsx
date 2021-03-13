@@ -13,7 +13,7 @@ export default function UserNavbar() {
         className={`nav-item ${router.pathname === item.path ? "active" : ""}`}
         key={index}
       >
-        <Link href={item.path}>{item.title}</Link>
+        <a href={item.path}>{item.title}</a>
       </li>
     ));
   };

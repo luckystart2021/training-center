@@ -160,10 +160,7 @@ function NewsPage({
   };
 
   return (
-    <UserTemplate title="Chi tiết bài viết">
-      <Head>
-        <title>{cate.title}</title>
-      </Head>
+    <UserTemplate title={cate.title}>
       {headerTitle(cate)}
       {renderListNews(listNewsUse)}
     </UserTemplate>

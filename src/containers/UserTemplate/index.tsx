@@ -1,7 +1,9 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React, { Fragment, useEffect } from "react";
 import UserFotter from "../../components/userFotter";
 import UserNavbar from "../../components/userNavbar";
+import { DTC_USER_ROUTE, RouteModel } from "../../routes";
 
 type UserTemplateProps = {
   head?: HTMLHeadElement;

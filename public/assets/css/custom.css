@@ -32,3 +32,23 @@ a.nav-link {
 .react-bootstrap-table table {
   table-layout: auto;
 }
+.about-area .row {
+  position: relative;
+  z-index: 1;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.rank-certificate-title:after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #4e73df;
+  margin: 10px 46%;
+  border-radius: 2px;
+}
+.btn-detail-custom {
+  border-color: #4e73df!important;
+  border-radius: 30px!important;
+  color: #4e73df!important;
+}
