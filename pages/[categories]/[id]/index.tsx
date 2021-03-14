@@ -8,6 +8,9 @@ import { Fragment, useState } from "react";
 import { InnerHTMLTemplate } from "../../../src/components/innerHTMLTemplate";
 import Link from "next/link";
 import utils from "../../../src/components/utils/constant";
+import Head from "next/head";
+import SEOTag from "../../../src/components/seoTag";
+import { useRouter } from "next/router";
 
 //https://600fdd7a6c21e1001704f836.mockapi.io/news/1
 const headerData = {
@@ -36,6 +39,61 @@ async function reloadListNews(paramId) {
   return data?.data;
 }
 
+DetailsNews.getInitialProps = async (ctx: DocumentContext) => {
+  const param = ctx.query.id;
+  const paramId = ctx.query;
+  const cate = paramId.categories == "tin-tuc" ? category[1] : category[0];
+  cate.meta_url = `${paramId.categories}`;
+  let resListNews = null;
+  let res = null;
+  let listSubCategories = null;
+  let error = null;
+  let listPage = null;
+  let pupolarNews = null;
+  let metaSEO = null;
+  try {
+    metaSEO = await userRequestService.getSEO();
+  } catch (error) {}
+
+  try {
+    if (typeof param === "string") {
+      const id = param.split("-").pop();
+
+      const meta = param.split("-");
+      meta.pop();
+      meta.join("-");
+      const metaChil = `${paramId.categories}/${
+        paramId.id
+      }/list/child-news?page=${paramId.page ?? 1}`;
+      const metaPageChil = `${paramId.categories}/${paramId.id}/list/child-news/pagination`;
+      listSubCategories = await userRequestService.getListSubCategoriesById(
+        cate.id
+      );
+      pupolarNews = await userRequestService.getListNewsPupolar();
+      if (parseInt(id))
+        res = await userRequestService.getNewsById(id, meta.join("-"));
+      else {
+        resListNews = await userRequestService.getListChildNews(metaChil);
+        listPage = await userRequestService.getListChilPagination(metaPageChil);
+      }
+    }
+  } catch (error) {
+    error = error;
+  }
+  return {
+    detail: res?.data,
+    paramId,
+    listNews: resListNews?.data,
+    listSubCategories: listSubCategories?.data,
+    cate,
+    error,
+    listPage: listPage?.data,
+    currentPage: paramId.page ?? "1",
+    pupolarNews: pupolarNews.data,
+    metaSEO: metaSEO?.data,
+  };
+};
+
 function DetailsNews({
   detail,
   paramId,
@@ -46,16 +104,23 @@ function DetailsNews({
   listPage,
   currentPage,
   pupolarNews,
+  metaSEO,
 }) {
   if (error) {
     return <div>errro</div>;
   }
   headerData.title = detail?.title;
   cate.meta_url = paramId.categories;
-
+  const route = useRouter();
   const baseUrlMeta = (meta_url: string, id: string) =>
     `${cate.meta_url}/${meta_url}-${id}`;
-
+  metaSEO.og_description = detail.description;
+  metaSEO.og_title = detail.title;
+  metaSEO.og_url = utils.baseURL + route.asPath;
+  console.log(metaSEO.og_url);
+  metaSEO.og_image = utils.baseURL + detail.img;
+  metaSEO.twitter_description = detail.description;
+  metaSEO.twitter_image = utils.baseURL + detail.img;
   let listPageNew = [];
   const [listNewsUse, setListNewsUse] = useState(listNews);
   const renderPageNumber = (listPage) => {
@@ -178,65 +243,76 @@ function DetailsNews({
   const renderDetailsNews = (listNews) => {
     const renderContent = (item) => {
       return (
-        <div className="blog-details">
-          <div className="article-image">
-            <img src={utils.baseURL + item.img} alt="image" />
-          </div>
-          <div className="article-content">
-            <div className="entry-meta">
-              <ul>
-                <li>
-                  <i className="far fa-user-circle"></i> By:{" "}
-                  <a href="#">{item.created_by}</a>
-                </li>
-                <li>
-                  <i className="far fa-calendar-alt"></i> {item.created_at}
-                </li>
-                <li>
-                  <i className="fas fa-eye"></i> {item.view}
-                </li>
-                <li>
-                  <i className="far fa-comment-dots"></i>{" "}
-                  <a href="#">3 Comments</a>
-                </li>
-              </ul>
+        <>
+          <div className="blog-details">
+            <div className="article-image">
+              <img src={utils.baseURL + item.img} alt="image" />
             </div>
-            <div dangerouslySetInnerHTML={{ __html: item.detail }} />
-          </div>
-          <div className="article-footer">
-            <div className="article-tags">
-              <span>
-                <i className="fas fa-bookmark"></i>
-              </span>
-              <a href="#">Fashion</a>,<a href="#">Games</a>,
-              <a href="#">Travel</a>
+            <div className="article-content">
+              <div className="entry-meta">
+                <ul>
+                  <li>
+                    <i className="far fa-user-circle"></i> By:{" "}
+                    <a href="#">{item.created_by}</a>
+                  </li>
+                  <li>
+                    <i className="far fa-calendar-alt"></i> {item.created_at}
+                  </li>
+                  <li>
+                    <i className="fas fa-eye"></i> {item.view}
+                  </li>
+                  <li>
+                    <i className="far fa-comment-dots"></i>{" "}
+                    <a href="#">3 Comments</a>
+                  </li>
+                </ul>
+              </div>
+              <p>{item.description}</p>
+              <div dangerouslySetInnerHTML={{ __html: item.detail }} />
             </div>
-            <div className="article-share">
-              <ul className="social">
-                <li>
-                  <a href="#" target="_blank">
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" target="_blank">
-                    <i className="fab fa-twitter"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" target="_blank">
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" target="_blank">
-                    <i className="fab fa-instagram"></i>
-                  </a>
-                </li>
-              </ul>
+            <div className="article-footer">
+              <div className="article-tags">
+                <span>
+                  <i className="fas fa-bookmark"></i>
+                </span>
+                <a href="#">Fashion</a>,<a href="#">Games</a>,
+                <a href="#">Travel</a>
+              </div>
+              <div className="article-share">
+                <ul className="social">
+                  <li>
+                    <a href="#" target="_blank">
+                      <i className="fab fa-facebook-f"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" target="_blank">
+                      <i className="fab fa-twitter"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" target="_blank">
+                      <i className="fab fa-linkedin-in"></i>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" target="_blank">
+                      <i className="fab fa-instagram"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
+          <div className="comments-area">
+            <div
+              className="fb-comments"
+              data-href={`https://developers.facebook.com/docs/plugins/comments#${utils.baseURL + route.asPath}`}
+              data-width="100%"
+              data-numposts="5"
+            ></div>
+          </div>
+        </>
       );
     };
     return (
@@ -267,58 +343,11 @@ function DetailsNews({
   };
   return (
     <UserTemplate title="Chi tiết bài viết">
+      <Head>{SEOTag(metaSEO)}</Head>
       {HeaderTitle(headerData)}
       {renderDetailsNews(listNews)}
     </UserTemplate>
   );
 }
 
-DetailsNews.getInitialProps = async (ctx: DocumentContext) => {
-  const param = ctx.query.id;
-  const paramId = ctx.query;
-  const cate = paramId.categories == "tin-tuc" ? category[1] : category[0];
-  cate.meta_url = `${paramId.categories}`;
-  let resListNews = null;
-  let res = null;
-  let listSubCategories = null;
-  let error = null;
-  let listPage = null;
-  let pupolarNews = null;
-  try {
-    if (typeof param === "string") {
-      const id = param.split("-").pop();
-
-      const meta = param.split("-");
-      meta.pop();
-      meta.join("-");
-      const metaChil = `${paramId.categories}/${
-        paramId.id
-      }/list/child-news?page=${paramId.page ?? 1}`;
-      const metaPageChil = `${paramId.categories}/${paramId.id}/list/child-news/pagination`;
-      listSubCategories = await userRequestService.getListSubCategoriesById(
-        cate.id
-      );
-      pupolarNews = await userRequestService.getListNewsPupolar();
-      if (parseInt(id))
-        res = await userRequestService.getNewsById(id, meta.join("-"));
-      else {
-        resListNews = await userRequestService.getListChildNews(metaChil);
-        listPage = await userRequestService.getListChilPagination(metaPageChil);
-      }
-    }
-  } catch (error) {
-    error = error;
-  }
-  return {
-    detail: res?.data,
-    paramId,
-    listNews: resListNews?.data,
-    listSubCategories: listSubCategories?.data,
-    cate,
-    error,
-    listPage: listPage?.data,
-    currentPage: paramId.page ?? "1",
-    pupolarNews: pupolarNews.data,
-  };
-};
 export default DetailsNews;

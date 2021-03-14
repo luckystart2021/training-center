@@ -5,6 +5,8 @@ import { assetIcons, HomeUserAssets } from "../src/staticData/img";
 import userRequestService from "../src/services/userService/user.service";
 import { useState } from "react";
 import utils from "../src/components/utils/constant";
+import SEOTag from "../src/components/seoTag";
+import Head from "next/head";
 
 const headerData = {
   title: "Trang Chủ",
@@ -38,10 +40,15 @@ const gallery = [
 ];
 
 HomeUserpage.getInitialProps = async (context: DocumentContext) => {
+  let metaSEO = null;
   let listCarousel = null;
   let aboutData = null;
   let news3Data = null;
   let listNotification = null;
+  try {
+    metaSEO = await userRequestService.getSEO();
+  } catch (error) {}
+  
   try {
     listCarousel = await userRequestService.getCarousel();
   } catch (error) {}
@@ -56,6 +63,7 @@ HomeUserpage.getInitialProps = async (context: DocumentContext) => {
   } catch (error) {}
   return {
     props: {
+      metaSEO: metaSEO?.data,
       listCarousel: listCarousel?.data,
       aboutData: aboutData?.data,
       news3Data: news3Data?.data,
@@ -65,6 +73,7 @@ HomeUserpage.getInitialProps = async (context: DocumentContext) => {
 };
 
 export default function HomeUserpage({ props }) {
+  console.log(props.metaSEO)
   const renderCarousel = (carouselAssets) => {
     const renderCarouselItem = (carouselAssets) => {
       return carouselAssets?.map((item, index) => {
@@ -316,6 +325,9 @@ export default function HomeUserpage({ props }) {
 
   return (
     <UserTemplate title={headerData.title}>
+      <Head>
+        {SEOTag(props.metaSEO)}
+      </Head>
       {renderCarousel(props.listCarousel)}
       {renderHomeAbout(props.aboutData)}
       {renderCourse(props.listNotification)}

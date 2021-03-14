@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import UserFotter from "../../components/userFotter";
 import UserNavbar from "../../components/userNavbar";
 import { DTC_USER_ROUTE, RouteModel } from "../../routes";
@@ -11,17 +11,12 @@ type UserTemplateProps = {
   title: string;
 };
 
-const UserTemplate: React.FC<UserTemplateProps> = ({
+ const UserTemplate: React.FC<UserTemplateProps> =  ({
   head,
   className = "",
   title,
   ...props
 }) => {
-  console.log("useEffect: before");
-
-  useEffect(() => {
-    console.log("useEffect: after");
-  }, []);
   return (
     <Fragment>
       <Head>

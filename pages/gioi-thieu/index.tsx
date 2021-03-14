@@ -5,6 +5,8 @@ import ReactHtmlParser from "react-html-parser";
 import { DocumentContext } from "next/document";
 import userRequestService from "../../src/services/userService/user.service";
 import Utils from "../../src/utils/constant";
+import SEOTag from "../../src/components/seoTag";
+import Head from "next/head";
 
 const headerData = {
   title: "Giới Thiệu",
@@ -12,18 +14,24 @@ const headerData = {
 
 AboutPage.getInitialProps = async (ctx: DocumentContext) => {
   let information = null;
+  let metaSEO = null;
+  try {
+    metaSEO = await userRequestService.getSEO();
+  } catch (error) {}
 
   try {
     information = await userRequestService.getInformation();
   } catch (error) {}
   return {
     props: {
+      metaSEO: metaSEO?.data,
       information: information?.data,
     },
   };
 };
 
 export default function AboutPage({ props }) {
+  props.metaSEO.og_description = props.information.description
   const renderAbout = (information) => {
     return (
       <section className="about-area ptb-110">
@@ -89,6 +97,9 @@ export default function AboutPage({ props }) {
   };
   return (
     <UserTemplate title={headerData.title}>
+      <Head>
+        {SEOTag(props.metaSEO)}
+      </Head>
       {HeaderTitle(headerData)}
       {renderAbout(props.information)}
     </UserTemplate>

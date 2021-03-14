@@ -23,6 +23,14 @@ export default class MyDocument extends Document {
           {/* {LoadingPage()} */}
           <Main />
           <NextScript />
+          <div id="fb-root"></div>
+          <script
+            async
+            defer
+            crossOrigin="anonymous"
+            src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v10.0&appId=1187499518355664&autoLogAppEvents=1"
+            nonce="NRUtmJo0"
+          ></script>
           {/* <!-- Bootstrap core JavaScript--> */}
           <script src="/assets/adminAssets/vendor/jquery/jquery.min.js"></script>
           <script src="/assets/js/popper.min.js"></script>

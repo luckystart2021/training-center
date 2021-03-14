@@ -3,6 +3,7 @@ import AdminHeader from "../../../src/components/adminHeader";
 import Inducator from "../../../src/components/indicator";
 import AdminTemplate from "../../../src/containers/AdminTemplate";
 import adminReqService from "../../../src/services/adminService/admin.request.service";
+import { toast, ToastContainer } from "react-nextjs-toast";
 
 export default function SEO() {
   const [dataSEO, setDataSEO] = useState(null);
@@ -34,7 +35,26 @@ export default function SEO() {
       generator: event.target.generator.value,
       copyright: event.target.copyright.value,
     });
-    console.log(data)
+    console.log(data);
+    adminReqService
+      .updateKeywordSEO(data)
+      .then((res) => {
+        console.log(res);
+
+        toast.notify(`Chỉnh sửa thành công`, {
+          title: "Thành công",
+          duration: 3,
+          type: "success",
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.notify(`${error.message}`, {
+          title: "Lỗi",
+          duration: 5,
+          type: "error",
+        });
+      });
   };
   const renderContent = () => {
     return (
@@ -240,6 +260,7 @@ export default function SEO() {
         {AdminHeader("Manager Keyword SEO")}
         {dataSEO ? renderContent() : Inducator()}
       </div>
+      <ToastContainer align={"right"} />
     </AdminTemplate>
   );
 }

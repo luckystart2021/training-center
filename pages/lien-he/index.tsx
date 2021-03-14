@@ -5,6 +5,7 @@ import Head from "next/head";
 import { DocumentContext } from "next/document";
 import userRequestService from "../../src/services/userService/user.service";
 import ReactHtmlParser from "react-html-parser";
+import SEOTag from "../../src/components/seoTag";
 
 const headerData = {
   title: "Liên Hệ",
@@ -12,12 +13,17 @@ const headerData = {
 
 ContactPage.getInitialProps = async (ctx: DocumentContext) => {
   let information = null;
+  let metaSEO = null;
+  try {
+    metaSEO = await userRequestService.getSEO();
+  } catch (error) {}
 
   try {
     information = await userRequestService.getInformation();
   } catch (error) {}
   return {
     props: {
+      metaSEO: metaSEO?.data,
       information: information?.data,
     },
   };
@@ -183,7 +189,7 @@ export default function ContactPage({ props }) {
   return (
     <UserTemplate title={headerData.title}>
       <Head>
-        <title>Liên Hệ</title>
+        {SEOTag(props.metaSEO)}
       </Head>
       {headerTitle(headerData)}
       {renderContact(props.information)}

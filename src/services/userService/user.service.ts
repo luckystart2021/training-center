@@ -93,6 +93,13 @@ class UserRequestService {
     const uri = `user/question/${id}/view-questions`;
     return axiosService.getMethod<Question[]>(uri);
   }
+
+  //SEO API
+  //{{url}}/api/user/seo
+  getSEO() {
+    const uri = `user/seo`;
+    return axiosService.getMethod(uri);
+  }
 }
 
 const userRequestService = new UserRequestService();

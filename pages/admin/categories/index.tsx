@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-nextjs-toast";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Utils from "../../../src/utils/constant";
+import Inducator from "../../../src/components/indicator";
 
 async function reloadChil(id) {
   let listCate = null;
@@ -19,6 +20,9 @@ export default function Index({ props }) {
   const [thongtin, setthongtin] = useState(null);
   const [gioithieu, setgioithieu] = useState(null);
   const [daotao, setdaotao] = useState(null);
+  const [khoadaotao, setkhoadaotao] = useState(null);
+  const [tragiayphep, settragiayphep] = useState(null);
+  const [luuy, setluuy] = useState(null);
 
   var [isLoading, setisLoading] = useState(false);
 
@@ -27,6 +31,7 @@ export default function Index({ props }) {
       .showListCateById(1)
       .then((res) => {
         setthongtin(res.data);
+        setisLoading(true);
       })
       .catch((err) => {
         toast.notify(`${err.message}`, {
@@ -39,6 +44,7 @@ export default function Index({ props }) {
       .showListCateById(2)
       .then((res) => {
         settintuc(res.data);
+        setisLoading(true);
       })
       .catch((err) => {
         toast.notify(`${err.message}`, {
@@ -51,6 +57,7 @@ export default function Index({ props }) {
       .showListCateById(3)
       .then((res) => {
         setgioithieu(res.data);
+        setisLoading(true);
       })
       .catch((err) => {
         toast.notify(`${err.message}`, {
@@ -63,6 +70,45 @@ export default function Index({ props }) {
       .showListCateById(4)
       .then((res) => {
         setdaotao(res.data);
+        setisLoading(true);
+      })
+      .catch((err) => {
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
+      });
+    adminReqService
+      .showListCateById(5)
+      .then((res) => {
+        setkhoadaotao(res.data);
+        setisLoading(true);
+      })
+      .catch((err) => {
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
+      });
+    adminReqService
+      .showListCateById(6)
+      .then((res) => {
+        settragiayphep(res.data);
+        setisLoading(true);
+      })
+      .catch((err) => {
+        toast.notify(`${err.message}`, {
+          title: `Thất bại`,
+          duration: 3,
+          type: "error",
+        });
+      });
+    adminReqService
+      .showListCateById(7)
+      .then((res) => {
+        setluuy(res.data);
         setisLoading(true);
       })
       .catch((err) => {
@@ -206,13 +252,10 @@ export default function Index({ props }) {
   };
   const onSubmitCreate = (event) => {
     event.preventDefault();
-
-    console.log(event.target.idcate.value);
-    console.log(event.target.name.value);
     var data = JSON.stringify({
       title: `${event.target.name.value}`,
       meta: `${Utils.ChangeToSlug(event.target.name.value)}`,
-      id_category: event.target.idcate.value,
+      id_category: parseInt(event.target.idcate.value),
     });
     console.log("data", data);
     adminReqService
@@ -287,7 +330,7 @@ export default function Index({ props }) {
         }
       })
       .catch((err) => {
-        console.log("errror ne me m: ", err)
+        console.log("errror ne me m: ", err);
         toast.notify(`${err.status}`, {
           title: `Thất bại`,
           duration: 3,
@@ -309,6 +352,9 @@ export default function Index({ props }) {
                 <option value="2">Tin tức</option>
                 <option value="3">Giới thiệu</option>
                 <option value="4">Đào tạo</option>
+                <option value="5">Khóa đào tạo</option>
+                <option value="6">Trả giấy phép lái xe</option>
+                <option value="7">Lưu Ý</option>
               </select>
             </div>
             <div className="form-group col-md-4">
@@ -380,7 +426,26 @@ export default function Index({ props }) {
               {thongtin ? renderItem(daotao) : "Không có dữ liệu"}
             </ul>
           </div>
+          <div className="col-md-6">
+            <h3>Khóa đào tạo</h3>
+            <ul className="list-group">
+              {khoadaotao ? renderItem(khoadaotao) : Inducator()}
+            </ul>
+          </div>
+          <div className="col-md-6">
+            <h3>Trả giấy phép lái xe</h3>
+            <ul className="list-group">
+              {tragiayphep ? renderItem(tragiayphep) : Inducator()}
+            </ul>
+          </div>
+          <div className="col-md-6">
+            <h3>Lưu lý</h3>
+            <ul className="list-group">
+              {luuy ? renderItem(luuy) : Inducator()}
+            </ul>
+          </div>
         </div>
+        
       </div>
       {renderModal()}
       <div style={{ zIndex: 999999999999 }}>

@@ -10,6 +10,7 @@ import LeftView from "../../src/components/leftView";
 import { DocumentContext } from "next/document";
 import ListNews from "../../src/components/ListNews";
 import { useEffect, useState } from "react";
+import SEOTag from "../../src/components/seoTag";
 
 const category = [
   {
@@ -36,6 +37,7 @@ function NewsPage({
   listPage,
   currentPage,
   pupolarNews,
+  metaSEO,
 }) {
   let listPageNew = [];
   const [listNewsUse, setListNewsUse] = useState(listNews);
@@ -161,6 +163,9 @@ function NewsPage({
 
   return (
     <UserTemplate title={cate.title}>
+      <Head>
+        {SEOTag(metaSEO)}
+      </Head>
       {headerTitle(cate)}
       {renderListNews(listNewsUse)}
     </UserTemplate>
@@ -175,6 +180,11 @@ NewsPage.getInitialProps = async (ctx: DocumentContext) => {
   const paramId = ctx.query;
   const cate = paramId.categories == "tin-tuc" ? category[1] : category[0];
   cate.meta_url = `${paramId.categories}`;
+  let metaSEO = null;
+  try {
+    metaSEO = await userRequestService.getSEO();
+  } catch (error) {}
+
   try {
     listNews = await userRequestService.getListNews(cate.id, 1);
     listPage = await userRequestService.getListPagination(cate.id);
@@ -190,6 +200,7 @@ NewsPage.getInitialProps = async (ctx: DocumentContext) => {
     listPage: listPage?.data,
     currentPage: paramId.page ?? "1",
     pupolarNews: pupolarNews?.data,
+    metaSEO: metaSEO?.data,
   };
 };
 
