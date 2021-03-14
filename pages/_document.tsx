@@ -1,4 +1,5 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
+import { useState } from "react";
 import LoadingPage from "../src/components/LoadingPage";
 import JS_Static from "../src/staticData/JS.enum";
 
@@ -21,6 +22,7 @@ export default class MyDocument extends Document {
         <body>
           {/* {LoadingPage()} */}
           <Main />
+          <NextScript />
           {/* <!-- Bootstrap core JavaScript--> */}
           <script src="/assets/adminAssets/vendor/jquery/jquery.min.js"></script>
           <script src="/assets/js/popper.min.js"></script>
@@ -35,11 +37,7 @@ export default class MyDocument extends Document {
           {/* <!-- Page level plugins --> */}
           <script src="/assets/adminAssets/vendor/chart.js/Chart.min.js"></script>
 
-          {/* <!-- Page level custom scripts --> */}
-          <script src="/assets/adminAssets/js/demo/chart-area-demo.js"></script>
-          <script src="/assets/adminAssets/js/demo/chart-pie-demo.js"></script>
           {this.importJSStaticFile(JS_Static)}
-          <NextScript />
         </body>
       </Html>
     );

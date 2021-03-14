@@ -17,6 +17,11 @@ const UserTemplate: React.FC<UserTemplateProps> = ({
   title,
   ...props
 }) => {
+  console.log("useEffect: before");
+
+  useEffect(() => {
+    console.log("useEffect: after");
+  }, []);
   return (
     <Fragment>
       <Head>

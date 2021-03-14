@@ -42,19 +42,17 @@ async function reloadChil(id) {
   return listCate.data;
 }
 
-Index.getInitialProps = async (context) => {
-  let listCate = null;
-  listCate = await adminReqService.getListCategories(1);
-  return {
-    props: {
-      listCate: listCate?.data,
-    },
-  };
-};
-
 export default function Index({ props }) {
   const router = useRouter();
+  const [chil, setChil] = useState(null);
+  var [isLoading, setisLoading] = useState(false);
 
+useEffect(() => {
+  adminReqService.getListCategories(1).then(res => {
+    setChil(res.data)
+    setisLoading(true)
+  })
+}, [])
   let dataCkeditor = "";
   const handleData = (dataTemplate) => {
     dataCkeditor = dataTemplate;
@@ -100,7 +98,6 @@ export default function Index({ props }) {
       });
   };
 
-  const [chil, setChil] = useState(props.listCate);
   const onChangeChil = (event) => {
     console.log("mã danh mục: ", event.target.value);
     let data = reloadChil(event.target.value)
@@ -119,7 +116,7 @@ export default function Index({ props }) {
         <div className="row">
           <div className="col-lg-8">
             <form onSubmit={postFormData}>
-              <div className="form-row">
+              {isLoading ? <>  <div className="form-row">
                 <div className="form-group col-md-6">
                   <label htmlFor="idcate">Danh mục</label>
                   <select
@@ -143,7 +140,7 @@ export default function Index({ props }) {
                     className="form-control"
                     defaultValue={0}
                   >
-                    {chil.map((item, index) => {
+                    {chil?.map((item, index) => {
                       return (
                         <option
                           selected={index == 0 ? true : false}
@@ -157,7 +154,8 @@ export default function Index({ props }) {
                   </select>
                 </div>
               </div>
-              <div className="form-outline mb-4">
+           </> : <p>Loading</p>}
+               <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="title">
                   Tiêu đề
                 </label>

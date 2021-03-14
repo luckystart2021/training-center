@@ -151,6 +151,19 @@ class AdminRequestService {
     const uri = `admin/child_category/create`;
     return axiosService.postMethod(uri, data);
   }
+
+  //SEO API
+  //Get SEO DETAILS
+  //{{url}}/api/admin/seo/views
+  showKeywordSEO() {
+    const uri = `admin/seo/views`;
+    return axiosService.getMethod(uri);
+  }
+  //{{url}}/api/admin/seo/1/update
+  updateKeywordSEO(data) {
+    const uri = `admin/seo/1/update`;
+    return axiosService.putMethod(uri, data);
+  }
 }
 
 const adminReqService = new AdminRequestService();

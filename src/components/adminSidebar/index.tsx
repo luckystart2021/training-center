@@ -159,6 +159,9 @@ const AdminSidebar = () => {
               <Link href="/admin/tuy-chinh/slider/slider-trang-chu">
                 <a className="collapse-item">Slider Trang chủ</a>
               </Link>
+              <Link href="/admin/tuy-chinh/seo">
+                <a className="collapse-item">Keywork SEO</a>
+              </Link>
             </div>
           </div>
         </li>

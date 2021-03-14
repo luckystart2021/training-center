@@ -52,3 +52,11 @@ a.nav-link {
   border-radius: 30px!important;
   color: #4e73df!important;
 }
+.ptb-110 {
+  padding-top: 80px;
+  padding-bottom: 20px!important;
+}
+
+footer {
+  margin-top: auto;
+}
