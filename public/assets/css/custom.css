@@ -39,7 +39,7 @@ a.nav-link {
   padding-bottom: 20px;
 }
 .rank-certificate-title:after {
-  content: '';
+  content: "";
   display: block;
   width: 60px;
   height: 4px;
@@ -48,13 +48,13 @@ a.nav-link {
   border-radius: 2px;
 }
 .btn-detail-custom {
-  border-color: #4e73df!important;
-  border-radius: 30px!important;
-  color: #4e73df!important;
+  border-color: #4e73df !important;
+  border-radius: 30px !important;
+  color: #4e73df !important;
 }
 .ptb-110 {
   padding-top: 80px;
-  padding-bottom: 20px!important;
+  padding-bottom: 20px !important;
 }
 
 footer {
