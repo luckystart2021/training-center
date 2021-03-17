@@ -43,21 +43,21 @@ class AxiosService {
     return this.handleFlow(this.axios.get<any, R>(uri, this.axiosConfig));
   }
 
-  postMethod<T = any, R = AxiosResponse<T>, D = any>(
+  postMethod<T = any, R = AxiosResponse<T>>(
     uri: string,
     data: D
   ): Promise<TResData<R>> {
     return this.handleFlow(this.axios.post<T, R>(uri, data, this.axiosConfig));
   }
 
-  putMethod<T = any, R = AxiosResponse<T>, D = any>(
+  putMethod<T = any, R = AxiosResponse<T>>(
     uri: string,
     data: D
   ): Promise<TResData<R>> {
     return this.handleFlow(this.axios.put<T, R>(uri, data, this.axiosConfig));
   }
 
-  patchMethod<T = any, R = AxiosResponse<T>, D = any>(
+  patchMethod<T = any, R = AxiosResponse<T>>(
     uri: string,
     data: D
   ): Promise<TResData<R>> {
@@ -70,7 +70,7 @@ class AxiosService {
     return this.handleFlow(this.axios.delete<T, R>(uri, this.axiosConfig));
   }
 
-  private handleFlow<T = any, R = AxiosResponse<T>, D = any>(
+  private handleFlow<T = any, R = AxiosResponse<T>>(
     method: Promise<R>
   ): Promise<TResData<R>> {
     return new Promise<TResData<R>>((resolve, reject) => {

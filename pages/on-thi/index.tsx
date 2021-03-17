@@ -27,7 +27,7 @@ const OnThi = (props) => {
 
   const [loaiBang, setLoaiBang] = useState<LicenseType[]>([]);
 
-  const [boDe, setBoDe] = useState<TestList>(new TestList());
+  const [boDe, setBoDe] = useState<TestList>(new TestList(-1));
 
   const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -54,7 +54,6 @@ const OnThi = (props) => {
     if (!countInterval && boDe) {
       console.log("object");
       count = boDe.timeSeconds;
-      countDown();
     } else {
       count = boDe.timeSeconds;
     }
@@ -63,27 +62,31 @@ const OnThi = (props) => {
 
   const getTestList = (idLoaiDe: number) => {
     userRequestService.layDanhSachBoDe(idLoaiDe).then((res) => {
-      setBoDe(new TestList(res.data));
+      setBoDe(new TestList(idLoaiDe, res.data));
     });
   };
 
   useEffect(() => {
     getListLicensesType();
     return () => {
-      clearInterval(countInterval);
+      stopCountDown();
     };
   }, []);
 
-  const countDown = () => {
+  const startCountDown = () => {
+    isStartCount = true;
     countInterval = setInterval(() => {
       if (count) {
-        console.log(count);
         count--;
         setCountTime(count);
-      } else {
-        clearInterval(countInterval);
       }
     }, 1000);
+  };
+
+  const stopCountDown = () => {
+    isStartCount = false;
+    count = boDe.timeSeconds;
+    clearInterval(countInterval);
   };
 
   const handleSelectBoCauHoi = (item: LicenseType) => {
@@ -115,6 +118,7 @@ const OnThi = (props) => {
       setQuestions(data);
       if (data.length) {
         setCurentQuestions(data[0]);
+        stopCountDown();
       }
     });
   };
@@ -138,6 +142,14 @@ const OnThi = (props) => {
     return sec ? `${minutes ? minutes : "00"}:${seconds ? seconds : "00"}` : "";
   };
 
+  const handleNopBai = () => {
+    stopCountDown();
+
+    userRequestService.nopBai(boDe.id, answersChecked).then((res) => {
+      console.log(res);
+    });
+  };
+
   const renderCauHoi = () => {
     return (
       <div className="row">
@@ -156,7 +168,7 @@ const OnThi = (props) => {
                     } rounded w-100`}
                     onClick={() => {
                       setCurentQuestions(cauHoi);
-                      if (i === 0) isStartCount = true;
+                      if (i === 0 && !isStartCount) startCountDown();
                     }}
                   >
                     {cauHoi.index + 1}
@@ -166,7 +178,20 @@ const OnThi = (props) => {
             })}
           </div>
 
-          <div className="">Thời gian còn lại: {getTimneMinute(countTime)}</div>
+          <div className="m-3">
+            Thời gian còn lại: {getTimneMinute(countTime)}
+          </div>
+
+          <div className="nop__bai">
+            <button
+              className="btn btn-success btn-lg btn-block mt-3 mb-3"
+              disabled={!answersChecked.length}
+              onClick={() => handleNopBai()}
+            >
+              {" "}
+              Nộp bài
+            </button>
+          </div>
         </div>
         <div className="col-sm-12 col-xl-8 p-3 border">
           <div className="">
@@ -184,6 +209,30 @@ const OnThi = (props) => {
                 {renderCauTraLoi(curentQuestions.answerList)}
               </div>
             </div>
+            <div className="d-flex justify-content-around mt-3">
+              <button
+                className="btn btn-info"
+                disabled={curentQuestions.index === 0}
+                onClick={() => {
+                  if (curentQuestions.index > 0)
+                    setCurentQuestions(questions[curentQuestions.index - 1]);
+                }}
+              >
+                câu trước
+              </button>
+              <button
+                className="btn btn-info"
+                disabled={curentQuestions.index === questions.length - 1}
+                onClick={() => {
+                  if (curentQuestions.index < questions.length - 1) {
+                    if (!isStartCount) startCountDown();
+                    setCurentQuestions(questions[curentQuestions.index + 1]);
+                  }
+                }}
+              >
+                câu tiếp theo
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -191,6 +240,7 @@ const OnThi = (props) => {
   };
 
   const handleOnCheck = (_index: number): void => {
+    if (!isStartCount) startCountDown();
     const data = new AnswerChecked(curentQuestions.id, _index);
 
     const index = answersChecked.findIndex((item) => item.id === data.id);
