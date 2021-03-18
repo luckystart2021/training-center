@@ -1,3 +1,4 @@
+import { alphabet } from "../constants/constaints";
 import { getAssetUrl } from "../utils/constant";
 
 export class Answer {
@@ -17,7 +18,7 @@ export class Question {
 
   constructor(data?: any, _index?: number) {
     if (data) {
-      this.index = _index
+      this.index = _index;
       this.id = data.id;
       this.question = data.question_name;
       this.imgUrl = getAssetUrl(data.img);
@@ -40,6 +41,18 @@ export class LicenseType {
   }
 }
 
+export class AnswerChecked {
+  id: number;
+  answerIndex: number;
+  answer: string;
+
+  constructor(_id: number, _index: number) {
+    this.id = _id;
+    this.answerIndex = _index;
+    this.answer = alphabet.slice(_index, _index + 1);
+  }
+}
+
 export class Test {
   id: number;
   name: string;
@@ -51,13 +64,44 @@ export class Test {
   }
 }
 export class TestList {
-  time: number = 0;
+  timeSeconds: number = 0;
+  timeCount: number = 0;
   suite: Test[] = [];
-
   constructor(data?: any) {
     if (data) {
-      this.time = data.time;
-      this.suite = data.suite.map((item) => new Test(item));
+      this.timeSeconds = Number(data.time) * 60;
+      this.timeCount = this.timeSeconds;
+      this.suite = data.suite?.map((item) => new Test(item));
+    }
+  }
+}
+
+export class QuestionChecked {
+  answer: string = "";
+  correctAnswer: string = "";
+  idQuestion: number = -1;
+  constructor(data: any) {
+    if (data) {
+      this.answer = data.answer;
+      this.correctAnswer = data.correct_answer;
+      this.idQuestion = data.id_question;
+    }
+  }
+}
+
+export class DataQuestionChecked {
+  numberOfCorrect: number = 0;
+  numberOfIncorrect: number = 0;
+  resultTests: QuestionChecked[] = [];
+  resultTotal: string = "";
+  constructor(data?: any) {
+    if (data) {
+      this.numberOfCorrect = data.number_of_correct;
+      this.numberOfIncorrect = data.number_of_incorrect;
+      this.resultTests = data.result_tests.map(
+        (item) => new QuestionChecked(item)
+      );
+      this.resultTotal = data.result_total;
     }
   }
 }

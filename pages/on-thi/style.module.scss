@@ -10,7 +10,47 @@
 }
 
 .on__thi {
+    font-size: 23px;
+
     button {
-        padding: 5px 15px !important;
+        font-size: 19px;
+        padding  : 5px 15px !important;
     }
+
+    img {
+        width     : auto;
+        max-height: 300px;
+        margin    : 0 auto;
+    }
+}
+
+.input__select {
+    margin-top  : 12px;
+    margin-right: 1em;
+}
+
+.fs_18 {
+    p {
+
+        font-size: 20px;
+    }
+}
+
+
+.active {
+    background-color: cadetblue;
+
+    a {
+        color: black;
+    }
+}
+
+.btn__active {
+    background-color: cadetblue !important;
+    color           : black !important;
+
+}
+
+.pointer {
+    cursor: pointer;
 }
