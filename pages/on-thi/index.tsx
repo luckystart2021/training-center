@@ -293,7 +293,7 @@ const OnThi = (props) => {
               setCurentQuestions(questions[curentQuestions.index - 1]);
           }}
         >
-          câu trước
+          Câu trước
         </button>
         <button
           className="btn btn-info"
@@ -305,7 +305,7 @@ const OnThi = (props) => {
             }
           }}
         >
-          câu tiếp theo
+          Câu tiếp theo
         </button>
       </div>
     </div>
