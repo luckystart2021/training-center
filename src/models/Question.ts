@@ -66,15 +66,42 @@ export class Test {
 export class TestList {
   timeSeconds: number = 0;
   timeCount: number = 0;
-
   suite: Test[] = [];
-  id: number;
-  constructor(idLoaiDe: number, data?: any) {
+  constructor(data?: any) {
     if (data) {
-      this.id = idLoaiDe;
       this.timeSeconds = Number(data.time) * 60;
       this.timeCount = this.timeSeconds;
-      this.suite = data.suite.map((item) => new Test(item));
+      this.suite = data.suite?.map((item) => new Test(item));
+    }
+  }
+}
+
+export class QuestionChecked {
+  answer: string = "";
+  correctAnswer: string = "";
+  idQuestion: number = -1;
+  constructor(data: any) {
+    if (data) {
+      this.answer = data.answer;
+      this.correctAnswer = data.correct_answer;
+      this.idQuestion = data.id_question;
+    }
+  }
+}
+
+export class DataQuestionChecked {
+  numberOfCorrect: number = 0;
+  numberOfIncorrect: number = 0;
+  resultTests: QuestionChecked[] = [];
+  resultTotal: string = "";
+  constructor(data?: any) {
+    if (data) {
+      this.numberOfCorrect = data.number_of_correct;
+      this.numberOfIncorrect = data.number_of_incorrect;
+      this.resultTests = data.result_tests.map(
+        (item) => new QuestionChecked(item)
+      );
+      this.resultTotal = data.result_total;
     }
   }
 }

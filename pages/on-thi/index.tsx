@@ -4,6 +4,7 @@ import UserTemplate from "../../src/containers/UserTemplate";
 import {
   Answer,
   AnswerChecked,
+  DataQuestionChecked,
   LicenseType,
   Question,
   Test,
@@ -19,6 +20,8 @@ let countInterval = null;
 let count = 0;
 
 let isStartCount = false;
+
+let isSubmited = false;
 
 const OnThi = (props) => {
   const title = "Thi sát hạch lý thuyết lái xe online";
@@ -39,6 +42,11 @@ const OnThi = (props) => {
 
   const [answersChecked, setAnswersChecked] = useState<AnswerChecked[]>([]);
 
+  const [
+    dataQuestionChecked,
+    setDataQuestionChecked,
+  ] = useState<DataQuestionChecked>(new DataQuestionChecked());
+
   const getListLicensesType = () => {
     userRequestService.getLicenseType().then((license) => {
       setLoaiBang(license.data.map((item) => new LicenseType(item)));
@@ -52,7 +60,6 @@ const OnThi = (props) => {
 
   useEffect(() => {
     if (!countInterval && boDe) {
-      console.log("object");
       count = boDe.timeSeconds;
     } else {
       count = boDe.timeSeconds;
@@ -60,9 +67,9 @@ const OnThi = (props) => {
     setAnswersChecked([]);
   }, [questions, boDe]);
 
-  const getTestList = (idLoaiDe: number) => {
-    userRequestService.layDanhSachBoDe(idLoaiDe).then((res) => {
-      setBoDe(new TestList(idLoaiDe, res.data));
+  const getTestList = (idBoDe: number) => {
+    userRequestService.layDanhSachBoDe(idBoDe).then((res) => {
+      setBoDe(new TestList(res.data));
     });
   };
 
@@ -79,6 +86,8 @@ const OnThi = (props) => {
       if (count) {
         count--;
         setCountTime(count);
+      } else {
+        handleNopBai();
       }
     }, 1000);
   };
@@ -92,7 +101,7 @@ const OnThi = (props) => {
   const handleSelectBoCauHoi = (item: LicenseType) => {
     router.push({
       pathname: "/on-thi",
-      query: { bang: item?.licenseName, id: item?.id },
+      query: { bang: item?.licenseName },
     });
 
     getTestList(item?.id);
@@ -100,8 +109,17 @@ const OnThi = (props) => {
   };
 
   const renderLoaiBang = () => {
+    const currentBang =
+      typeof router.query.bang === "string"
+        ? router.query.bang
+        : "router.query?.bang[0]";
     return loaiBang.map((item) => (
-      <li className="nav-item mx-2" key={item.id}>
+      <li
+        className={`nav-item mx-2 ${
+          currentBang === item.licenseName ? style.active : ""
+        } ${style.pointer}`}
+        key={item.id}
+      >
         <a
           className="nav-link text-white"
           onClick={() => handleSelectBoCauHoi(item)}
@@ -113,6 +131,10 @@ const OnThi = (props) => {
   };
 
   const handleSelectBoDe = (item: Test) => {
+    router.push({
+      pathname: "/on-thi",
+      query: { ...router.query, boDe: item?.id, deSo: item?.name },
+    });
     userRequestService.getQuestions(item.id).then((res) => {
       const data = res.data.map((item, index) => new Question(item, index));
       setQuestions(data);
@@ -124,10 +146,12 @@ const OnThi = (props) => {
   };
 
   const renderBoDe = () => {
-    return boDe?.suite.map((item) => (
+    return boDe?.suite?.map((item) => (
       <div className="d-inline">
         <button
-          className="btn btn-success rounded m-2"
+          className={`btn btn-success ${
+            Number(router.query.boDe) === item.id ? style.btn__active : ""
+          }rounded m-2`}
           onClick={() => handleSelectBoDe(item)}
         >
           {item.name}
@@ -144,10 +168,20 @@ const OnThi = (props) => {
 
   const handleNopBai = () => {
     stopCountDown();
-
-    userRequestService.nopBai(boDe.id, answersChecked).then((res) => {
-      console.log(res);
+    isSubmited = true;
+    const idBoDe = Number(router.query.boDe);
+    userRequestService.nopBai(idBoDe, answersChecked).then((res) => {
+      const data = new DataQuestionChecked(res.data);
+      setDataQuestionChecked(data);
     });
+  };
+
+  const handleThiLai = () => {
+    isSubmited = false;
+    count = boDe.timeSeconds;
+    setCountTime(count);
+    setAnswersChecked([]);
+    setCurentQuestions(questions[0]);
   };
 
   const renderCauHoi = () => {
@@ -160,12 +194,24 @@ const OnThi = (props) => {
               const index = answersChecked.findIndex(
                 (item) => item.id === cauHoi.id
               );
+
+              const indexChecked = dataQuestionChecked.resultTests.find(
+                (elem) => elem.idQuestion === cauHoi.id
+              );
               return (
                 <div className="col-sm-2 col-xl-3 my-1" key={cauHoi.id}>
                   <button
                     className={`btn btn-${
-                      index === -1 ? "success" : "secondary"
+                      isSubmited
+                        ? indexChecked &&
+                          indexChecked.answer === indexChecked.correctAnswer
+                          ? "info"
+                          : "warning"
+                        : index === -1
+                        ? "success"
+                        : "secondary"
                     } rounded w-100`}
+                    // disabled={isSubmited}
                     onClick={() => {
                       setCurentQuestions(cauHoi);
                       if (i === 0 && !isStartCount) startCountDown();
@@ -185,59 +231,85 @@ const OnThi = (props) => {
           <div className="nop__bai">
             <button
               className="btn btn-success btn-lg btn-block mt-3 mb-3"
-              disabled={!answersChecked.length}
+              disabled={!answersChecked.length || isSubmited}
               onClick={() => handleNopBai()}
             >
-              {" "}
               Nộp bài
             </button>
           </div>
         </div>
         <div className="col-sm-12 col-xl-8 p-3 border">
-          <div className="">
-            <h3>Câu hỏi: {curentQuestions.index + 1}</h3>
-            <strong className="fs__17">{curentQuestions.question}</strong>
-            {curentQuestions.imgUrl ? (
-              <div className="d-flex justify-content-center">
-                <img src={curentQuestions.imgUrl} alt="" />
-              </div>
-            ) : (
-              ""
-            )}
-            <div className="order-details">
-              <div className="payment-box">
-                {renderCauTraLoi(curentQuestions.answerList)}
-              </div>
-            </div>
-            <div className="d-flex justify-content-around mt-3">
-              <button
-                className="btn btn-info"
-                disabled={curentQuestions.index === 0}
-                onClick={() => {
-                  if (curentQuestions.index > 0)
-                    setCurentQuestions(questions[curentQuestions.index - 1]);
-                }}
-              >
-                câu trước
-              </button>
-              <button
-                className="btn btn-info"
-                disabled={curentQuestions.index === questions.length - 1}
-                onClick={() => {
-                  if (curentQuestions.index < questions.length - 1) {
-                    if (!isStartCount) startCountDown();
-                    setCurentQuestions(questions[curentQuestions.index + 1]);
-                  }
-                }}
-              >
-                câu tiếp theo
-              </button>
-            </div>
-          </div>
+          {isSubmited ? renderKetQua() : renderCauHoiCauTraLoi()}
         </div>
       </div>
     );
   };
+
+  const renderKetQua = () => (
+    <div className="border-bottom">
+      <div className="">Kết quả bài làm</div>
+      <div className={style.fs_18}>
+        <p>
+          <strong>{router.query.deSo}</strong>{" "}
+        </p>
+        <p>Số câu đúng: {dataQuestionChecked.numberOfCorrect} </p>
+        <p>Số câu sai: {dataQuestionChecked.numberOfIncorrect}</p>
+        <p>Kết quả: {dataQuestionChecked.resultTotal}</p>
+      </div>
+      <div className="mt-5">
+        <button
+          className="btn btn-success btn-lg btn-block mt-3 mb-3"
+          // disabled={!answersChecked.length || isSubmited}
+          onClick={() => handleThiLai()}
+        >
+          Thi lại
+        </button>
+      </div>
+    </div>
+  );
+
+  const renderCauHoiCauTraLoi = () => (
+    <div className="">
+      <h3>Câu hỏi: {curentQuestions.index + 1}</h3>
+      <strong className="fs__17">{curentQuestions.question}</strong>
+      {curentQuestions.imgUrl ? (
+        <div className="d-flex justify-content-center">
+          <img src={curentQuestions.imgUrl} alt="" />
+        </div>
+      ) : (
+        ""
+      )}
+      <div className="order-details">
+        <div className="payment-box">
+          {renderCauTraLoi(curentQuestions.answerList)}
+        </div>
+      </div>
+      <div className="d-flex justify-content-around mt-3">
+        <button
+          className="btn btn-info"
+          disabled={curentQuestions.index === 0}
+          onClick={() => {
+            if (curentQuestions.index > 0)
+              setCurentQuestions(questions[curentQuestions.index - 1]);
+          }}
+        >
+          câu trước
+        </button>
+        <button
+          className="btn btn-info"
+          disabled={curentQuestions.index === questions.length - 1}
+          onClick={() => {
+            if (curentQuestions.index < questions.length - 1) {
+              if (!isStartCount) startCountDown();
+              setCurentQuestions(questions[curentQuestions.index + 1]);
+            }
+          }}
+        >
+          câu tiếp theo
+        </button>
+      </div>
+    </div>
+  );
 
   const handleOnCheck = (_index: number): void => {
     if (!isStartCount) startCountDown();

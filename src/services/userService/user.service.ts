@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { News } from "../../models/News";
 import axiosService from "../httpService/axios.service";
 import { AnswerChecked, Question, TestList } from "../../models/Question";

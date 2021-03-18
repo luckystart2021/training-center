@@ -23,7 +23,34 @@
         margin    : 0 auto;
     }
 }
-.input__select{
-    margin-top: 12px;
+
+.input__select {
+    margin-top  : 12px;
     margin-right: 1em;
+}
+
+.fs_18 {
+    p {
+
+        font-size: 20px;
+    }
+}
+
+
+.active {
+    background-color: cadetblue;
+
+    a {
+        color: black;
+    }
+}
+
+.btn__active {
+    background-color: cadetblue !important;
+    color           : black !important;
+
+}
+
+.pointer {
+    cursor: pointer;
 }

@@ -45,21 +45,21 @@ class AxiosService {
 
   postMethod<T = any, R = AxiosResponse<T>>(
     uri: string,
-    data: D
+    data: T
   ): Promise<TResData<R>> {
     return this.handleFlow(this.axios.post<T, R>(uri, data, this.axiosConfig));
   }
 
   putMethod<T = any, R = AxiosResponse<T>>(
     uri: string,
-    data: D
+    data: T
   ): Promise<TResData<R>> {
     return this.handleFlow(this.axios.put<T, R>(uri, data, this.axiosConfig));
   }
 
   patchMethod<T = any, R = AxiosResponse<T>>(
     uri: string,
-    data: D
+    data: T
   ): Promise<TResData<R>> {
     return this.handleFlow(this.axios.patch<T, R>(uri, data, this.axiosConfig));
   }
