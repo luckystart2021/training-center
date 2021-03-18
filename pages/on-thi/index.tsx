@@ -407,11 +407,8 @@ const OnThi = (props) => {
 
   return (
     <UserTemplate title={title} className={style.on__thi}>
-      <nav className="navbar navbar-expand-lg">
-        <div
-          className="collapse navbar-collapse justify-content-center"
-          id="navbarSupportedContent"
-        >
+      <nav className="navbar navbar-expand-lg d-flex justify-content-center">
+        <div className="">
           <ul className=" navbar-nav bg-success rounded">
             <li className="nav-item mx-2">
               <a className="nav-link text-white">
