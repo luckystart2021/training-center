@@ -47,12 +47,6 @@ const OnThi = (props) => {
     setDataQuestionChecked,
   ] = useState<DataQuestionChecked>(new DataQuestionChecked());
 
-  const getListLicensesType = () => {
-    userRequestService.getLicenseType().then((license) => {
-      setLoaiBang(license.data.map((item) => new LicenseType(item)));
-    });
-  };
-
   useEffect(() => {
     handleSelectBoCauHoi(loaiBang[0]);
     setAnswersChecked([]);
@@ -79,6 +73,12 @@ const OnThi = (props) => {
       stopCountDown();
     };
   }, []);
+
+  const getListLicensesType = () => {
+    userRequestService.getLicenseType().then((license) => {
+      setLoaiBang(license.data.map((item) => new LicenseType(item)));
+    });
+  };
 
   const startCountDown = () => {
     isStartCount = true;
@@ -353,6 +353,58 @@ const OnThi = (props) => {
     });
   };
 
+  const renderQuestionTitles = () => (
+    <div className="container">
+      <div className="text-center m-4">
+        <h2>Bộ Đề Thi {router.query.bang}</h2>
+
+        <div className="text-left">
+          <span>
+            Trong 18 đề thi sát hạch lái xe B2 mỗi đề gồm 35 câu hỏi, mỗi câu
+            hỏi chỉ có duy nhất 1 đáp án đúng. Cấu trúc 600 câu hỏi sát hạch lái
+            xe B2 có đáp án áp dụng vào mỗi đề thi thi thử lý thuyết B2 này sẽ
+            gồm: 1 câu hỏi phần khái niệm; 7 câu hỏi về quy tắc giao thông; 1
+            câu hỏi nghiệp vụ vận tải; 1 câu về tốc độ khoảng cách; 1 câu hỏi về
+            văn hóa & đạo đức người lái xe; 2 câu hỏi về kỹ thuật lái xe; 1 câu
+            hỏi về cấu tạo sữa chữa; 10 câu hỏi biển báo; 10 câu hỏi sa hình kèm
+            theo 1 câu hỏi điểm liệt (tình huống gây mất an toàn giao thông
+            nghiêm trọng).
+          </span>
+
+          <div className="">
+            <ul>
+              <li>Số câu cần đạt: 32/35 câu trở lên là đậu.</li>
+              <li>Thời gian làm bài: 22 phút.</li>
+              <li>Đặc biệt: KHÔNG LÀM SAI CÂU ĐIỂM LIỆT (câu hỏi *)</li>
+            </ul>
+          </div>
+
+          <span>
+            <strong>Lưu ý:</strong> Bộ đề thi lý thuyết lái xe B2 này được xây
+            dựng dựa trên tài liệu 600 câu hỏi thi GPLX do Bộ GTVT ban hành.
+          </span>
+          <span>
+            Nếu học thuộc hết 18 đề thi thử bằng lái xe B2 này đồng nghĩa với
+            việc bạn sẽ nắm chắc việc thi đậu lý thuyết 100% mà không cần phải
+            lo lắng.
+          </span>
+
+          <span>
+            Bộ đề thi thử 600 câu hỏi lý thuyết B2 online này đang trong quá
+            trình hoàn thiện nên sẽ có lỗi phát sinh, vì thế nếu có bất cứ đóng
+            góp nào. Các bạn đừng ngần ngại để lại comment bên dưới nhé!
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderManHinhCauTraLoi = () => (
+    <>
+      <div className="container">{renderCauHoi()}</div>
+    </>
+  );
+
   return (
     <UserTemplate title={title} className={style.on__thi}>
       <nav className="navbar navbar-expand-lg">
@@ -373,7 +425,7 @@ const OnThi = (props) => {
       <div className="container p-5">
         <div className="">{renderBoDe()}</div>
       </div>
-      <div className="container">{renderCauHoi()}</div>
+      {router.query.boDe ? renderManHinhCauTraLoi() : renderQuestionTitles()}
     </UserTemplate>
   );
 };
