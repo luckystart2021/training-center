@@ -5,7 +5,8 @@ import userRequestService from "../../../src/services/userService/user.service";
 const CauHoi = ({ questionList }) => {
   console.log(questionList);
   return <AdminTemplate title="Quản lý câu hỏi">
-    <div>day la cau hoi</div>;
+    <div>day la cau hoi</div>
+    
   </AdminTemplate>
 };
 

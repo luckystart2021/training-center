@@ -1,9 +1,13 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { News } from "../../models/News";
 import axiosService from "../httpService/axios.service";
-import { Question, TestList } from "../../models/Question";
+import { AnswerChecked, Question, TestList } from "../../models/Question";
 import { TLicenseType } from "../../interfaces/question";
 
+type dataCheckQuestions = {
+  id_suite: number;
+  answers: { id_question: number; answer: string }[];
+};
 class UserRequestService {
   constructor() {}
   //API News Page
@@ -99,6 +103,16 @@ class UserRequestService {
   getSEO() {
     const uri = `user/seo`;
     return axiosService.getMethod(uri);
+  }
+  nopBai(id_suite: number, answersChecked: AnswerChecked[]) {
+    const uri = `user/question/result`;
+    const data: dataCheckQuestions = {
+      id_suite,
+      answers: answersChecked.map((item) => {
+        return { id_question: item.id, answer: item.answer };
+      }),
+    };
+    return axiosService.postMethod<dataCheckQuestions>(uri, data);
   }
 }
 

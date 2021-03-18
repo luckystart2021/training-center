@@ -9,7 +9,7 @@ class AdminRequestService {
 
   loginMethod(data: TReqLogin) {
     const uri = "admin/system/login";
-    return axiosService.postMethod<TReqLogin, ILoginResponse, TReqLogin>(
+    return axiosService.postMethod<TReqLogin, ILoginResponse>(
       uri,
       data
     );
