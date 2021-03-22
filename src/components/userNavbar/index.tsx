@@ -1,9 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { AssetsImg } from "../../staticData/img";
 import { DTC_USER_ROUTE, RouteModel } from "../../routes";
 import style from "./style.module.scss";
+import ActiveLink from "../activeRouteLink";
 
 export default function UserNavbar() {
   const router = useRouter();
@@ -14,9 +15,9 @@ export default function UserNavbar() {
         className={`nav-item ${router.pathname === item.path ? "active" : ""}`}
         key={index}
       >
-        <Link href={item.path}>
+        <ActiveLink activeClassName="active" href={item.path}>
           <a className="nav-link">{item.title}</a>
-        </Link>
+        </ActiveLink>
       </li>
     ));
   };
@@ -41,7 +42,7 @@ export default function UserNavbar() {
           <span className="navbar-toggler-icon" />
         </button>
         <div
-          className={`collapse navbar-collapse ${style.nav__bar}`}
+          className={`collapse navbar-collapse ml-0 ${style.nav__bar}`}
           id="navbarResponsive"
         >
           <ul className="navbar-nav ml-auto">
@@ -113,3 +114,4 @@ export default function UserNavbar() {
     </header>
   );
 }
+

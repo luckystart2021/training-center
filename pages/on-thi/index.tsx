@@ -409,20 +409,20 @@ const OnThi = (props) => {
 
   return (
     <UserTemplate title={title} className={style.on__thi}>
-<div className="container">
-<nav className="nav justify-content-center bg-success rounded">
-        <div className="">
-          <a className="nav-link text-white">
-            Chọn Hạng thi <span className="sr-only">(current)</span>
-          </a>
-        </div>
-        {renderLoaiBang()}
+      <div className="container mt-3">
+        <nav className="nav justify-content-center bg-success rounded">
+          <div className="">
+            <a className="nav-link text-white">
+              Chọn Hạng thi <span className="sr-only">(current)</span>
+            </a>
+          </div>
+          {renderLoaiBang()}
 
-        {/* <a className="nav-link active" href="#">Active link</a>
+          {/* <a className="nav-link active" href="#">Active link</a>
   <a className="nav-link" href="#">Link</a>
   <a className="nav-link disabled" href="#">Disabled link</a> */}
-      </nav>
-</div>
+        </nav>
+      </div>
 
       {/* <div className="d-flex justify-content-center">
         <nav className="navbar navbar-expand-lg ">
