@@ -114,7 +114,7 @@ const OnThi = (props) => {
         ? router.query.bang
         : "router.query?.bang[0]";
     return loaiBang.map((item) => (
-      <li
+      <div
         className={`nav-item mx-2 ${
           currentBang === item.licenseName ? style.active : ""
         } ${style.pointer}`}
@@ -126,11 +126,13 @@ const OnThi = (props) => {
         >
           Đề thi bằng {item.licenseName}
         </a>
-      </li>
+      </div>
     ));
   };
 
   const handleSelectBoDe = (item: Test) => {
+    count = boDe.timeSeconds;
+    setCountTime(count);
     router.push({
       pathname: "/on-thi",
       query: { ...router.query, boDe: item?.id, deSo: item?.name },
@@ -199,7 +201,7 @@ const OnThi = (props) => {
                 (elem) => elem.idQuestion === cauHoi.id
               );
               return (
-                <div className="col-sm-2 col-xl-3 my-1" key={cauHoi.id}>
+                <div className="col-4 col-sm-2 col-xl-3 my-1" key={cauHoi.id}>
                   <button
                     className={`btn btn-${
                       isSubmited
@@ -407,18 +409,35 @@ const OnThi = (props) => {
 
   return (
     <UserTemplate title={title} className={style.on__thi}>
-      <nav className="navbar navbar-expand-lg d-flex justify-content-center">
+<div className="container">
+<nav className="nav justify-content-center bg-success rounded">
         <div className="">
-          <ul className=" navbar-nav bg-success rounded">
-            <li className="nav-item mx-2">
-              <a className="nav-link text-white">
-                Chọn Hạng thi <span className="sr-only">(current)</span>
-              </a>
-            </li>
-            {renderLoaiBang()}
-          </ul>
+          <a className="nav-link text-white">
+            Chọn Hạng thi <span className="sr-only">(current)</span>
+          </a>
         </div>
+        {renderLoaiBang()}
+
+        {/* <a className="nav-link active" href="#">Active link</a>
+  <a className="nav-link" href="#">Link</a>
+  <a className="nav-link disabled" href="#">Disabled link</a> */}
       </nav>
+</div>
+
+      {/* <div className="d-flex justify-content-center">
+        <nav className="navbar navbar-expand-lg ">
+          <div className="">
+            <ul className=" navbar-nav bg-success rounded">
+              <li className="nav-item mx-2">
+                <a className="nav-link text-white">
+                  Chọn Hạng thi <span className="sr-only">(current)</span>
+                </a>
+              </li>
+              {renderLoaiBang()}
+            </ul>
+          </div>
+        </nav>
+      </div> */}
       <div className="container p-5">
         <div className="">{renderBoDe()}</div>
       </div>

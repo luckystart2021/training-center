@@ -3,7 +3,6 @@ import Link from "next/link";
 import UserTemplate from "../src/containers/UserTemplate";
 import { assetIcons, HomeUserAssets } from "../src/staticData/img";
 import userRequestService from "../src/services/userService/user.service";
-import { useState } from "react";
 import utils from "../src/components/utils/constant";
 import SEOTag from "../src/components/seoTag";
 import Head from "next/head";
