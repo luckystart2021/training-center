@@ -50,6 +50,7 @@
     $("#contactForm")[0].reset();
     submitMSG(true, text.message);
   }
+  
   function formError() {
     $("#contactForm")
       .removeClass()

@@ -44,7 +44,13 @@ export default class MyDocument extends Document {
 
           {/* <!-- Page level plugins --> */}
           <script src="/assets/adminAssets/vendor/chart.js/Chart.min.js"></script>
+          {/* <!------ Include the above in your HEAD tag ----------> */}
 
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css"
+          />
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
           {this.importJSStaticFile(JS_Static)}
         </body>
       </Html>
