@@ -1,8 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { AssetsImg } from "../../staticData/img";
 import { DTC_USER_ROUTE, RouteModel } from "../../routes";
+import style from "./style.module.scss";
+import ActiveLink from "../activeRouteLink";
 
 export default function UserNavbar() {
   const router = useRouter();
@@ -13,13 +15,50 @@ export default function UserNavbar() {
         className={`nav-item ${router.pathname === item.path ? "active" : ""}`}
         key={index}
       >
-        <a href={item.path}>{item.title}</a>
+        <ActiveLink activeClassName="active" href={item.path}>
+          <a className="nav-link">{item.title}</a>
+        </ActiveLink>
       </li>
     ));
   };
   return (
     <header className="navbar-area position-relative">
-      <div className="evolta-responsive-nav">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        {/* <div className="container mr-0"> */}
+        <Link href="/">
+          <a className="navbar-brand" href="#">
+            <img src={AssetsImg.whiteLogo} alt="logo" />
+          </a>
+        </Link>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon" />
+        </button>
+        <div
+          className={`collapse navbar-collapse ml-0 ${style.nav__bar}`}
+          id="navbarResponsive"
+        >
+          <ul className="navbar-nav ml-auto">
+            {renderNavLink(DTC_USER_ROUTE)}
+            <li className="ml-2 nav-item">
+              <button className="btn btn-primary">
+                Gọi Ngay: <strong>0349295446</strong>
+              </button>
+            </li>
+          </ul>
+        </div>
+
+        {/* </div> */}
+      </nav>
+
+      {/* <div className="evolta-responsive-nav">
         <div className="container">
           <div className="evolta-responsive-menu">
             <div className="logo">
@@ -30,6 +69,7 @@ export default function UserNavbar() {
           </div>
         </div>
       </div>
+
       <div className="evolta-nav navbar-style-two">
         <div className="container-fluid">
           <nav className="navbar navbar-expand-md navbar-light">
@@ -70,7 +110,8 @@ export default function UserNavbar() {
             </div>
           </nav>
         </div>
-      </div>
+      </div> */}
     </header>
   );
 }
+
