@@ -142,6 +142,31 @@ const AdminSidebar = () => {
             className="nav-link collapsed"
             href="#"
             data-toggle="collapse"
+            data-target="#album"
+            aria-expanded="true"
+            aria-controls="album"
+          >
+            <i className="fas fa-fw fa-folder"></i>
+            <span>ALBUM</span>
+          </a>
+          <div
+            id="album"
+            className="collapse"
+            aria-labelledby="headingPages"
+            data-parent="#accordionSidebar"
+          >
+            <div className="bg-white py-2 collapse-inner rounded">
+              <Link href="/admin/album">
+                <a className="collapse-item">Danh sách Album</a>
+              </Link>
+            </div>
+          </div>
+        </li>
+        <li className="nav-item">
+          <a
+            className="nav-link collapsed"
+            href="#"
+            data-toggle="collapse"
             data-target="#custom"
             aria-expanded="true"
             aria-controls="custom"

@@ -164,6 +164,17 @@ class AdminRequestService {
     const uri = `admin/seo/1/update`;
     return axiosService.putMethod(uri, data);
   }
+
+  //Album API
+  showListAlbum() {
+    const uri = `admin/album/views`;
+    return axiosService.getMethod(uri);
+  }
+
+  showAlbumDetail(id) {
+    const uri = `admin/album/${id}/view-detail`;
+    return axiosService.getMethod(uri);
+  }
 }
 
 const adminReqService = new AdminRequestService();
