@@ -4,7 +4,7 @@ import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import UploadAdapter from "./UploadAdapter";
 
 // Server URL
-const URL = "https://api.dtc-project.tk/api/user/upload/ck";
+const URL = "https://api.hellobugs.dev/api/user/upload/ck";
 
 function CustomUploadAdapterPlugin(editor) {
   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {

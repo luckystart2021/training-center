@@ -40,7 +40,7 @@ apiRoute.use(upload.array("upload"));
 
 apiRoute.post((req, res) => {
   console.log("req", req.files);
-  postData("https://api.dtc-project.tk/api/user/upload/ck", req.files.path)
+  postData("https://api.hellobugs.dev/api/user/upload/ck", req.files.path)
     .then((data) => {
       //   console.log("thanh cong roi", data); // JSON data parsed by `data.json()` call
     })
