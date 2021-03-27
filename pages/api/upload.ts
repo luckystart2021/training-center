@@ -26,7 +26,7 @@ async function postData(url = "", data) {
 export default async (req, res) => {
   let fileName = "";
   console.log("file name", req.body);
-  postData("https://api.dtc-project.tk/api/user/upload/ck", req.body)
+  postData("https://api.hellobugs.dev/api/user/upload/ck", req.body)
     .then((data) => {
       fileName = data;
 

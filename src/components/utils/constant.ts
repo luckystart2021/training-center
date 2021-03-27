@@ -1,6 +1,6 @@
 class Utils {
   constructor() {}
-  baseURL: string = "https://api.dtc-project.tk";
+  baseURL: string = "https://api.hellobugs.dev";
   ChangeToSlug(slug) {
     //Đổi chữ hoa thành chữ thường
     slug = slug.toLowerCase(); //Đổi ký tự có dấu thành không dấu

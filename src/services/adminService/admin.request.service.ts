@@ -17,7 +17,7 @@ class AdminRequestService {
 
   //News Page
   getListCategories(id) {
-    //https://api.dtc-project.tk/api/admin/child_category/1/views
+    //https://api.hellobugs.dev/api/admin/child_category/1/views
     const uri = `admin/child_category/${id}/views`;
     return axiosService.getMethod<any>(uri);
   }

@@ -28,7 +28,7 @@
     };
     $.ajax({
       type: "POST",
-      url: "https://api.dtc-project.tk/api/user/contact/create",
+      url: "https://api.hellobugs.dev/api/user/contact/create",
       dataType: "json",
       contentType: "application/json",
       data: JSON.stringify(json),

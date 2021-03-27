@@ -1,5 +1,5 @@
 const Utils = {
-  baseURL: "https://api.dtc-project.tk",
+  baseURL: "https://api.hellobugs.dev",
   ChangeToSlug(slug) {
     //Đổi chữ hoa thành chữ thường
     slug = slug.toLowerCase(); //Đổi ký tự có dấu thành không dấu

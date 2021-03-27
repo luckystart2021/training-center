@@ -74,10 +74,10 @@ class UserRequestService {
     return axiosService.getMethod(uri);
   }
   //End API Information
-  // https://api.dtc-project.tk/api/user/upload/ck
+  // https://api.hellobugs.dev/api/user/upload/ck
   uploadFile(data) {
     console.log(data);
-    const uri = "https://api.dtc-project.tk/api/user/upload/ck";
+    const uri = "https://api.hellobugs.dev/api/user/upload/ck";
     axiosService.setContentType("multipart/form-data");
     return axiosService.postMethod(uri, data);
   }
