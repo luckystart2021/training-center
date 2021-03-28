@@ -101,3 +101,15 @@ footer {
 .photo-gallery .item {
   padding-bottom: 30px;
 }
+
+.delete-button-image {
+  position: absolute;
+  background: red;
+  color: white;
+  top: 0px;
+  right: 0px;
+  border-radius: 5px!important;
+}
+.toast-container {
+  z-index: 9999;
+}

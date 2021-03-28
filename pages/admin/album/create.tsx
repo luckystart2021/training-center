@@ -5,9 +5,14 @@ import { toast, ToastContainer } from "react-nextjs-toast";
 import Inducator from "../../../src/components/indicator";
 import Link from "next/link";
 import utils from "../../../src/components/utils/constant";
+import { useRouter } from "next/router";
 
 export default function Create() {
+  const [isLoading, setisLoading] = useState(false);
+  const router = useRouter();
+
   const postFormData = (event) => {
+    setisLoading(true);
     event.preventDefault();
     var name = event.target.albumName.value;
     var meta = utils.ChangeToSlug(event.target.albumName.value);
@@ -23,8 +28,6 @@ export default function Create() {
         var dataRes = null;
         dataRes = res.data;
         for (let index = 0; index < files.length; index++) {
-          const element = event.target.img.files[index];
-          console.log(element?.name);
           data2.append(
             "upload[]",
             event.target.img.files[index],
@@ -37,13 +40,18 @@ export default function Create() {
         adminReqService
           .addPhotoToAlbum(data2)
           .then((res) => {
+            setisLoading(false);
             toast.notify(`Thành Công`, {
               title: `Tạo Photo thành công`,
               duration: 3,
               type: "success",
             });
+            setTimeout(() => {
+              router.push("/admin/album");
+            }, 3000);
           })
           .catch((err) => {
+            setisLoading(false);
             toast.notify(`${err.message}`, {
               title: `Tạo Photo thất bại`,
               duration: 3,
@@ -52,6 +60,7 @@ export default function Create() {
           });
       })
       .catch((err) => {
+        setisLoading(false);
         toast.notify(`${err.message}`, {
           title: `Tạo Album thất bại`,
           duration: 3,
@@ -90,7 +99,7 @@ export default function Create() {
                 </div>
               </div>
             </div>
-
+            {isLoading ? Inducator() : <></>}
             <div className="form-group">
               <button type="submit" className="btn btn-primary col-md-12">
                 Tạo Album
@@ -101,6 +110,7 @@ export default function Create() {
       </div>
     );
   };
+  console.log(isLoading);
   return (
     <AdminTemplate title="Album">
       <div className="container-fluid">
@@ -115,10 +125,7 @@ export default function Create() {
         </div>
         {renderContent()}
       </div>
-
-      <div style={{ zIndex: 999999999999 }}>
-        <ToastContainer align={"right"} />
-      </div>
+      <ToastContainer align={"right"} style={{ zIndex: 999999999999 }} />
     </AdminTemplate>
   );
 }

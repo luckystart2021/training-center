@@ -9,10 +9,7 @@ class AdminRequestService {
 
   loginMethod(data: TReqLogin) {
     const uri = "admin/system/login";
-    return axiosService.postMethod<TReqLogin, ILoginResponse>(
-      uri,
-      data
-    );
+    return axiosService.postMethod<TReqLogin, ILoginResponse>(uri, data);
   }
 
   //News Page
@@ -182,10 +179,27 @@ class AdminRequestService {
     return axiosService.postMethod(uri, data);
   }
 
+  //{{url}}/api/admin/album/1/delete
+  deleteAlbumById(id) {
+    const uri = `admin/album/${id}/delete`;
+    return axiosService.deleteMothod(uri);
+  }
   //{{url}}/api/admin/photo/create
   addPhotoToAlbum(data) {
     const uri = `admin/photo/create`;
     return axiosService.postMethod(uri, data);
+  }
+
+  //{{url}}/api/admin/photo/4/delete
+  deletePhotoById(id) {
+    const uri = `admin/photo/${id}/delete`;
+    return axiosService.deleteMothod(uri);
+  }
+
+  //{{url}}/api/admin/album/2/update
+  updateAlbumById(id, data) {
+    const uri = `admin/album/${id}/update`;
+    return axiosService.putMethod(uri, data);
   }
 }
 
