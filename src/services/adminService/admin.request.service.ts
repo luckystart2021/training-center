@@ -175,6 +175,18 @@ class AdminRequestService {
     const uri = `admin/album/${id}/view-detail`;
     return axiosService.getMethod(uri);
   }
+
+  //{{url}}/api/admin/album/create
+  createAlbum(data) {
+    const uri = `admin/album/create`;
+    return axiosService.postMethod(uri, data);
+  }
+
+  //{{url}}/api/admin/photo/create
+  addPhotoToAlbum(data) {
+    const uri = `admin/photo/create`;
+    return axiosService.postMethod(uri, data);
+  }
 }
 
 const adminReqService = new AdminRequestService();

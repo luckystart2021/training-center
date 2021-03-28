@@ -26,9 +26,7 @@ export default function Index() {
     return (
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-          <h6 className="m-0 font-weight-bold text-primary">
-            Danh sách album
-          </h6>
+          <h6 className="m-0 font-weight-bold text-primary">Danh sách album</h6>
         </div>
         <div className="card-body">
           <div className="table-responsive">
@@ -46,7 +44,11 @@ export default function Index() {
                   return (
                     <tr key={index}>
                       <th scope="row">{index}</th>
-                      <td><Link href={`/admin/album/${item.id}`}>{item.name}</Link></td>
+                      <td>
+                        <Link href={`/admin/album/${item.id}`}>
+                          {item.name}
+                        </Link>
+                      </td>
                     </tr>
                   );
                 })}
@@ -62,15 +64,12 @@ export default function Index() {
       <div className="container-fluid">
         <div className="d-sm-flex align-items-center justify-content-between mb-4">
           <h1 className="h3 mb-0 text-gray-800">Album</h1>
-          <button
-            type="button"
-            className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
-            data-bs-toggle="modal"
-            data-bs-target="#createAlbum"
-          >
-            <i className="fas fa-download fa-sm text-white-50"></i> Thêm danh
-            mục
-          </button>
+          <Link href="/admin/album/create">
+            <a className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+              {" "}
+              <i className="fas fa-download fa-sm text-white-50"></i> Thêm Album
+            </a>
+          </Link>
         </div>
         {albums ? renderContent(albums) : Inducator()}
       </div>

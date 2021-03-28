@@ -178,18 +178,6 @@ useEffect(() => {
                   className="form-control"
                 ></textarea>
               </div>
-              {/* <div className="form-outline mb-4">
-                <label className="form-label" htmlFor="meta">
-                  Meta url
-                </label>
-                <input
-                  type="text"
-                  id="meta"
-                  name="meta"
-                  className="form-control"
-                />
-              </div> */}
-
               <div className="form-outline mb-4">
                 <label className="form-label" htmlFor="key_word_seo">
                   Key work SEO

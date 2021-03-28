@@ -4,13 +4,25 @@ import adminReqService from "../../../src/services/adminService/admin.request.se
 import { toast, ToastContainer } from "react-nextjs-toast";
 import Inducator from "../../../src/components/indicator";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { DocumentContext } from "next/document";
+import utils from "../../../src/components/utils/constant";
 
-export default function DetailAlbums() {
+DetailAlbums.getInitialProps = async (ctx: DocumentContext) => {
+  return {
+    props: {
+      query: ctx.query
+    }
+  }
+}
+
+export default function DetailAlbums({props}) {
   const [album, setAlbum] = useState(null);
+  const id = props.query.id
 
   useEffect(() => {
     adminReqService
-      .showAlbumDetail(1)
+      .showAlbumDetail(id)
       .then((res) => {
         setAlbum(res.data);
       })
@@ -22,12 +34,35 @@ export default function DetailAlbums() {
         });
       });
   }, []);
+  const renderGallery = (item) => {
+    console.log(item.title);
+    return (
+      <div className="photo-gallery">
+        <div className="container">
+          <div className="intro">
+            <h2 className="text-center">{item.name}</h2>
+          </div>
+          <div className="row photos">
+            {item.photos.map((item, index) => {
+              return (
+                <div className="col-sm-6 col-md-4 col-lg-3 item" key={index}>
+                  <a href={item} data-lightbox="photos">
+                    <img className="img-fluid" src={ utils.baseURL + item.img} />
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  };
   const renderContent = (album) => {
       console.log(album)
     return (
       <div className="card shadow mb-4">
         <div className="card-body">
-          <div>Dong ne</div>
+          {renderGallery(album)}
         </div>
       </div>
     );
