@@ -11,32 +11,6 @@ const headerData = {
   title: "Trang Chủ",
 };
 const listIcon = ["sticky", "link", "quote"];
-const gallery = [
-  {
-    id: 1,
-    thumbnail: HomeUserAssets.gallarys.gallary_1,
-    title: "Industry Expertise",
-    content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
-      tempor ut labore et dolore magna aliqua. Quis ipsum
-      suspendisse ultrices gravida.`,
-  },
-  {
-    id: 2,
-    thumbnail: HomeUserAssets.gallarys.gallary_2,
-    title: "Expertise & Leadership",
-    content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
-      tempor ut labore et dolore magna aliqua. Quis ipsum
-      suspendisse ultrices gravida.`,
-  },
-  {
-    id: 3,
-    thumbnail: HomeUserAssets.gallarys.gallary_3,
-    title: "Dedicated IT Solution",
-    content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
-      tempor ut labore et dolore magna aliqua. Quis ipsum
-      suspendisse ultrices gravida.`,
-  },
-];
 
 HomeUserpage.getInitialProps = async (context: DocumentContext) => {
   let metaSEO = null;
@@ -44,10 +18,11 @@ HomeUserpage.getInitialProps = async (context: DocumentContext) => {
   let aboutData = null;
   let news3Data = null;
   let listNotification = null;
+  let gallery = null;
   try {
     metaSEO = await userRequestService.getSEO();
   } catch (error) {}
-  
+
   try {
     listCarousel = await userRequestService.getCarousel();
   } catch (error) {}
@@ -60,6 +35,9 @@ HomeUserpage.getInitialProps = async (context: DocumentContext) => {
   try {
     listNotification = await userRequestService.getHomeNotification();
   } catch (error) {}
+  try {
+    gallery = await userRequestService.get3album();
+  } catch (error) {}
   return {
     props: {
       metaSEO: metaSEO?.data,
@@ -67,12 +45,13 @@ HomeUserpage.getInitialProps = async (context: DocumentContext) => {
       aboutData: aboutData?.data,
       news3Data: news3Data?.data,
       listNotification: listNotification?.data,
+      gallery: gallery?.data,
     },
   };
 };
 
 export default function HomeUserpage({ props }) {
-  console.log(props.metaSEO)
+  const gallery = props.gallery.slice(0, 3);
   const renderCarousel = (carouselAssets) => {
     const renderCarouselItem = (carouselAssets) => {
       return carouselAssets?.map((item, index) => {
@@ -279,21 +258,27 @@ export default function HomeUserpage({ props }) {
         return (
           <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
             <div className="single-choose-box">
-              <img src={item.thumbnail} alt={`img ${index}`} />
+              <img
+                src={utils.baseURL + item.photo.img}
+                alt={`${item.album_name}`}
+              />
               <div className="title">
-                <h3>{item.title}</h3>
+                <h3>{item.album_name}</h3>
               </div>
               <div className="content">
                 <div className="inner-content">
-                  <h3>
-                    <Link href="/">{item.title}</Link>
-                  </h3>
-                  <p>{item.content}</p>
-                  <Link href="/">
+                  {/* <p>{item.content}</p> */}
+                  <Link href={`/hinh-anh/${item.id}`}>
                     <a className="read-more-btn">
-                      Read More <i className="flaticon-add-1" />
+                      <img
+                        src={utils.baseURL + item.photo.img}
+                        alt={`${item.album_name}`}
+                      />
                     </a>
                   </Link>
+                  <h3>
+                    <Link href={`/hinh-anh/${item.id}`}>{item.album_name}</Link>
+                  </h3>
                 </div>
               </div>
             </div>
@@ -324,9 +309,7 @@ export default function HomeUserpage({ props }) {
 
   return (
     <UserTemplate title={headerData.title}>
-      <Head>
-        {SEOTag(props.metaSEO)}
-      </Head>
+      <Head>{SEOTag(props.metaSEO)}</Head>
       {renderCarousel(props.listCarousel)}
       {renderHomeAbout(props.aboutData)}
       {renderCourse(props.listNotification)}

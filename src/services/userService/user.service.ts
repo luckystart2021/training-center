@@ -46,6 +46,19 @@ class UserRequestService {
   //End API News Page
 
   //API Home Page
+
+  //{{url}}/api/user/photos
+  get3album() {
+    const uri = `user/photos`;
+    return axiosService.getMethod(uri);
+  }
+
+  //{{url}}/api/user/photo/5
+  getDetailAlbum (id) {
+    const uri = `user/photo/${id}`;
+    return axiosService.getMethod(uri);
+  }
+
   getCarousel() {
     const uri = `user/slide`;
     return axiosService.getMethod(uri);

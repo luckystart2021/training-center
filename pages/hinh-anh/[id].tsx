@@ -1,76 +1,64 @@
+import { DocumentContext } from "next/document";
 import Link from "next/link";
 import HeaderTitle from "../../src/components/headerTitle";
+import utils from "../../src/components/utils/constant";
 import UserTemplate from "../../src/containers/UserTemplate";
+import userRequestService from "../../src/services/userService/user.service";
 import { assetIcons } from "../../src/staticData/img";
 
-export default function DetailAlbums() {
+DetailAlbums.getInitialProps = async (ctx: DocumentContext) => {
+  let query = ctx.query;
+  let detail = null;
+  let gallery = null;
+  try {
+    detail = await userRequestService.getDetailAlbum(query.id);
+  } catch (error) {}
+  try {
+    gallery = await userRequestService.get3album();
+  } catch (error) {}
+  return {
+    props: {
+      query: query,
+      detail: detail?.data,
+      gallery: gallery?.data,
+    },
+  };
+};
+
+export default function DetailAlbums({ props }) {
+  const data = props.detail;
+  const gallery = props.gallery;
   const headerData = {
-    title: "Trung Tam Sat Hach",
+    title: data.title,
   };
-  const data = {
-    id: 1,
-    category_meta: "hinh-anh",
-    title: "Trung Tam Sat Hach",
-    meta: "trung-tam-sat-hach",
-    images: [
-      "https://trungtamhoanggia.com/Images/Gallery/trungtamhoanggia_full_11042018_1004232.jpg",
-      "https://unsplash.it/600.jpg?image=251",
-      "https://unsplash.it/600.jpg?image=253",
-      "https://trungtamhoanggia.com/Images/Gallery/trungtamhoanggia_full_11042018_1004232.jpg",
-      "https://unsplash.it/600.jpg?image=251",
-      "https://unsplash.it/600.jpg?image=253",
-      "https://trungtamhoanggia.com/Images/Gallery/trungtamhoanggia_full_11042018_1004232.jpg",
-      "https://unsplash.it/600.jpg?image=251",
-      "https://unsplash.it/600.jpg?image=253",
-    ],
-  };
-  const gallery = [
-    {
-      id: 1,
-      thumbnail: "https://trungtamhoanggia.com/Images/Gallery/trungtamhoanggia_full_11042018_1004232.jpg",
-      title: "TRUNG TÂM LẠC HỒNG 1",
-      content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
-        tempor ut labore et dolore magna aliqua. Quis ipsum
-        suspendisse ultrices gravida.`,
-    },
-    {
-      id: 2,
-      thumbnail: "https://trungtamhoanggia.com/Images/Gallery/trungtamhoanggia_full_11042018_1004232.jpg",
-      title: "TRUNG TÂM LẠC HỒNG 2",
-      content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
-        tempor ut labore et dolore magna aliqua. Quis ipsum
-        suspendisse ultrices gravida.`,
-    },
-    {
-      id: 3,
-      thumbnail: "https://trungtamhoanggia.com/Images/Gallery/trungtamhoanggia_full_11042018_1004232.jpg",
-      title: "TRUNG TÂM LẠC HỒNG 3",
-      content: `Lorem ipsum dolor amet, adipiscing elit, sed do eiusmod
-        tempor ut labore et dolore magna aliqua. Quis ipsum
-        suspendisse ultrices gravida.`,
-    },
-  ];
   const renderGallaryMore = (gallery) => {
+    console.log(gallery);
     const renderGallaryItems = (gallary) => {
       return gallary?.map((item, index) => {
         return (
           <div className="col-lg-4 col-md-6 col-sm-6" key={index}>
             <div className="single-choose-box">
-              <img src={item.thumbnail} alt={`img ${index}`} />
+              <img
+                src={utils.baseURL + item.photo.img}
+                alt={`${item.album_name}`}
+              />
               <div className="title">
-                <h3>{item.title}</h3>
+                <h3>{item.album_name}</h3>
               </div>
               <div className="content">
                 <div className="inner-content">
-                  <h3>
-                    <Link href="/">{item.title}</Link>
-                  </h3>
-                  <p>{item.content}</p>
-                  <Link href="/">
+                  {/* <p>{item.content}</p> */}
+                  <Link href={`/hinh-anh/${item.id}`}>
                     <a className="read-more-btn">
-                      Read More <i className="flaticon-add-1" />
+                      <img
+                        src={utils.baseURL + item.photo.img}
+                        alt={`${item.album_name}`}
+                      />
                     </a>
                   </Link>
+                  <h3>
+                    <Link href={`/hinh-anh/${item.id}`}>{item.album_name}</Link>
+                  </h3>
                 </div>
               </div>
             </div>
@@ -98,20 +86,23 @@ export default function DetailAlbums() {
       </section>
     );
   };
-  const renderGallery = (item) => {
-    console.log(item.title);
+
+  const renderGallery = (items) => {
     return (
       <div className="photo-gallery">
         <div className="container">
           <div className="intro">
-            <h2 className="text-center">{item.title}</h2>
+            <h2 className="text-center">{items.title}</h2>
           </div>
           <div className="row photos">
-            {item.images.map((item, index) => {
+            {items.photos.map((item, index) => {
               return (
                 <div className="col-sm-6 col-md-4 col-lg-3 item" key={index}>
-                  <a href={item} data-lightbox="photos">
-                    <img className="img-fluid" src={item} />
+                  <a
+                    href={`/hinh-anh/${props.query.id}`}
+                    data-lightbox="photos"
+                  >
+                    <img className="img-fluid" src={utils.baseURL + item.img} />
                   </a>
                 </div>
               );
