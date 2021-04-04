@@ -1,6 +1,6 @@
 import AdminHeader from "../../../../src/components/adminHeader";
 import AdminTemplate from "../../../../src/containers/AdminTemplate";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DocumentContext } from "next/document";
 import adminReqService from "../../../../src/services/adminService/admin.request.service";
 import Utils from "../../../../src/components/utils/constant";
@@ -9,25 +9,20 @@ import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { toast, ToastContainer } from "react-nextjs-toast";
 
-Index.getInitialProps = async (ctx: DocumentContext) => {
-  let allSlider = null;
-  let err = null;
-  try {
-    allSlider = await adminReqService.showAllSlider();
-  } catch (error) {
-    err = error;
-  }
-  return {
-    props: {
-      allSlider: allSlider?.data,
-      err: err,
-    },
-  };
-};
-
 export default function Index({ props }) {
-  const [listSlider, setListSlider] = useState(props.allSlider);
+  const [listSlider, setListSlider] = useState(null);
   const [image, setImage] = useState(null);
+  useEffect(() => {
+    adminReqService.showAllSlider().then(res => {
+      setListSlider(res.data)
+    }).catch(err => {
+      toast.notify(`Lỗi`, {
+        title: `${err.message}`,
+        duration: 3,
+        type: "error",
+      });
+    })
+  }, [])
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
@@ -166,12 +161,12 @@ export default function Index({ props }) {
                   <th scope="col">Thao tác</th>
                 </tr>
               </thead>
-              <tbody>{!props.err ? renderItemTable(listSlider) : <></>}</tbody>
+              <tbody>{listSlider ? renderItemTable(listSlider) : <></>}</tbody>
             </table>
-            {!props.err ? (
+            {listSlider ? (
               <> </>
             ) : (
-              <p style={{ textAlign: "center" }}>{props.err.message}</p>
+              <p style={{ textAlign: "center" }}>Không có dữ liệu</p>
             )}
           </div>
         </div>

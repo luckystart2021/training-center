@@ -65,7 +65,7 @@ export default function HomeUserpage({ props }) {
             <img
               src={utils.baseURL + item.img}
               className="d-block w-100"
-              alt={`carousel ${index}`}
+              alt={`${item.title}`}
             />
           </div>
         );
